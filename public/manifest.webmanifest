@@ -1,0 +1,23 @@
+{
+  "name": "Torneos Poker Live",
+  "short_name": "torneospokerlive",
+  "description": "Toda la información sobre el poker live en España actualizada",
+  "start_url": "https://torneospokerlive.com/",
+  "lang": "Spanish",
+  "display": "standalone",
+  "theme_color": "#1e293b",
+  "background_color": "#ffffff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/logo_192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
