@@ -1,7 +1,7 @@
 export default function DefaultTags() {
     return (
         <>
-            <meta charset="UTF-8" />
+            <meta charSet="UTF-8" />
             <meta name="viewport" content="width=device-width" />
             <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
             <link rel="manifest" href="/manifest.webmanifest" />

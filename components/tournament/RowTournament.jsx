@@ -4,7 +4,7 @@ export default function RowTournament(props) {
     const { torneo, casino, event } = props
     const backgroundColor = torneo.casino.color
     const textColor = getTextColor(backgroundColor)
-    let date = torneo.date + ':00'
+    let date = torneo.date
     if (torneo.hour) date = torneo.date + ' ' + torneo.hour
     let { datestring, hour } = formatDate(date)
     let datetorneo = new Date(torneo.date)
