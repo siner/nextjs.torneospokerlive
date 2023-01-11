@@ -4,10 +4,12 @@ import moment from 'moment'
 import Header from './header'
 import buildCalendar from './build'
 import MiniRowTournament from '../tournament/MiniRowTournament'
+import { getDateText } from '../../lib/utils'
 import './styles.css'
 
 export default function Calendar(props) {
     const { torneos, value } = props
+
     const [selectedDate, setSelectedDate] = useState(
         value ? moment(value) : moment()
     )
@@ -71,7 +73,7 @@ export default function Calendar(props) {
                                         {torneos
                                             .filter(
                                                 (t) =>
-                                                    t.date ==
+                                                    getDateText(t.date) ==
                                                     day.format('YYYY-MM-DD')
                                             )
                                             .map((torneo) => (
