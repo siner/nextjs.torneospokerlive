@@ -8,6 +8,8 @@ import {
     getNextEvents,
 } from '../lib/notion'
 
+export const revalidate = 60
+
 export default async function Page() {
     const torneos = await getTodayTournaments()
     const currentevents = await getCurrentEvents()
