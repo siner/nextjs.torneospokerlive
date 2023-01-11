@@ -1,9 +1,11 @@
+export const runtime = 'edge'
+export const revalidate = 60
+
 import CardCasino from '../../../components/casino/CardCasino'
 import CardEvento from '../../../components/evento/CardEvento'
 import { getTextColor, formatDate } from '../../../lib/utils'
 
 import { getTournament } from '../../../lib/notion'
-export const revalidate = 60
 
 export default async function Page({ params }) {
     const torneo = await getTournament(params.id)

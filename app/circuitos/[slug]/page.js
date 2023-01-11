@@ -1,8 +1,10 @@
+export const runtime = 'edge'
+export const revalidate = 60
+
 import CardTour from '../../../components/tour/CardTour'
 import RowEvento from '../../../components/evento/RowEvento'
 
-import { getTour, getAllEventsByTour } from '../../../lib/notion'
-export const revalidate = 60
+import { getTour, getAllEventsByTour, getAllTours } from '../../../lib/notion'
 
 export default async function Page({ params }) {
     const tour = await getTour(params.slug)
@@ -30,4 +32,12 @@ export default async function Page({ params }) {
             </div>
         </main>
     )
+}
+
+export async function generateStaticParams() {
+    const circuitos = await getAllTours()
+
+    return circuitos.map((circuito) => ({
+        slug: circuito.slug,
+    }))
 }

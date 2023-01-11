@@ -1,10 +1,16 @@
+export const runtime = 'edge'
+export const revalidate = 60
+
 import CardCasino from '../../../components/casino/CardCasino'
 import CardEvento from '../../../components/evento/CardEvento'
 import RowTournament from '../../../components/tournament/RowTournament'
 import Calendar from '../../../components/calendar/Calendar'
 
-import { getEvent, getAllTournamentsByEvent } from '../../../lib/notion'
-export const revalidate = 60
+import {
+    getEvent,
+    getAllTournamentsByEvent,
+    getAllEvents,
+} from '../../../lib/notion'
 
 export default async function Page({ params }) {
     const evento = await getEvent(params.slug)
@@ -42,4 +48,12 @@ export default async function Page({ params }) {
             </div>
         </main>
     )
+}
+
+export async function generateStaticParams() {
+    const events = await getAllEvents()
+
+    return events.map((event) => ({
+        slug: event.slug,
+    }))
 }
