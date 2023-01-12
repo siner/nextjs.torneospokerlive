@@ -16,9 +16,12 @@
     "eslint-config-next": "13.1.1",
     "moment": "^2.29.4",
     "next": "13.1.1",
+    "notion-page-to-html": "^1.2.0",
+    "notion-to-md": "^2.5.5",
     "prettier": "^2.8.2",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-markdown": "^8.0.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
