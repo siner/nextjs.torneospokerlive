@@ -40,7 +40,9 @@ export default async function Page({ params }) {
                         <div className="font-bold">
                             {datestring} - {hour}
                         </div>
-                        <div className="mt-6">{torneo.description}</div>
+                        {torneo.description && (
+                            <div className="mt-6">{torneo.description}</div>
+                        )}
                     </div>
                     {mdString && (
                         <div className="p-5">
