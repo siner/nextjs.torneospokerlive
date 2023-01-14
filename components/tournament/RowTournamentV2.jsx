@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { formatDate, getMobileDate, getTextColor } from '../../lib/utils'
 
 export default function RowTournamentV2(props) {

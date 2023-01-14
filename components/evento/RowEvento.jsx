@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { getSimpleDate } from '../../lib/utils'
 
 export default function RowEvento(props) {
