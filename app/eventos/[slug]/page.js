@@ -32,6 +32,7 @@ export default async function Page({ params }) {
                                     <RowTournamentV2
                                         key={torneo.id}
                                         torneo={torneo}
+                                        casino={false}
                                     />
                                 ))}
                             </div>

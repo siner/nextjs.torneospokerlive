@@ -27,7 +27,7 @@ export default async function Page() {
             </div>
 
             <h2 className="text-2xl font-bold py-4">Torneos de Hoy</h2>
-            <div className="space-y-0.5">
+            <div className="space-y-2">
                 {torneos?.map((torneo) => (
                     <RowTournamentV2
                         key={torneo.id}
@@ -44,9 +44,13 @@ export default async function Page() {
             </div>
 
             <h2 className="text-2xl font-bold py-4">Eventos live futuros</h2>
-            <div className="space-y-0.5">
+            <div className="space-y-2">
                 {nextevents.map((event) => (
-                    <RowEventoV2 key={event.id} evento={event} />
+                    <RowEventoV2
+                        key={event.id}
+                        evento={event}
+                        showtour={true}
+                    />
                 ))}
             </div>
             <div className="text-right mt-4">
