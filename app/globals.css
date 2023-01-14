@@ -5,3 +5,7 @@
 .indicator {
     width: auto;
 }
+
+.indicator :where(.indicator-item) {
+    right: 15px;
+}

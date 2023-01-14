@@ -5,7 +5,7 @@ export default function CardCasino({ casino }) {
 
     return (
         <div className="card w-full bg-base-100 shadow-xl">
-            <figure className="h-40" style={{ backgroundColor: bg }}>
+            <figure className="h-32 md:h-40" style={{ backgroundColor: bg }}>
                 <Link href={'/casinos/' + casino.slug}>
                     <img
                         className="w-1/2 mx-auto"
@@ -14,7 +14,7 @@ export default function CardCasino({ casino }) {
                     />
                 </Link>
             </figure>
-            <div className="card-body items-center justify-center text-center">
+            <div className="card-body items-center justify-center text-center p-4 md:p-8">
                 <h2 className="card-title">
                     <Link href={'/casinos/' + casino.slug}>{casino.name}</Link>
                 </h2>

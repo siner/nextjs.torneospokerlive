@@ -20,7 +20,7 @@ export default async function Page({ params }) {
                             <h1 className="text-4xl font-bold py-4">
                                 Eventos de {tour.name}
                             </h1>
-                            <div className="space-y-0.5">
+                            <div className="space-y-1 md:space-y-0.5">
                                 {events.map((event) => (
                                     <RowEventoV2
                                         key={event.id}

@@ -23,16 +23,19 @@ export default function CardEvento(props) {
                 </span>
             )}
             <div className="grid card w-full bg-base-100 shadow-xl">
-                <figure className="h-40" style={{ backgroundColor: bg }}>
+                <figure
+                    className="h-32 md:h-40"
+                    style={{ backgroundColor: bg }}
+                >
                     <Link href={'/eventos/' + evento.slug}>
                         <img
-                            className="w-1/2 max-h-64 mx-auto object-cover"
+                            className="w-1/2 max-h-48 md:max-h-64 mx-auto object-cover"
                             src={evento.tour.logo}
                             alt={evento.name}
                         />
                     </Link>
                 </figure>
-                <div className="card-body items-center text-center">
+                <div className="card-body items-center text-center p-4 md:p-8">
                     <div className="flex justify-between mb-4 w-full">
                         <div className="flex content-center space-x-1">
                             <svg

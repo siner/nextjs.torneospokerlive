@@ -50,7 +50,7 @@ export default function RowTournamentV2(props) {
                 <div className="flex items-center justify-between flex-1 cursor-pointer select-none w-full">
                     {casino && (
                         <div
-                            className="hidden md:flex flex-col items-center justify-center w-20 mr-4 p-2 h-full"
+                            className="hidden md:flex flex-col items-center justify-center w-20 mr-4 p-2 h-10"
                             style={{
                                 backgroundColor: backgroundColor,
                             }}

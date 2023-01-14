@@ -29,18 +29,21 @@ export default function RowEventoV2(props) {
             }}
         >
             <div
-                className="flex flex-row w-full md:hidden justify-between px-1"
+                className="flex flex-row w-full md:hidden justify-between p-1 text-xs"
                 style={{
                     backgroundColor: backgroundColor,
                     color: textColor,
                 }}
             >
-                <div className="text-xs md:hidden">{evento.casino.name}</div>
+                <div>{evento.casino.name}</div>
+                <div>
+                    {datestringfrom} - {datestringto}
+                </div>
             </div>
             <div className="flex flex-row w-full">
                 <div className="flex items-center justify-between flex-1 cursor-pointer select-none w-full">
                     <div
-                        className="hidden md:flex flex-col items-center justify-center w-20 mr-4 p-2 h-full"
+                        className="hidden md:flex flex-col items-center justify-center w-20 mr-4 p-2 h-10"
                         style={{
                             backgroundColor: backgroundColor,
                         }}
@@ -85,7 +88,7 @@ export default function RowEventoV2(props) {
                             </Link>
                         </div>
                     </div>
-                    <div className="pl-1 mr-2 md:mr-5 text-right md:text-left p-2">
+                    <div className="hidden md:block pl-1 mr-2 md:mr-5 text-right md:text-left p-2">
                         <div className="text-xs">
                             <div className="flex justify-between text-xs md:text-base">
                                 <div className="flex content-right items-center space-x-1">
