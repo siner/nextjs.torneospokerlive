@@ -48,11 +48,11 @@ export default function Calendar(props) {
     }
 
     return (
-        <div className="calendar">
+        <div className="calendar bg-neutral neutral-content">
             <Header value={selectedDate} onChange={setSelectedDate} />
 
             <div className="body">
-                <div className="day-names">
+                <div className="day-names bg-secondary secondary-content">
                     {['lun', 'mar', 'mie', 'jue', 'vie', 'sab', 'dom'].map(
                         (d) => (
                             <div key={d} className="week">
@@ -64,9 +64,12 @@ export default function Calendar(props) {
                 {calendar.map((week, wi) => (
                     <div key={'week-' + wi}>
                         {week.map((day, di) => (
-                            <div key={'day-' + wi + '-' + di} className="day">
+                            <div
+                                key={'day-' + wi + '-' + di}
+                                className="day bg-neutral neutral-content"
+                            >
                                 <div className={dayStyles(day)}>
-                                    <span className="numday">
+                                    <span className="numday bg-secondary secondary-content">
                                         {day.format('D').toString()}
                                     </span>
                                     <div className="events overflow-scroll space-y-0.5">

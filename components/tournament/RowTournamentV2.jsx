@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from 'next/link'
 import { formatDate, getMobileDate, getTextColor } from '../../lib/utils'
 
 export default function RowTournamentV2(props) {
@@ -56,7 +57,7 @@ export default function RowTournamentV2(props) {
                                 backgroundColor: backgroundColor,
                             }}
                         >
-                            <a
+                            <Link
                                 href={'/casinos/' + torneo.casino.slug}
                                 className="relative block"
                             >
@@ -65,13 +66,13 @@ export default function RowTournamentV2(props) {
                                     alt={'Logo ' + torneo.casino.name}
                                     className="mx-auto object-cover w-20"
                                 />
-                            </a>
+                            </Link>
                         </div>
                     )}
                     {event && (
                         <div className="hidden md:flex flex-col items-center justify-center w-14 h-10 mr-4 p-2">
                             {torneo.evento && (
-                                <a
+                                <Link
                                     href={'/eventos/' + torneo.evento.slug}
                                     className="relative block"
                                 >
@@ -80,39 +81,45 @@ export default function RowTournamentV2(props) {
                                         alt={'Icono ' + torneo.evento.name}
                                         className="mx-auto object-cover w-10"
                                     />
-                                </a>
+                                </Link>
                             )}
                         </div>
                     )}
                     <div className="grow pl-1 mr-2 md:mr-5 p-2">
-                        <div className="font-medium text-sm md:text-base">
-                            <a href={'/torneos/' + torneo.id}>{torneo.name}</a>
-                            {isnew && (
-                                <span class="badge badge-warning warning-content ml-2">
-                                    New
-                                </span>
-                            )}
-                        </div>
+                        <Link href={'/torneos/' + torneo.id}>
+                            <div className="font-medium text-sm md:text-base">
+                                {torneo.name}
+                                {isnew && (
+                                    <span class="badge badge-warning warning-content ml-2">
+                                        New
+                                    </span>
+                                )}
+                            </div>
+                        </Link>
                     </div>
                     <div className="pl-1 mr-2 md:mr-5 text-right p-2 hidden md:block">
-                        <div className="text-xl font-bold">
-                            {parseInt(torneo.price) > 0 && (
-                                <span>{torneo.price}€</span>
-                            )}
-                        </div>
-                    </div>
-                    <div className="pl-1 mr-2 md:mr-5 text-right p-2">
-                        <div className="text-xs hidden md:block">
-                            {datestring} - {hour}
-                        </div>
-                        <div className="text-base font-bold md:hidden">
-                            {parseInt(torneo.price) > 0 && (
-                                <span>{torneo.price}€</span>
-                            )}
-                        </div>
+                        <Link href={'/torneos/' + torneo.id}>
+                            <div className="text-xl font-bold">
+                                {parseInt(torneo.price) > 0 && (
+                                    <span>{torneo.price}€</span>
+                                )}
+                            </div>
+                        </Link>
                     </div>
 
-                    <a
+                    <div className="pl-1 mr-2 md:mr-5 text-right p-2">
+                        <Link href={'/torneos/' + torneo.id}>
+                            <div className="text-xs hidden md:block">
+                                {datestring} - {hour}
+                            </div>
+                            <div className="text-base font-bold md:hidden">
+                                {parseInt(torneo.price) > 0 && (
+                                    <span>{torneo.price}€</span>
+                                )}
+                            </div>
+                        </Link>
+                    </div>
+                    <Link
                         href={'/torneos/' + torneo.id}
                         className="flex justify-end w-4 md:w-8 text-right"
                     >
@@ -126,7 +133,7 @@ export default function RowTournamentV2(props) {
                         >
                             <path d="M1363 877l-742 742q-19 19-45 19t-45-19l-166-166q-19-19-19-45t19-45l531-531-531-531q-19-19-19-45t19-45l166-166q19-19 45-19t45 19l742 742q19 19 19 45t-19 45z"></path>
                         </svg>
-                    </a>
+                    </Link>
                 </div>
             </div>
         </div>
