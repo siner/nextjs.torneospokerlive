@@ -8,7 +8,7 @@ export default async function Page() {
     return (
         <main className="mx-5">
             <h1 className="text-2xl font-bold py-4">Circuitos</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {tours.map((tour) => (
                     <CardTour key={tour.id} tour={tour} />
                 ))}

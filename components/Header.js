@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function Header() {
     return (
-        <header className="bg-slate-800 shadow-lg">
+        <header className="bg-neutral shadow-lg">
             <nav className="mx-5 flex flex-col md:flex-row items-center md:items-left md:items-center justify-between py-6 text-white space-y-4 md:space-y-0">
                 <Link
                     href="/"

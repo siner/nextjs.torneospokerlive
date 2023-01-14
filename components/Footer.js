@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function Footer() {
     return (
-        <footer className="bg-slate-800 mt-10">
+        <footer className="bg-neutral mt-10">
             <nav className="mx-5 flex flex-col md:flex-row items-center md:items-left md:items-center justify-between py-2 text-white space-y-4 md:space-y-0">
                 <Link
                     href="/"

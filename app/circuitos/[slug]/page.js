@@ -1,7 +1,7 @@
 export const revalidate = 600
 
 import CardTour from '../../../components/tour/CardTour'
-import RowEvento from '../../../components/evento/RowEvento'
+import RowEventoV2 from '../../../components/evento/RowEventoV2'
 
 import { getTour, getAllEventsByTour, getAllTours } from '../../../lib/notion'
 
@@ -20,9 +20,13 @@ export default async function Page({ params }) {
                             <h1 className="text-4xl font-bold py-4">
                                 Eventos de {tour.name}
                             </h1>
-                            <div className="space-y-1">
+                            <div className="space-y-0.5">
                                 {events.map((event) => (
-                                    <RowEvento key={event.id} evento={event} />
+                                    <RowEventoV2
+                                        key={event.id}
+                                        evento={event}
+                                        showtour={false}
+                                    />
                                 ))}
                             </div>
                         </div>

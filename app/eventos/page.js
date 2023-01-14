@@ -1,5 +1,5 @@
 import CardEvento from '../../components/evento/CardEvento'
-import RowEvento from '../../components/evento/RowEvento'
+import RowEventoV2 from '../../components/evento/RowEventoV2'
 import {
     getCurrentEvents,
     getNextEvents,
@@ -14,6 +14,13 @@ export default async function Page() {
 
     return (
         <main className="mx-5">
+            <h2 className="text-2xl font-bold py-4">Eventos live futuros</h2>
+            <div className="space-y-0.5">
+                {nextevents.map((event) => (
+                    <RowEventoV2 key={event.id} evento={event} />
+                ))}
+            </div>
+
             <h2 className="text-2xl font-bold py-4">Eventos live actuales</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 {currentevents.map((event) => (
@@ -21,17 +28,10 @@ export default async function Page() {
                 ))}
             </div>
 
-            <h2 className="text-2xl font-bold py-4">Eventos live futuros</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-4">
-                {nextevents.map((event) => (
-                    <CardEvento key={event.id} evento={event} />
-                ))}
-            </div>
-
             <h2 className="text-2xl font-bold py-4">Eventos live anteriores</h2>
             <div className="space-y-0.5">
                 {pastevents.map((event) => (
-                    <RowEvento key={event.id} evento={event} />
+                    <RowEventoV2 key={event.id} evento={event} />
                 ))}
             </div>
         </main>

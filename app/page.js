@@ -1,4 +1,4 @@
-import RowTournament from '../components/tournament/RowTournament'
+import RowTournamentV2 from '../components/tournament/RowTournamentV2'
 import LinkButton from '../components/elements/LinkButton'
 import CardEvento from '../components/evento/CardEvento'
 
@@ -7,6 +7,8 @@ import {
     getCurrentEvents,
     getNextEvents,
 } from '../lib/notion'
+import Link from 'next/link'
+import RowEventoV2 from '../components/evento/RowEventoV2'
 
 export const revalidate = 60
 
@@ -25,9 +27,9 @@ export default async function Page() {
             </div>
 
             <h2 className="text-2xl font-bold py-4">Torneos de Hoy</h2>
-            <div className="space-y-1">
+            <div className="space-y-0.5">
                 {torneos?.map((torneo) => (
-                    <RowTournament
+                    <RowTournamentV2
                         key={torneo.id}
                         torneo={torneo}
                         casino="true"
@@ -36,14 +38,21 @@ export default async function Page() {
                 ))}
             </div>
             <div className="text-right mt-4">
-                <LinkButton href="/torneos">Ver Todos</LinkButton>
+                <Link className="btn" href="/torneos">
+                    Ver Todos
+                </Link>
             </div>
 
             <h2 className="text-2xl font-bold py-4">Eventos live futuros</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
+            <div className="space-y-0.5">
                 {nextevents.map((event) => (
-                    <CardEvento key={event.id} evento={event} />
+                    <RowEventoV2 key={event.id} evento={event} />
                 ))}
+            </div>
+            <div className="text-right mt-4">
+                <Link className="btn" href="/eventos">
+                    Ver Todos
+                </Link>
             </div>
         </main>
     )

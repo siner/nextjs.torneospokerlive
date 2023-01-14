@@ -1,19 +1,26 @@
+import Link from 'next/link'
+
 export default function CardTour({ tour }) {
     return (
-        <div className="rounded overflow-hidden shadow-lg">
-            <div className="text-center p-8 bg-slate-300 hover:bg-slate-400 block relative">
-                <a href={'/circuitos/' + tour.slug}>
+        <div className="card w-full bg-base-100 shadow-xl">
+            <figure className="h-40">
+                <Link href={'/circuitos/' + tour.slug}>
                     <img
-                        className="mx-auto h-14"
+                        className="w-1/2 max-h-64 mx-auto object-cover"
                         src={tour.logo}
                         alt={tour.name}
                     />
-                </a>
-            </div>
-            <div className="px-6 py-4 text-center">
-                <a href={'/circuitos/' + tour.slug} className="font-bold mb-2">
-                    {tour.name}
-                </a>
+                </Link>
+            </figure>
+            <div className="card-body items-center justify-center text-center">
+                <h2 className="card-title">
+                    <Link
+                        href={'/circuitos/' + tour.slug}
+                        className="font-bold"
+                    >
+                        {tour.name}
+                    </Link>
+                </h2>
             </div>
         </div>
     )

@@ -1,22 +1,23 @@
+import Link from 'next/link'
+
 export default function CardCasino({ casino }) {
     const bg = casino.color
 
     return (
-        <div className="rounded overflow-hidden shadow-lg">
-            <div className="text-center p-8" style={{ backgroundColor: bg }}>
-                <a href={'/casinos/' + casino.slug}>
+        <div className="card w-full bg-base-100 shadow-xl">
+            <figure className="h-40" style={{ backgroundColor: bg }}>
+                <Link href={'/casinos/' + casino.slug}>
                     <img
-                        className="mx-auto h-14"
+                        className="w-1/2 mx-auto"
                         src={casino.logo}
                         alt={casino.name}
                     />
-                </a>
-            </div>
-            <div className="px-6 py-4">
-                <a href={'/casinos/' + casino.slug} className="font-bold mb-2">
-                    {casino.name}
-                </a>
-                <p className="text-gray-700 text-sm">{casino.address}</p>
+                </Link>
+            </figure>
+            <div className="card-body items-center justify-center text-center">
+                <h2 className="card-title">
+                    <Link href={'/casinos/' + casino.slug}>{casino.name}</Link>
+                </h2>
             </div>
         </div>
     )

@@ -2,7 +2,6 @@ export const revalidate = 60
 
 import CardCasino from '../../../components/casino/CardCasino'
 import CardEvento from '../../../components/evento/CardEvento'
-import RowTournament from '../../../components/tournament/RowTournament'
 import Calendar from '../../../components/calendar/Calendar'
 
 import {
@@ -10,13 +9,14 @@ import {
     getAllTournamentsByEvent,
     getAllEvents,
 } from '../../../lib/notion'
+import RowTournamentV2 from '../../../components/tournament/RowTournamentV2'
 
 export default async function Page({ params }) {
     const evento = await getEvent(params.slug)
     const torneos = await getAllTournamentsByEvent(evento.id)
     return (
         <main className="mx-5">
-            <div className="md:flex gap-4">
+            <div className="md:flex gap-8">
                 <div className="w-100 md:w-3/12 mt-6 space-y-4">
                     <CardEvento evento={evento} />
                     <CardCasino casino={evento.casino} />
@@ -27,9 +27,9 @@ export default async function Page({ params }) {
                             <h1 className="text-4xl font-bold py-4">
                                 Torneos de {evento.name}
                             </h1>
-                            <div className="space-y-1">
+                            <div className="space-y-0.5">
                                 {torneos.map((torneo) => (
-                                    <RowTournament
+                                    <RowTournamentV2
                                         key={torneo.id}
                                         torneo={torneo}
                                     />

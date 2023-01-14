@@ -1,4 +1,4 @@
-import RowTournament from '../../../components/tournament/RowTournament'
+import RowTournamentV2 from '../../../components/tournament/RowTournamentV2'
 
 import { getTodayTournaments } from '../../../lib/notion'
 export const revalidate = 60
@@ -9,9 +9,9 @@ export default async function Page() {
     return (
         <main className="mx-5">
             <h2 className="text-2xl font-bold py-4">Torneos de hoy</h2>
-            <div className="space-y-1">
+            <div className="space-y-0.5">
                 {torneos?.map((torneo) => (
-                    <RowTournament
+                    <RowTournamentV2
                         key={torneo.id}
                         torneo={torneo}
                         casino="true"

@@ -41,11 +41,11 @@ export default function RowTournament(props) {
                 )}
 
                 <div className="name w-8/12 flex items-center text-sm md:text-lg">
-                    {event && torneo.events && (
-                        <a href={'/eventos/' + torneo.event.slug}>
+                    {event && torneo.evento && (
+                        <a href={'/eventos/' + torneo.evento.slug}>
                             <img
                                 className="mr-4 w-12 mb-1"
-                                src={torneo.evento.circuito.logo}
+                                src={torneo.evento.tour.logo}
                                 alt={'Icono ' + torneo.evento.name}
                             />
                         </a>

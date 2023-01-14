@@ -2,21 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.rowcasino,
-.rowtournament {
-    position: relative;
-}
-.colorstick {
-    position: absolute;
-    content: ' ';
-    width: 8px;
-    height: 100%;
-}
-
-.af-form {
-    margin: 0 auto;
-}
-
-.af-button button {
-    background-color: #1e293b;
+.indicator {
+    width: auto;
 }
