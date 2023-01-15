@@ -17,17 +17,17 @@ export default async function Page({ params }) {
     return (
         <main className="mx-5">
             <div className="md:flex gap-8">
-                <div className="w-100 md:w-3/12 mt-6 space-y-4">
+                <div className="w-100 md:w-4/12 mt-6 space-y-4">
                     <CardEvento evento={evento} />
                     <CardCasino casino={evento.casino} />
                 </div>
-                <div className="md:w-9/12">
+                <div className="md:w-8/12">
                     {torneos.length > 0 && (
                         <div>
                             <h1 className="text-4xl font-bold py-4">
                                 Torneos de {evento.name}
                             </h1>
-                            <div className="space-y-0.5">
+                            <div className="space-y-1 md:space-y-0.5">
                                 {torneos.map((torneo) => (
                                     <RowTournamentV2
                                         key={torneo.id}

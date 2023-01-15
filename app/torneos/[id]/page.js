@@ -4,14 +4,20 @@ import ReactMarkdown from 'react-markdown'
 import CardCasino from '../../../components/casino/CardCasino'
 import CardEvento from '../../../components/evento/CardEvento'
 import { getTextColor, formatDate } from '../../../lib/utils'
-import { getCasinoById, getTournament, notion } from '../../../lib/notion'
+import {
+    getCasinoById,
+    getEvent,
+    getEventById,
+    getTournament,
+    notion,
+} from '../../../lib/notion'
 import { NotionToMarkdown } from 'notion-to-md'
 
 export default async function Page({ params }) {
     const n2m = new NotionToMarkdown({ notionClient: notion })
     const torneo = await getTournament(params.id)
     const casino = await getCasinoById(torneo.casino_id)
-    const event = null
+    const event = await getEventById(torneo.event_id)
     let backgroundColor = '#ffffff'
     if (casino) backgroundColor = casino.color
     const textColor = getTextColor(backgroundColor)
