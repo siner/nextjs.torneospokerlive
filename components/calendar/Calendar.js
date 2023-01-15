@@ -33,10 +33,10 @@ export default function Calendar(props) {
     }
 
     function dayStyles(day) {
-        if (beforeToday(day)) return 'before'
-        if (isToday(day)) return 'today'
-        if (isSelected(day)) return 'selected'
-        return ''
+        if (beforeToday(day)) return 'bg-base-200'
+        if (isToday(day)) return 'bg-accent'
+        if (isSelected(day)) return 'bg-accent'
+        return 'bg-base-200'
     }
 
     function currMonthName() {
@@ -48,11 +48,11 @@ export default function Calendar(props) {
     }
 
     return (
-        <div className="calendar bg-neutral neutral-content">
+        <div className="calendar dark:bg-neutral dark:neutral-content">
             <Header value={selectedDate} onChange={setSelectedDate} />
 
             <div className="body">
-                <div className="day-names bg-secondary secondary-content">
+                <div className="day-names bg-neutral text-neutral-content dark:bg-secondary dark:text-secondary-content px-2">
                     {['lun', 'mar', 'mie', 'jue', 'vie', 'sab', 'dom'].map(
                         (d) => (
                             <div key={d} className="week">
@@ -66,13 +66,13 @@ export default function Calendar(props) {
                         {week.map((day, di) => (
                             <div
                                 key={'day-' + wi + '-' + di}
-                                className="day bg-neutral neutral-content"
+                                className="day dark:bg-neutral dark:text-neutral-content"
                             >
                                 <div className={dayStyles(day)}>
-                                    <span className="numday bg-secondary secondary-content">
+                                    <span className="numday bg-base-300 text-base-content dark:bg-secondary dark:text-secondary-content px-2">
                                         {day.format('D').toString()}
                                     </span>
-                                    <div className="events overflow-scroll space-y-0.5">
+                                    <div className="events overflow-scroll">
                                         {torneos
                                             .filter(
                                                 (t) =>
