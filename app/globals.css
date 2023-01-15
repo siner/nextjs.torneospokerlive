@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .indicator {
-    width: auto;
+    width: 100%;
 }
 
 .indicator :where(.indicator-item) {
