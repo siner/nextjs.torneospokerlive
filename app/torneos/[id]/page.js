@@ -6,9 +6,8 @@ import CardEvento from '../../../components/evento/CardEvento'
 import { getTextColor, formatDate } from '../../../lib/utils'
 import {
     getCasinoById,
-    getEvent,
     getEventById,
-    getNextTournaments,
+    getTodayTournaments,
     getTournament,
     notion,
 } from '../../../lib/notion'
@@ -69,7 +68,7 @@ export default async function Page({ params }) {
 }
 
 export async function generateStaticParams() {
-    const tournaments = await getNextTournaments()
+    const tournaments = await getTodayTournaments()
 
     return tournaments.map((tournament) => ({
         id: tournament.id,
