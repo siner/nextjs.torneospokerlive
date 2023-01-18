@@ -8,6 +8,7 @@ import {
     getCasinoById,
     getEvent,
     getEventById,
+    getNextTournaments,
     getTournament,
     notion,
 } from '../../../lib/notion'
@@ -17,7 +18,8 @@ export default async function Page({ params }) {
     const n2m = new NotionToMarkdown({ notionClient: notion })
     const torneo = await getTournament(params.id)
     const casino = await getCasinoById(torneo.casino_id)
-    const event = await getEventById(torneo.event_id)
+    var event = null
+    if (torneo.event_id) event = await getEventById(torneo.event_id)
     let backgroundColor = '#ffffff'
     if (casino) backgroundColor = casino.color
     const textColor = getTextColor(backgroundColor)
@@ -64,4 +66,12 @@ export default async function Page({ params }) {
             </div>
         </main>
     )
+}
+
+export async function generateStaticParams() {
+    const tournaments = await getNextTournaments()
+
+    return tournaments.map((tournament) => ({
+        id: tournament.id,
+    }))
 }
