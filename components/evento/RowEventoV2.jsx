@@ -82,7 +82,7 @@ export default function RowEventoV2(props) {
                             <div className="font-medium text-sm md:text-base">
                                 {evento.name}{' '}
                                 {isnew && (
-                                    <span class="badge badge-warning warning-content ml-2">
+                                    <span className="badge badge-warning warning-content ml-2">
                                         New
                                     </span>
                                 )}

@@ -17,9 +17,9 @@ export default function CardEvento(props) {
     const isnew = created_at > lastday
 
     return (
-        <div class="indicator">
+        <div className="indicator">
             {isnew && (
-                <span class="indicator-item indicator-right badge badge-warning">
+                <span className="indicator-item indicator-right badge badge-warning">
                     New
                 </span>
             )}

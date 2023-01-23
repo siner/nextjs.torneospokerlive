@@ -90,7 +90,7 @@ export default function RowTournamentV2(props) {
                             <div className="font-medium text-sm md:text-base">
                                 {torneo.name}
                                 {isnew && (
-                                    <span class="badge badge-warning warning-content ml-2">
+                                    <span className="badge badge-warning warning-content ml-2">
                                         New
                                     </span>
                                 )}
