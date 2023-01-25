@@ -8,6 +8,7 @@ import {
     getNextTournamentsByCasino,
 } from '../../../lib/prisma'
 import RowTournamentV2 from '../../../components/tournament/RowTournamentV2'
+import ReactMarkdown from 'react-markdown'
 
 export default async function Page({ params }) {
     const casino = await getCasino(params.slug)
@@ -18,6 +19,11 @@ export default async function Page({ params }) {
             <div className="md:flex gap-4">
                 <div className="w-100 md:w-4/12 mt-6">
                     <CardCasino casino={casino} />
+                    <div className="mt-4">
+                        <div className="p-2 prose">
+                            <ReactMarkdown>{casino.content}</ReactMarkdown>
+                        </div>
+                    </div>
                 </div>
                 <div className="md:w-8/12">
                     {torneos.length > 0 && (

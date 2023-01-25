@@ -45,7 +45,9 @@ export default async function Page({ params }) {
                         {datestring} - {hour}
                     </div>
                     {torneo.content && (
-                        <div className="mt-6">{torneo.content}</div>
+                        <div className="mt-6">
+                            <ReactMarkdown>{torneo.content}</ReactMarkdown>
+                        </div>
                     )}
                 </div>
             </div>
