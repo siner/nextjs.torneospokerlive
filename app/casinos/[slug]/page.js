@@ -6,33 +6,18 @@ import {
     getAllCasinos,
     getCasino,
     getNextTournamentsByCasino,
-    notion,
-} from '../../../lib/notion'
+} from '../../../lib/prisma'
 import RowTournamentV2 from '../../../components/tournament/RowTournamentV2'
-import Link from 'next/link'
-import { NotionToMarkdown } from 'notion-to-md'
-import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
 
 export default async function Page({ params }) {
-    const n2m = new NotionToMarkdown({ notionClient: notion })
-
     const casino = await getCasino(params.slug)
     const torneos = await getNextTournamentsByCasino(casino.id)
-    const mdblocks = await n2m.pageToMarkdown(casino.id)
-    const mdString = n2m.toMarkdownString(mdblocks)
 
     return (
         <main className="mx-5">
             <div className="md:flex gap-4">
                 <div className="w-100 md:w-4/12 mt-6">
                     <CardCasino casino={casino} />
-                    {mdString && (
-                        <div className="mt-4">
-                            <div className="p-2 prose">
-                                <ReactMarkdown>{mdString}</ReactMarkdown>
-                            </div>
-                        </div>
-                    )}
                 </div>
                 <div className="md:w-8/12">
                     {torneos.length > 0 && (

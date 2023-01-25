@@ -1,6 +1,6 @@
 import RowTournamentV2 from '../../../components/tournament/RowTournamentV2'
 
-import { getTodayTournaments } from '../../../lib/notion'
+import { getTodayTournaments } from '../../../lib/prisma'
 export const revalidate = 60
 
 export default async function Page() {

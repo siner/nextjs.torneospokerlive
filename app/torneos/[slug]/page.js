@@ -9,13 +9,10 @@ import {
     getEventById,
     getTodayTournaments,
     getTournament,
-    notion,
-} from '../../../lib/notion'
-import { NotionToMarkdown } from 'notion-to-md'
+} from '../../../lib/prisma'
 
 export default async function Page({ params }) {
-    const n2m = new NotionToMarkdown({ notionClient: notion })
-    const torneo = await getTournament(params.id)
+    const torneo = await getTournament(params.slug)
     const casino = await getCasinoById(torneo.casino_id)
     var event = null
     if (torneo.event_id) event = await getEventById(torneo.event_id)
@@ -23,8 +20,6 @@ export default async function Page({ params }) {
     if (casino) backgroundColor = casino.color
     const textColor = getTextColor(backgroundColor)
     let { datestring, hour } = formatDate(torneo.date)
-    const mdblocks = await n2m.pageToMarkdown(torneo.id)
-    const mdString = n2m.toMarkdownString(mdblocks)
 
     return (
         <main className="md:flex gap-4 space-y-4 md:space-y-0 mx-5 mt-10">
@@ -49,15 +44,10 @@ export default async function Page({ params }) {
                     <div className="font-bold">
                         {datestring} - {hour}
                     </div>
-                    {torneo.description && (
-                        <div className="mt-6">{torneo.description}</div>
+                    {torneo.content && (
+                        <div className="mt-6">{torneo.content}</div>
                     )}
                 </div>
-                {mdString && (
-                    <div className="p-5">
-                        <ReactMarkdown>{mdString}</ReactMarkdown>
-                    </div>
-                )}
             </div>
             <div className="md:w-4/12 space-y-4">
                 {event && <CardEvento evento={event} />}
@@ -71,6 +61,6 @@ export async function generateStaticParams() {
     const tournaments = await getTodayTournaments()
 
     return tournaments.map((tournament) => ({
-        id: tournament.id,
+        slug: tournament.slug,
     }))
 }

@@ -1,5 +1,5 @@
 import DefaultTags from '../../defaultTags'
-import { getEvent } from '../../../lib/notion'
+import { getEvent } from '../../../lib/prisma'
 
 export default async function Head({ params }) {
     const evento = await getEvent(params.slug)

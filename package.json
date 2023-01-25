@@ -11,6 +11,7 @@
   "dependencies": {
     "@next/font": "13.1.1",
     "@notionhq/client": "^2.2.3",
+    "@prisma/client": "^4.9.0",
     "@vercel/analytics": "^0.1.8",
     "daisyui": "^2.46.1",
     "encoding": "^0.1.13",
@@ -18,17 +19,21 @@
     "eslint-config-next": "13.1.1",
     "moment": "^2.29.4",
     "next": "13.1.1",
+    "next-superjson-plugin": "^0.5.4",
     "notion-page-to-html": "^1.2.0",
     "notion-to-md": "^2.5.5",
     "prettier": "^2.8.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-markdown": "^8.0.4"
+    "react-markdown": "^8.0.4",
+    "slugify": "^1.6.5",
+    "superjson": "^1.12.2"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
+    "prisma": "^4.9.0",
     "tailwindcss": "^3.2.4"
   }
 }

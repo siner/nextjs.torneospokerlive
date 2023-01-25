@@ -1,5 +1,5 @@
 import CardTour from '../../components/tour/CardTour'
-import { getAllTours } from '../../lib/notion'
+import { getAllTours } from '../../lib/prisma'
 export const revalidate = 60
 
 export default async function Page() {

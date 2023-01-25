@@ -4,7 +4,7 @@ import {
     getCurrentEvents,
     getNextEvents,
     getPastEvents,
-} from '../../lib/notion'
+} from '../../lib/prisma'
 export const revalidate = 60
 
 export default async function Page() {

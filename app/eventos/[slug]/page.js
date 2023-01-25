@@ -3,13 +3,13 @@ export const revalidate = 60
 import CardCasino from '../../../components/casino/CardCasino'
 import CardEvento from '../../../components/evento/CardEvento'
 import Calendar from '../../../components/calendar/Calendar'
+import RowTournamentV2 from '../../../components/tournament/RowTournamentV2'
 
 import {
     getEvent,
     getAllTournamentsByEvent,
     getAllEvents,
-} from '../../../lib/notion'
-import RowTournamentV2 from '../../../components/tournament/RowTournamentV2'
+} from '../../../lib/prisma'
 
 export default async function Page({ params }) {
     const evento = await getEvent(params.slug)

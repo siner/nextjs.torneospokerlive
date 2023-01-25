@@ -1,5 +1,5 @@
 import DefaultTags from '../../defaultTags'
-import { getTournament } from '../../../lib/notion'
+import { getTournament } from '../../../lib/prisma'
 
 export default async function Head({ params }) {
     const torneo = await getTournament(params.id)

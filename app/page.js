@@ -1,12 +1,11 @@
 import RowTournamentV2 from '../components/tournament/RowTournamentV2'
-import LinkButton from '../components/elements/LinkButton'
 import CardEvento from '../components/evento/CardEvento'
 
 import {
     getTodayTournaments,
     getCurrentEvents,
     getNextEvents,
-} from '../lib/notion'
+} from '../lib/prisma'
 import Link from 'next/link'
 import RowEventoV2 from '../components/evento/RowEventoV2'
 

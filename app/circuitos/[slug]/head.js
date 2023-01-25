@@ -1,5 +1,5 @@
 import DefaultTags from '../../defaultTags'
-import { getTour } from '../../../lib/notion'
+import { getTour } from '../../../lib/prisma'
 
 export default async function Head({ params }) {
     const circuito = await getTour(params.slug)

@@ -3,7 +3,7 @@ export const revalidate = 600
 import CardTour from '../../../components/tour/CardTour'
 import RowEventoV2 from '../../../components/evento/RowEventoV2'
 
-import { getTour, getAllEventsByTour, getAllTours } from '../../../lib/notion'
+import { getTour, getAllEventsByTour, getAllTours } from '../../../lib/prisma'
 
 export default async function Page({ params }) {
     const tour = await getTour(params.slug)

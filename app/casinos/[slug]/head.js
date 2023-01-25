@@ -1,5 +1,5 @@
 import DefaultTags from '../../defaultTags'
-import { getCasino } from '../../../lib/notion'
+import { getCasino } from '../../../lib/prisma'
 export const revalidate = 60
 
 export default async function Head({ params }) {
