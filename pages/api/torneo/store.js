@@ -5,7 +5,6 @@ export default async function handler(req, res) {
         const body = JSON.parse(req.body)
         var result = null
         body.torneo.date = new Date(body.torneo.date)
-        console.log(body)
         if (body.torneo.id) {
             result = await updateTorneo(body.torneo.id, body.torneo)
         } else {

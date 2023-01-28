@@ -19,8 +19,6 @@ export default function EditEvento(props) {
         to: currentevento?.to,
     })
 
-    console.log(evento)
-
     const [status, setStatus] = useState({
         error: '',
         success: false,
@@ -32,7 +30,6 @@ export default function EditEvento(props) {
             ...evento,
             [event.target.name]: event.target.value,
         })
-        console.log(evento)
     }
 
     const handleSave = async () => {

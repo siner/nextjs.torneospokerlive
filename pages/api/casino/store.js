@@ -3,7 +3,6 @@ import { updateCasino, newCasino } from '../../../lib/prisma'
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         const body = JSON.parse(req.body)
-        console.log(body)
         if (body.casino.id) {
             const result = await updateCasino(body.casino.id, body.casino)
         } else {
