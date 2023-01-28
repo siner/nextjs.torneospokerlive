@@ -10,12 +10,15 @@ import {
     getTodayTournaments,
     getTournament,
 } from '../../../lib/prisma'
+import Link from 'next/link'
 
 export default async function Page({ params }) {
+    const env = process.env.NODE_ENV
+
     const torneo = await getTournament(params.slug)
-    const casino = await getCasinoById(torneo.casino_id)
+    const casino = await getCasinoById(torneo.casinoId)
     var event = null
-    if (torneo.event_id) event = await getEventById(torneo.event_id)
+    if (torneo.eventId) event = await getEventById(torneo.eventId)
     let backgroundColor = '#ffffff'
     if (casino) backgroundColor = casino.color
     const textColor = getTextColor(backgroundColor)
@@ -50,6 +53,26 @@ export default async function Page({ params }) {
                         </div>
                     )}
                 </div>
+                {env == 'development' && (
+                    <div className="flex space-x-2 justify-end">
+                        <div className="text-right mt-4">
+                            <Link
+                                className="btn warning"
+                                href={`/admin/torneo/${torneo.slug}`}
+                            >
+                                Editar
+                            </Link>
+                        </div>
+                        <div className="text-right mt-4">
+                            <Link
+                                className="btn warning"
+                                href={`/admin/torneo/${torneo.slug}/clonar`}
+                            >
+                                Clonar
+                            </Link>
+                        </div>
+                    </div>
+                )}
             </div>
             <div className="md:w-4/12 space-y-4">
                 {event && <CardEvento evento={event} />}

@@ -97,17 +97,8 @@ export default function RowTournamentV2(props) {
                             </div>
                         </Link>
                     </div>
-                    <div className="pl-1 mr-2 md:mr-5 text-right p-2 hidden md:block">
-                        <Link href={'/torneos/' + torneo.slug}>
-                            <div className="text-xl font-bold">
-                                {parseInt(torneo.price) > 0 && (
-                                    <span>{torneo.price}€</span>
-                                )}
-                            </div>
-                        </Link>
-                    </div>
 
-                    <div className="pl-1 mr-2 md:mr-5 text-right p-2">
+                    <div className="pl-1 mr-2 md:mr-5 text-right p-2 w-40">
                         <Link href={'/torneos/' + torneo.slug}>
                             <div className="text-xs hidden md:block">
                                 {datestring} - {hour}
@@ -119,6 +110,17 @@ export default function RowTournamentV2(props) {
                             </div>
                         </Link>
                     </div>
+
+                    <div className="pl-1 mr-2 md:mr-5 text-right p-2 hidden md:block w-20">
+                        <Link href={'/torneos/' + torneo.slug}>
+                            <div className="text-xl font-bold">
+                                {parseInt(torneo.price) > 0 && (
+                                    <span>{torneo.price}€</span>
+                                )}
+                            </div>
+                        </Link>
+                    </div>
+
                     <Link
                         href={'/torneos/' + torneo.slug}
                         className="flex justify-end w-4 md:w-8 text-right"
