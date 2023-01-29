@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://torneospokerlive.com
+
+# Sitemaps
+Sitemap: https://torneospokerlive.com/sitemap.xml
