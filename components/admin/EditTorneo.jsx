@@ -2,6 +2,7 @@
 
 import Spinner from '../elements/Spinner'
 import { useState } from 'react'
+import slugify from 'slugify'
 
 export default function EditTorneo({ currenttorneo, casinos, eventos }) {
     const casino = currenttorneo?.casino
