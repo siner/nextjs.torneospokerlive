@@ -50,7 +50,7 @@ export default function RowTournament(props) {
                             />
                         </a>
                     )}
-                    <a href={'/torneos/' + torneo.id}>{torneo.name}</a>
+                    <a href={'/torneos/' + torneo.slug}>{torneo.name}</a>
                 </div>
 
                 <div className="price font-bold text-xl md:text-2xl w-2/12 text-right">
