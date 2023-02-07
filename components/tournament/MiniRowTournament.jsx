@@ -20,7 +20,7 @@ export default function MiniRowTournament(props) {
         >
             <div className="w-full flex gap-2 justify-between p-1 items-start">
                 <div className="name w-full text-left text-xs">
-                    <a href={'/torneos/' + torneo.id}>{torneo.name}</a>
+                    <a href={'/torneos/' + torneo.slug}>{torneo.name}</a>
                 </div>
             </div>
         </div>
