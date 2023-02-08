@@ -17,7 +17,11 @@ export default async function Page() {
             <h2 className="text-2xl font-bold py-4">Eventos live futuros</h2>
             <div className="space-y-0.5">
                 {nextevents.map((event) => (
-                    <RowEventoV2 key={event.id} evento={event} />
+                    <RowEventoV2
+                        key={event.id}
+                        evento={event}
+                        showtour={true}
+                    />
                 ))}
             </div>
 
@@ -31,7 +35,11 @@ export default async function Page() {
             <h2 className="text-2xl font-bold py-4">Eventos live anteriores</h2>
             <div className="space-y-0.5">
                 {pastevents.map((event) => (
-                    <RowEventoV2 key={event.id} evento={event} />
+                    <RowEventoV2
+                        key={event.id}
+                        evento={event}
+                        showtour={true}
+                    />
                 ))}
             </div>
         </main>
