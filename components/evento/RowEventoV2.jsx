@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Image from 'next/image'
 import Link from 'next/link'
 import { getSimpleDate, getTextColor } from '../../lib/utils'
 
@@ -53,10 +54,12 @@ export default function RowEventoV2(props) {
                             href={'/casinos/' + evento.casino.slug}
                             className="relative block"
                         >
-                            <img
-                                src={evento.casino.logo}
+                            <Image
+                                src={`https://wsrv.nl/?url=${evento.casino.logo}&w=100&h=40&fit=contain`}
+                                width={100}
+                                height={40}
                                 alt={'Logo ' + evento.casino.name}
-                                className="mx-auto object-cover w-20"
+                                className="mx-auto object-cover"
                             />
                         </Link>
                     </div>
@@ -67,10 +70,12 @@ export default function RowEventoV2(props) {
                                     href={'/eventos/' + evento.slug}
                                     className="relative block"
                                 >
-                                    <img
-                                        src={evento.tour.logo}
+                                    <Image
+                                        src={`https://wsrv.nl/?url=${evento.tour.logo}&w=100&h=100&fit=contain`}
+                                        width={100}
+                                        height={100}
                                         alt={'Icono ' + evento.name}
-                                        className="mx-auto object-cover w-10"
+                                        className="mx-auto"
                                     />
                                 </Link>
                             )}

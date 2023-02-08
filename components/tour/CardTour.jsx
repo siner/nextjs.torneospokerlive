@@ -7,8 +7,10 @@ export default function CardTour({ tour }) {
             <figure className="h-32 md:h-40">
                 <Link href={'/circuitos/' + tour.slug}>
                     <img
-                        className="w-1/2 max-h-48 md:max-h-64 mx-auto object-cover"
-                        src={tour.logo}
+                        className="max-h-48 md:max-h-64 mx-auto object-cover"
+                        src={`https://wsrv.nl/?url=${tour.logo}&w=300&h=150&fit=contain`}
+                        width={300}
+                        height={150}
                         alt={tour.name}
                     />
                 </Link>

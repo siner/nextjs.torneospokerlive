@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Image from 'next/image'
 import Link from 'next/link'
 import { formatDate, getMobileDate, getTextColor } from '../../lib/utils'
 
@@ -61,10 +62,12 @@ export default function RowTournamentV2(props) {
                                 href={'/casinos/' + torneo.casino.slug}
                                 className="relative block"
                             >
-                                <img
-                                    src={torneo.casino.logo}
+                                <Image
+                                    src={`https://wsrv.nl/?url=${torneo.casino.logo}&w=100&h=40&fit=contain`}
+                                    width={100}
+                                    height={40}
                                     alt={'Logo ' + torneo.casino.name}
-                                    className="mx-auto object-cover w-20"
+                                    className="mx-auto"
                                 />
                             </Link>
                         </div>
@@ -76,10 +79,12 @@ export default function RowTournamentV2(props) {
                                     href={'/eventos/' + torneo.evento.slug}
                                     className="relative block"
                                 >
-                                    <img
-                                        src={torneo.evento.tour.logo}
+                                    <Image
+                                        src={`https://wsrv.nl/?url=${torneo.evento.tour.logo}&w=100&h=100&fit=contain`}
+                                        width={100}
+                                        height={100}
                                         alt={'Icono ' + torneo.evento.name}
-                                        className="mx-auto object-cover w-10"
+                                        className="mx-auto"
                                     />
                                 </Link>
                             )}

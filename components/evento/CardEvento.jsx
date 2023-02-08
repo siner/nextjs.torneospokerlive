@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Image from 'next/image'
 import Link from 'next/link'
 import { getSimpleDate } from '../../lib/utils'
 
@@ -29,9 +30,11 @@ export default function CardEvento(props) {
                     style={{ backgroundColor: bg }}
                 >
                     <Link href={'/eventos/' + evento.slug}>
-                        <img
-                            className="w-1/2 max-h-48 md:max-h-64 mx-auto object-cover"
-                            src={evento.tour.logo}
+                        <Image
+                            className="max-h-48 md:max-h-64 mx-auto object-cover"
+                            src={`https://wsrv.nl/?url=${evento.tour.logo}&w=300&h=150&fit=contain`}
+                            width={300}
+                            height={150}
                             alt={evento.name}
                         />
                     </Link>

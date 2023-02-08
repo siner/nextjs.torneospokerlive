@@ -8,6 +8,12 @@ const nextConfig = {
                 port: '',
                 pathname: '/images/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'wsrv.nl',
+                port: '',
+                pathname: '/**',
+            },
         ],
     },
     async redirects() {
