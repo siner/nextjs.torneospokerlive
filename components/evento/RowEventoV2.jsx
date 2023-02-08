@@ -64,7 +64,7 @@ export default function RowEventoV2(props) {
                         </Link>
                     </div>
                     {showtour && (
-                        <div className="hidden md:flex flex-col items-center justify-center w-14 h-10 mr-4 p-2">
+                        <div className="flex flex-col items-center justify-center w-14 h-10 mr-4 p-2">
                             {evento && (
                                 <Link
                                     href={'/eventos/' + evento.slug}

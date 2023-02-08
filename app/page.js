@@ -26,7 +26,7 @@ export default async function Page() {
             </div>
 
             <h2 className="text-2xl font-bold py-4">Torneos de Hoy</h2>
-            <div className="space-y-2">
+            <div className="space-y-0.5">
                 {torneos?.map((torneo) => (
                     <RowTournamentV2
                         key={torneo.id}
