@@ -4,6 +4,7 @@ import CardCasino from '../../../components/casino/CardCasino'
 import CardEvento from '../../../components/evento/CardEvento'
 import Calendar from '../../../components/calendar/Calendar'
 import RowTournamentV2 from '../../../components/tournament/RowTournamentV2'
+import { notFound } from 'next/navigation'
 
 import {
     getEvent,
@@ -16,6 +17,9 @@ export default async function Page({ params }) {
     const env = process.env.NODE_ENV
 
     const evento = await getEvent(params.slug)
+    if (!evento.id) {
+        notFound()
+    }
     const torneos = await getAllTournamentsByEvent(evento.id)
     return (
         <main className="mx-5">

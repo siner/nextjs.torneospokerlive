@@ -11,11 +11,15 @@ import {
 import RowTournamentV2 from '../../../components/tournament/RowTournamentV2'
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
 export default async function Page({ params }) {
     const env = process.env.NODE_ENV
 
     const casino = await getCasino(params.slug)
+    if (!casino.id) {
+        notFound()
+    }
     const torneos = await getNextTournamentsByCasino(casino.id)
     var pasttorneos = []
     if (env == 'development') {

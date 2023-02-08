@@ -22,7 +22,7 @@ export default async function Page() {
             </div>
 
             <h2 className="text-2xl font-bold py-4">Eventos live actuales</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {currentevents.map((event) => (
                     <CardEvento key={event.id} evento={event} />
                 ))}

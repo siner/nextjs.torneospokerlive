@@ -3,7 +3,13 @@ import { getTournament } from '../../../lib/prisma'
 
 export default async function Head({ params }) {
     const torneo = await getTournament(params.slug)
-    const title = `${torneo.name} - Torneos Poker Live`
+    var casino = ''
+    if (torneo.casino) {
+        casino = torneo.casino.name
+    }
+    var title = 'Torneo no encontrado - Torneos Poker Live'
+    if (torneo.name) title = `${torneo.name} ${casino} - Torneos Poker Live`
+
     return (
         <>
             <title>{title}</title>

@@ -2,11 +2,15 @@ export const revalidate = 600
 
 import CardTour from '../../../components/tour/CardTour'
 import RowEventoV2 from '../../../components/evento/RowEventoV2'
+import { notFound } from 'next/navigation'
 
 import { getTour, getAllEventsByTour, getAllTours } from '../../../lib/prisma'
 
 export default async function Page({ params }) {
     const tour = await getTour(params.slug)
+    if (!tour.id) {
+        notFound()
+    }
     const events = await getAllEventsByTour(tour.id)
     return (
         <main className="mx-5">
