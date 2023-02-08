@@ -3,6 +3,7 @@ export const revalidate = 60
 import ReactMarkdown from 'react-markdown'
 import CardCasino from '../../../components/casino/CardCasino'
 import CardEvento from '../../../components/evento/CardEvento'
+import { notFound } from 'next/navigation'
 import { getTextColor, formatDate } from '../../../lib/utils'
 import {
     getCasinoById,
@@ -16,6 +17,9 @@ export default async function Page({ params }) {
     const env = process.env.NODE_ENV
 
     const torneo = await getTournament(params.slug)
+    if (!torneo.id) {
+        notFound()
+    }
     const casino = await getCasinoById(torneo.casinoId)
     var event = null
     if (torneo.eventId) event = await getEventById(torneo.eventId)
