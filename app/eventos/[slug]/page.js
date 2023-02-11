@@ -5,6 +5,7 @@ import CardEvento from '../../../components/evento/CardEvento'
 import Calendar from '../../../components/calendar/Calendar'
 import RowTournamentV2 from '../../../components/tournament/RowTournamentV2'
 import { notFound } from 'next/navigation'
+import SuperJSON, { stringify } from 'superjson'
 
 import {
     getEvent,
@@ -16,16 +17,19 @@ import Link from 'next/link'
 export default async function Page({ params }) {
     const env = process.env.NODE_ENV
 
-    const evento = await getEvent(params.slug)
+    const evento_json = await getEvent(params.slug)
+    const evento = SuperJSON.parse(evento_json)
+
     if (!evento.id) {
         notFound()
     }
-    const torneos = await getAllTournamentsByEvent(evento.id)
+    var torneos = await getAllTournamentsByEvent(evento.id)
+
     return (
         <main className="mx-5">
             <div className="md:flex gap-8">
                 <div className="w-100 md:w-4/12 mt-6 space-y-4">
-                    <CardEvento evento={evento} />
+                    <CardEvento evento={evento_json} />
                     {env == 'development' && (
                         <div className="text-right mt-4">
                             <Link
@@ -57,7 +61,7 @@ export default async function Page({ params }) {
                             <div className="space-y-1 md:space-y-0.5">
                                 {torneos.map((torneo) => (
                                     <RowTournamentV2
-                                        key={torneo.id}
+                                        key={SuperJSON.parse(torneo).id}
                                         torneo={torneo}
                                         casino={false}
                                     />
@@ -71,7 +75,10 @@ export default async function Page({ params }) {
                 <h2 className="text-4xl font-bold py-4 text-center">
                     Calendario
                 </h2>
-                <Calendar torneos={torneos} value={evento.from} />
+                <Calendar
+                    torneos={stringify(torneos)}
+                    value={stringify(evento.from)}
+                />
             </div>
         </main>
     )
@@ -81,6 +88,6 @@ export async function generateStaticParams() {
     const events = await getAllEvents()
 
     return events.map((event) => ({
-        slug: event.slug,
+        slug: SuperJSON.parse(event).slug,
     }))
 }

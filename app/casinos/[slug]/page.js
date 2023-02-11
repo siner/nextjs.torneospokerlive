@@ -12,6 +12,7 @@ import RowTournamentV2 from '../../../components/tournament/RowTournamentV2'
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import SuperJSON, { stringify } from 'superjson'
 
 export default async function Page({ params }) {
     const env = process.env.NODE_ENV
@@ -57,7 +58,7 @@ export default async function Page({ params }) {
                             <div className="space-y-0.5">
                                 {pasttorneos.map((torneo) => (
                                     <RowTournamentV2
-                                        key={torneo.id}
+                                        key={SuperJSON.parse(torneo).id}
                                         torneo={torneo}
                                         event={true}
                                         casino={false}
@@ -75,7 +76,7 @@ export default async function Page({ params }) {
                             <div className="space-y-0.5">
                                 {torneos.map((torneo) => (
                                     <RowTournamentV2
-                                        key={torneo.id}
+                                        key={SuperJSON.parse(torneo).id}
                                         torneo={torneo}
                                         event={true}
                                         casino={false}
@@ -90,7 +91,7 @@ export default async function Page({ params }) {
                 <h2 className="text-4xl font-bold py-4 text-center">
                     Calendario
                 </h2>
-                <Calendar torneos={torneos} />
+                <Calendar torneos={stringify(torneos)} />
             </div>
         </main>
     )

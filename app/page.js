@@ -8,6 +8,7 @@ import {
 } from '../lib/prisma'
 import Link from 'next/link'
 import RowEventoV2 from '../components/evento/RowEventoV2'
+import SuperJSON from 'superjson'
 
 export const revalidate = 60
 
@@ -21,7 +22,10 @@ export default async function Page() {
             <h2 className="text-2xl font-bold py-4">Eventos live actuales</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {currentevents.map((event) => (
-                    <CardEvento key={event.id} evento={event} />
+                    <CardEvento
+                        key={SuperJSON.parse(event).id}
+                        evento={event}
+                    />
                 ))}
             </div>
 
@@ -29,7 +33,7 @@ export default async function Page() {
             <div className="space-y-0.5">
                 {torneos?.map((torneo) => (
                     <RowTournamentV2
-                        key={torneo.id}
+                        key={SuperJSON.parse(torneo).id}
                         torneo={torneo}
                         casino="true"
                         event="true"
@@ -46,7 +50,7 @@ export default async function Page() {
             <div className="space-y-2">
                 {nextevents.map((event) => (
                     <RowEventoV2
-                        key={event.id}
+                        key={SuperJSON.parse(event).id}
                         evento={event}
                         showtour={true}
                     />

@@ -3,8 +3,10 @@
 import Spinner from '../elements/Spinner'
 import { useState } from 'react'
 import slugify from 'slugify'
+import SuperJSON from 'superjson'
 
 export default function EditTorneo({ currenttorneo, casinos, eventos }) {
+    currenttorneo = SuperJSON.parse(currenttorneo)
     const casino = currenttorneo?.casino
     const evento = currenttorneo?.evento
     const [torneo, setTorneo] = useState({
@@ -30,6 +32,17 @@ export default function EditTorneo({ currenttorneo, casinos, eventos }) {
         setTorneo({
             ...torneo,
             [event.target.name]: event.target.value,
+            slug: slugify(
+                torneo.date?.substring(0, 10) +
+                    ' ' +
+                    casinos.find((x) => x.id == torneo?.casinoId)?.name +
+                    ' ' +
+                    torneo.name,
+                {
+                    lower: true,
+                    remove: /[*+~.()\[\]'"!:@]/g,
+                }
+            ),
         })
     }
 
@@ -54,7 +67,6 @@ export default function EditTorneo({ currenttorneo, casinos, eventos }) {
         const data = {
             torneo: torneo,
         }
-
         const response = await fetch('/api/torneo/store', {
             method: 'POST',
             body: JSON.stringify(data),
@@ -159,8 +171,11 @@ export default function EditTorneo({ currenttorneo, casinos, eventos }) {
                             >
                                 <option value="">--</option>
                                 {eventos?.map((evento) => (
-                                    <option key={evento.id} value={evento.id}>
-                                        {evento.name}
+                                    <option
+                                        key={SuperJSON.parse(evento).id}
+                                        value={SuperJSON.parse(evento).id}
+                                    >
+                                        {SuperJSON.parse(evento).name}
                                     </option>
                                 ))}
                             </select>

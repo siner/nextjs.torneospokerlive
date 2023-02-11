@@ -1,10 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from 'next/image'
 import Link from 'next/link'
+import SuperJSON from 'superjson'
 import { getSimpleDate } from '../../lib/utils'
 
 export default function CardEvento(props) {
-    const { evento } = props
+    var evento = props.evento
+    evento = SuperJSON.parse(evento)
     let datestringfrom = getSimpleDate(evento.from)
     let datestringto = getSimpleDate(evento.to)
     const bg = evento.casino.color

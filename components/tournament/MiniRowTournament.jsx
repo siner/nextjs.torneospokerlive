@@ -1,7 +1,9 @@
+import SuperJSON from 'superjson'
 import { getTextColor } from '../../lib/utils'
 
 export default function MiniRowTournament(props) {
-    const { torneo } = props
+    var { torneo } = props
+    torneo = SuperJSON.parse(torneo)
     const backgroundColor = torneo.casino.color
     const textColor = getTextColor(backgroundColor)
     let datetorneo = new Date(torneo.date)

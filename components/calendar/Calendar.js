@@ -6,12 +6,13 @@ import buildCalendar from './build'
 import MiniRowTournament from '../tournament/MiniRowTournament'
 import { getDateText } from '../../lib/utils'
 import './styles.css'
+import SuperJSON from 'superjson'
 
 export default function Calendar(props) {
-    const { torneos, value } = props
-
+    var { torneos, value } = props
+    torneos = SuperJSON.parse(torneos)
     const [selectedDate, setSelectedDate] = useState(
-        value ? moment(value) : moment()
+        value ? moment(SuperJSON.parse(value)) : moment()
     )
 
     const [calendar, setCalendar] = useState([])
@@ -34,8 +35,8 @@ export default function Calendar(props) {
 
     function dayStyles(day) {
         if (beforeToday(day)) return 'bg-base-200'
-        if (isToday(day)) return 'bg-accent'
-        if (isSelected(day)) return 'bg-accent'
+        if (isToday(day)) return 'bg-warning'
+        if (isSelected(day)) return 'bg-base-300'
         return 'bg-base-200'
     }
 
@@ -76,7 +77,9 @@ export default function Calendar(props) {
                                         {torneos
                                             .filter(
                                                 (t) =>
-                                                    getDateText(t.date) ==
+                                                    getDateText(
+                                                        SuperJSON.parse(t).date
+                                                    ) ==
                                                     day.format('YYYY-MM-DD')
                                             )
                                             .map((torneo) => (
