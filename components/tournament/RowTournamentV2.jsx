@@ -94,7 +94,7 @@ export default function RowTournamentV2(props) {
                         </div>
                     )}
                     <div className="grow pl-1 mr-2 md:mr-5 p-2">
-                        <Link href={'/torneos/' + torneo.slug}>
+                        <a href={'/torneos/' + torneo.slug}>
                             <div className="font-medium text-sm md:text-base">
                                 {torneo.name}
                                 {isnew && (
@@ -103,11 +103,11 @@ export default function RowTournamentV2(props) {
                                     </span>
                                 )}
                             </div>
-                        </Link>
+                        </a>
                     </div>
 
                     <div className="pl-1 mr-2 md:mr-5 text-right p-2 w-40">
-                        <Link href={'/torneos/' + torneo.slug}>
+                        <a href={'/torneos/' + torneo.slug} prefetch={false}>
                             <div className="text-xs hidden md:block">
                                 {datestring} - {hour}
                             </div>
@@ -116,20 +116,20 @@ export default function RowTournamentV2(props) {
                                     <span>{torneo.price}€</span>
                                 )}
                             </div>
-                        </Link>
+                        </a>
                     </div>
 
                     <div className="pl-1 mr-2 md:mr-5 text-right p-2 hidden md:block w-20">
-                        <Link href={'/torneos/' + torneo.slug}>
+                        <a href={'/torneos/' + torneo.slug}>
                             <div className="text-xl font-bold">
                                 {parseInt(torneo.price) > 0 && (
                                     <span>{torneo.price}€</span>
                                 )}
                             </div>
-                        </Link>
+                        </a>
                     </div>
 
-                    <Link
+                    <a
                         href={'/torneos/' + torneo.slug}
                         className="flex justify-end w-4 md:w-8 text-right"
                     >
@@ -143,7 +143,7 @@ export default function RowTournamentV2(props) {
                         >
                             <path d="M1363 877l-742 742q-19 19-45 19t-45-19l-166-166q-19-19-19-45t19-45l531-531-531-531q-19-19-19-45t19-45l166-166q19-19 45-19t45 19l742 742q19 19 19 45t-19 45z"></path>
                         </svg>
-                    </Link>
+                    </a>
                 </div>
             </div>
         </div>
