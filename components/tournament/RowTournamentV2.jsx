@@ -107,7 +107,7 @@ export default function RowTournamentV2(props) {
                     </div>
 
                     <div className="pl-1 mr-2 md:mr-5 text-right p-2 w-40">
-                        <a href={'/torneos/' + torneo.slug} prefetch={false}>
+                        <a href={'/torneos/' + torneo.slug}>
                             <div className="text-xs hidden md:block">
                                 {datestring} - {hour}
                             </div>

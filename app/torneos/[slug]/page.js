@@ -8,7 +8,7 @@ import { getTextColor, formatDate } from '../../../lib/utils'
 import {
     getCasinoById,
     getEventById,
-    getNextTournaments,
+    getTodayTournaments,
     getTournament,
 } from '../../../lib/prisma'
 import Link from 'next/link'
@@ -90,7 +90,7 @@ export default async function Page({ params }) {
 }
 
 export async function generateStaticParams() {
-    const tournaments = await getNextTournaments()
+    const tournaments = await getTodayTournaments()
 
     return tournaments.map((tournament) => ({
         slug: SuperJSON.parse(tournament).slug,

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { localeDateString, getTextColor } from '../../lib/utils'
 
 export default function InfoTournament(props) {
@@ -16,10 +17,12 @@ export default function InfoTournament(props) {
             <div className="flex gap-10 items-center">
                 <div className="casino">
                     <a href={'/casinos/' + torneo.casino.slug}>
-                        <img
-                            src={torneo.casinos.logo}
-                            title={torneo.casinos.name}
-                            width="80"
+                        <Image
+                            className="mx-auto"
+                            src={`https://wsrv.nl/?url=${torneo.casino.logo}&w=80&h=80&fit=contain`}
+                            width={80}
+                            height={80}
+                            alt={torneo.casino.name}
                         />
                     </a>
                 </div>

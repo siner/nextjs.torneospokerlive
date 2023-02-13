@@ -36,7 +36,7 @@ const nextConfig = {
         ]
     },
 
-    reactStrictMode: true,
+    reactStrictMode: false,
     experimental: {
         appDir: true,
         swcPlugins: [['next-superjson-plugin', {}]],

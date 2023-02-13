@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { formatDate, getMobileDate, getTextColor } from '../../lib/utils'
 
 export default function RowTournament(props) {
@@ -31,10 +32,12 @@ export default function RowTournament(props) {
                 {casino && (
                     <div className="casino hidden md:inline text-xs w-2/12 md:w-1/12 ml-2 mb-2">
                         <a href={'/casinos/' + torneo.casino.slug}>
-                            <img
-                                className="mr-4 w-24"
-                                src={torneo.casino.logo}
+                            <Image
+                                src={`https://wsrv.nl/?url=${torneo.casino.logo}&w=100&h=40&fit=contain`}
+                                width={100}
+                                height={40}
                                 alt={'Logo ' + torneo.casino.name}
+                                className="mx-auto"
                             />
                         </a>
                     </div>
@@ -43,10 +46,12 @@ export default function RowTournament(props) {
                 <div className="name w-8/12 flex items-center text-sm md:text-lg">
                     {event && torneo.evento && (
                         <a href={'/eventos/' + torneo.evento.slug}>
-                            <img
-                                className="mr-4 w-12 mb-1"
-                                src={torneo.evento.tour.logo}
+                            <Image
+                                src={`https://wsrv.nl/?url=${torneo.evento.tour.logo}&w=100&h=100&fit=contain`}
+                                width={100}
+                                height={100}
                                 alt={'Icono ' + torneo.evento.name}
+                                className="mx-auto"
                             />
                         </a>
                     )}
