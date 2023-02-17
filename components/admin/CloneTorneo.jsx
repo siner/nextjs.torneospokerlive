@@ -3,6 +3,7 @@
 import Spinner from '../elements/Spinner'
 import { useState } from 'react'
 import slugify from 'slugify'
+import SuperJSON from 'superjson'
 
 export default function EditTorneo({ currenttorneo, casinos, eventos }) {
     const casino = currenttorneo?.casino
@@ -140,8 +141,11 @@ export default function EditTorneo({ currenttorneo, casinos, eventos }) {
                             >
                                 <option value="">--</option>
                                 {eventos?.map((evento) => (
-                                    <option key={evento.id} value={evento.id}>
-                                        {evento.name}
+                                    <option
+                                        key={SuperJSON.parse(evento).id}
+                                        value={SuperJSON.parse(evento).id}
+                                    >
+                                        {SuperJSON.parse(evento).name}
                                     </option>
                                 ))}
                             </select>
