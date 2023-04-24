@@ -2,5 +2,4 @@
 module.exports = {
     siteUrl: 'https://torneospokerlive.com',
     generateRobotsTxt: true,
-    exclude: ['/admin/*'],
 }
