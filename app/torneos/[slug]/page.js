@@ -35,6 +35,10 @@ export default async function Page({ params }) {
     const schema = {
         '@context': 'https://schema.org',
         '@type': 'Event',
+        location: {
+            '@type': 'Place',
+            name: casino.name,
+        },
         name: torneo.name,
         description:
             'Torneo de poker ' + torneo.name + ' en el casino ' + casino.name,

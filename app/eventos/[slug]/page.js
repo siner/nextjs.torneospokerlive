@@ -30,6 +30,10 @@ export default async function Page({ params }) {
         '@context': 'https://schema.org',
         '@type': 'Event',
         name: evento.name,
+        location: {
+            '@type': 'Place',
+            name: evento.casino.name,
+        },
         description:
             'Evento de poker ' +
             evento.name +
