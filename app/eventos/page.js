@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import SuperJSON from 'superjson'
 import CardEvento from '../../components/evento/CardEvento'
 import RowEventoV2 from '../../components/evento/RowEventoV2'
 import { getCurrentEvents, getNextEvents } from '../../lib/prisma'
@@ -18,10 +17,7 @@ export default async function Page() {
                     </h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         {currentevents.map((event) => (
-                            <CardEvento
-                                key={SuperJSON.parse(event).id}
-                                evento={event}
-                            />
+                            <CardEvento key={event.id} evento={event} />
                         ))}
                     </div>
                 </div>
@@ -35,7 +31,7 @@ export default async function Page() {
                     <div className="space-y-0.5">
                         {nextevents.map((event) => (
                             <RowEventoV2
-                                key={SuperJSON.parse(event).id}
+                                key={event.id}
                                 evento={event}
                                 showtour={true}
                             />

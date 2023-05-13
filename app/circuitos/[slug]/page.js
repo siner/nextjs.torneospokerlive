@@ -5,7 +5,6 @@ import RowEventoV2 from '../../../components/evento/RowEventoV2'
 import { notFound } from 'next/navigation'
 
 import { getTour, getAllEventsByTour, getAllTours } from '../../../lib/prisma'
-import SuperJSON from 'superjson'
 
 export default async function Page({ params }) {
     const tour = await getTour(params.slug)
@@ -28,7 +27,7 @@ export default async function Page({ params }) {
                             <div className="space-y-1 md:space-y-0.5">
                                 {events.map((event) => (
                                     <RowEventoV2
-                                        key={SuperJSON.parse(event).id}
+                                        key={event.id}
                                         evento={event}
                                         showtour={false}
                                     />

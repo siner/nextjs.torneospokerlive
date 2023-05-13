@@ -2,11 +2,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { getSimpleDate, getTextColor } from '../../lib/utils'
-import SuperJSON from 'superjson'
 
 export default function RowEventoV2(props) {
     var { evento, showtour } = props
-    evento = SuperJSON.parse(evento)
+    evento = evento
 
     let datestringfrom = getSimpleDate(evento.from)
     let datestringto = getSimpleDate(evento.to)

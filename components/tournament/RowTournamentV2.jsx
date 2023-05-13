@@ -1,12 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from 'next/image'
 import Link from 'next/link'
-import SuperJSON from 'superjson'
 import { formatDate, getMobileDate, getTextColor } from '../../lib/utils'
 
 export default function RowTournamentV2(props) {
     var { torneo, casino, event } = props
-    torneo = SuperJSON.parse(torneo)
 
     const backgroundColor = torneo.casino.color
     const textColor = getTextColor(backgroundColor)

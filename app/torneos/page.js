@@ -1,11 +1,10 @@
-import SuperJSON from 'superjson'
 import RowTournamentV2 from '../../components/tournament/RowTournamentV2'
 
-import { getNextTournaments } from '../../lib/prisma'
+import { getNextTournaments2 } from '../../lib/prisma'
 export const revalidate = 60
 
 export default async function Page() {
-    const torneos = await getNextTournaments()
+    const torneos = await getNextTournaments2()
 
     return (
         <main className="mx-5">
@@ -13,7 +12,7 @@ export default async function Page() {
             <div className="space-y-0.5">
                 {torneos?.map((torneo) => (
                     <RowTournamentV2
-                        key={SuperJSON.parse(torneo).id}
+                        key={torneo.id}
                         torneo={torneo}
                         casino="true"
                         event="true"

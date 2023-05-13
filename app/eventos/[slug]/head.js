@@ -1,10 +1,8 @@
 import DefaultTags from '../../defaultTags'
 import { getEvent } from '../../../lib/prisma'
-import SuperJSON from 'superjson'
 
 export default async function Head({ params }) {
     var evento = await getEvent(params.slug)
-    evento = SuperJSON.parse(evento)
     var casino = ''
     if (evento.casino) {
         casino = evento.casino.name

@@ -11,14 +11,11 @@ import {
     getTodayTournaments,
     getTournament,
 } from '../../../lib/prisma'
-import Link from 'next/link'
-import SuperJSON from 'superjson'
 
 export default async function Page({ params }) {
     const env = process.env.NODE_ENV
 
     var torneo = await getTournament(params.slug)
-    torneo = SuperJSON.parse(torneo)
 
     if (!torneo.id) {
         notFound()
@@ -90,6 +87,6 @@ export async function generateStaticParams() {
     const tournaments = await getTodayTournaments()
 
     return tournaments.map((tournament) => ({
-        slug: SuperJSON.parse(tournament).slug,
+        slug: tournament.slug,
     }))
 }
