@@ -31,8 +31,21 @@ export default async function Page({ params }) {
     const textColor = getTextColor(backgroundColor)
     let { datestring, hour } = formatDate(torneo.date)
 
+    /** @type {import('schema-dts').Event} */
+    const schema = {
+        '@context': 'https://schema.org',
+        '@type': 'Event',
+        name: torneo.name,
+        description:
+            'Torneo de poker ' + torneo.name + ' en el casino ' + casino.name,
+        startDate: torneo.date,
+    }
     return (
         <main className="md:flex gap-4 space-y-4 md:space-y-0 mx-5 mt-10">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+            />
             <div className="md:w-8/12">
                 <div
                     className="text-2xl font-bold flex justify-between items-center p-5"

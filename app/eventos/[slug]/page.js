@@ -25,8 +25,26 @@ export default async function Page({ params }) {
     }
     var torneos = await getAllTournamentsByEvent(evento.id)
 
+    /** @type {import('schema-dts').Event} */
+    const schema = {
+        '@context': 'https://schema.org',
+        '@type': 'Event',
+        name: evento.name,
+        description:
+            'Evento de poker ' +
+            evento.name +
+            ' en el casino ' +
+            evento.casino.name,
+        startDate: evento.from,
+        endDate: evento.to,
+    }
+
     return (
         <main className="mx-5">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+            />
             <div className="md:flex gap-8">
                 <div className="w-100 md:w-4/12 mt-6 space-y-4">
                     <CardEvento evento={evento_json} />
