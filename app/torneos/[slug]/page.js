@@ -73,26 +73,6 @@ export default async function Page({ params }) {
                         </div>
                     )}
                 </div>
-                {env == 'development' && (
-                    <div className="flex space-x-2 justify-end">
-                        <div className="text-right mt-4">
-                            <Link
-                                className="btn warning"
-                                href={`/admin/torneo/${torneo.slug}`}
-                            >
-                                Editar
-                            </Link>
-                        </div>
-                        <div className="text-right mt-4">
-                            <Link
-                                className="btn warning"
-                                href={`/admin/torneo/${torneo.slug}/clonar`}
-                            >
-                                Clonar
-                            </Link>
-                        </div>
-                    </div>
-                )}
             </div>
             <div className="md:w-4/12 space-y-4">
                 {event && <CardEvento evento={event} />}

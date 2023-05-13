@@ -48,27 +48,7 @@ export default async function Page({ params }) {
             <div className="md:flex gap-8">
                 <div className="w-100 md:w-4/12 mt-6 space-y-4">
                     <CardEvento evento={evento_json} />
-                    {env == 'development' && (
-                        <div className="text-right mt-4">
-                            <Link
-                                className="btn warning"
-                                href={`/admin/evento/${evento.slug}`}
-                            >
-                                Editar
-                            </Link>
-                        </div>
-                    )}
                     <CardCasino casino={evento.casino} />
-                    {env == 'development' && (
-                        <div className="text-right mt-4">
-                            <Link
-                                className="btn warning"
-                                href={`/admin/casino/${evento.casino.slug}`}
-                            >
-                                Editar
-                            </Link>
-                        </div>
-                    )}
                 </div>
                 <div className="md:w-8/12">
                     {torneos.length > 0 && (

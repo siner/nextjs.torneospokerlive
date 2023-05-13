@@ -32,16 +32,6 @@ export default async function Page({ params }) {
             <div className="md:flex gap-4">
                 <div className="w-100 md:w-4/12 mt-6">
                     <CardCasino casino={casino} />
-                    {env == 'development' && (
-                        <div className="text-right mt-4">
-                            <Link
-                                className="btn warning"
-                                href={`/admin/casino/${casino.slug}`}
-                            >
-                                Editar
-                            </Link>
-                        </div>
-                    )}
                     <div className="mt-4">
                         <div className="p-2 prose">
                             <ReactMarkdown>{casino.content}</ReactMarkdown>
@@ -49,24 +39,6 @@ export default async function Page({ params }) {
                     </div>
                 </div>
                 <div className="md:w-8/12">
-                    {env == 'development' && pasttorneos.length > 0 && (
-                        <div>
-                            <h2 className="text-4xl font-bold py-4">
-                                Torneos del último mes en {casino.name}
-                            </h2>
-
-                            <div className="space-y-0.5">
-                                {pasttorneos.map((torneo) => (
-                                    <RowTournamentV2
-                                        key={SuperJSON.parse(torneo).id}
-                                        torneo={torneo}
-                                        event={true}
-                                        casino={false}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    )}
                     {torneos.length > 0 && (
                         <div>
                             <h2 className="text-4xl font-bold py-4">
