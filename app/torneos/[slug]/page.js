@@ -32,13 +32,28 @@ export default async function Page({ params }) {
     const schema = {
         '@context': 'https://schema.org',
         '@type': 'Event',
+        eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+        eventStatus: 'https://schema.org/EventScheduled',
         location: {
             '@type': 'Place',
             name: casino.name,
+            address: {
+                '@type': 'PostalAddress',
+                streetAddress: '',
+                addressLocality: '',
+                postalCode: '',
+                addressRegion: '',
+                addressCountry: '',
+            },
         },
         name: torneo.name,
         description:
             'Torneo de poker ' + torneo.name + ' en el casino ' + casino.name,
+        organizer: {
+            '@type': 'Organization',
+            name: casino.name,
+        },
+        image: [casino.logo],
         startDate: torneo.date,
     }
     return (

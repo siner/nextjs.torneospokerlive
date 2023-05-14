@@ -25,10 +25,25 @@ export default async function Page({ params }) {
         '@context': 'https://schema.org',
         '@type': 'Event',
         name: evento.name,
+        eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+        eventStatus: 'https://schema.org/EventScheduled',
         location: {
             '@type': 'Place',
             name: evento.casino.name,
+            address: {
+                '@type': 'PostalAddress',
+                streetAddress: '',
+                addressLocality: '',
+                postalCode: '',
+                addressRegion: '',
+                addressCountry: '',
+            },
         },
+        organizer: {
+            '@type': 'Organization',
+            name: evento.tour.name,
+        },
+        image: [evento.tour.logo],
         description:
             'Evento de poker ' +
             evento.name +
