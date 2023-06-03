@@ -1,4 +1,4 @@
-import { Skeleton } from '../../components/ui/skeleton'
+import { Skeleton } from '../../../components/ui/skeleton'
 
 export default async function Loading() {
     const events = [1, 2]
