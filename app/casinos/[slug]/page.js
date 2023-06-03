@@ -1,6 +1,10 @@
 import CardCasino from '../../../components/casino/CardCasino'
 import Calendar from '../../../components/calendar/Calendar'
-import { getCasino, getNextTournamentsByCasino } from '../../../lib/prisma'
+import {
+    getCasino,
+    getNextTournamentsByCasino,
+    getAllCasinos,
+} from '../../../lib/prisma'
 import RowTournamentV2 from '../../../components/tournament/RowTournamentV2'
 import ReactMarkdown from 'react-markdown'
 import { notFound } from 'next/navigation'
@@ -52,4 +56,12 @@ export default async function Page({ params }) {
             </div>
         </main>
     )
+}
+
+export async function generateStaticParams() {
+    const casinos = await getAllCasinos()
+
+    return casinos.map((casino) => ({
+        slug: casino.slug,
+    }))
 }

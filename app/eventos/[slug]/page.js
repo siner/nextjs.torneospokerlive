@@ -90,3 +90,10 @@ export default async function Page({ params }) {
         </main>
     )
 }
+export async function generateStaticParams() {
+    const events = await getAllEvents()
+
+    return events.map((event) => ({
+        slug: event.slug,
+    }))
+}

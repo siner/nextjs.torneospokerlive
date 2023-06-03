@@ -14,7 +14,6 @@
     "@notionhq/client": "^2.2.3",
     "@prisma/client": "^4.9.0",
     "@radix-ui/react-slot": "^1.0.1",
-    "@vercel/analytics": "^0.1.8",
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
     "daisyui": "^2.46.1",

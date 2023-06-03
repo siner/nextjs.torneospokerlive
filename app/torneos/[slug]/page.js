@@ -3,7 +3,12 @@ import CardCasino from '../../../components/casino/CardCasino'
 import CardEvento from '../../../components/evento/CardEvento'
 import { notFound } from 'next/navigation'
 import { getTextColor, formatDate } from '../../../lib/utils'
-import { getCasinoById, getEventById, getTournament } from '../../../lib/prisma'
+import {
+    getCasinoById,
+    getEventById,
+    getTournament,
+    getNextTournaments,
+} from '../../../lib/prisma'
 
 export default async function Page({ params }) {
     var torneo = await getTournament(params.slug)
@@ -87,4 +92,11 @@ export default async function Page({ params }) {
             </div>
         </main>
     )
+}
+export async function generateStaticParams() {
+    const tournaments = await getNextTournaments()
+
+    return tournaments.map((tournament) => ({
+        slug: tournament.slug,
+    }))
 }

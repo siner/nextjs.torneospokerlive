@@ -2,7 +2,7 @@ import CardTour from '../../../components/tour/CardTour'
 import RowEventoV2 from '../../../components/evento/RowEventoV2'
 import { notFound } from 'next/navigation'
 
-import { getTour, getAllEventsByTour } from '../../../lib/prisma'
+import { getTour, getAllEventsByTour, getAllTours } from '../../../lib/prisma'
 
 export default async function Page({ params }) {
     const tour = await getTour(params.slug)
@@ -37,4 +37,12 @@ export default async function Page({ params }) {
             </div>
         </main>
     )
+}
+
+export async function generateStaticParams() {
+    const circuitos = await getAllTours()
+
+    return circuitos.map((circuito) => ({
+        slug: circuito.slug,
+    }))
 }
