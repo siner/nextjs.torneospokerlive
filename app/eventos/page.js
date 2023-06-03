@@ -2,7 +2,6 @@ import Link from 'next/link'
 import CardEvento from '../../components/evento/CardEvento'
 import RowEventoV2 from '../../components/evento/RowEventoV2'
 import { getCurrentEvents, getNextEvents } from '../../lib/prisma'
-export const revalidate = 60
 
 export default async function Page() {
     const currentevents = await getCurrentEvents()

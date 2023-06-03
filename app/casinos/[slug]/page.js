@@ -1,29 +1,20 @@
-export const revalidate = 60
-
 import CardCasino from '../../../components/casino/CardCasino'
 import Calendar from '../../../components/calendar/Calendar'
 import {
-    getAllCasinos,
     getCasino,
     getNextTournamentsByCasino,
-    getPastTournamentsByCasino,
+    getAllCasinos,
 } from '../../../lib/prisma'
 import RowTournamentV2 from '../../../components/tournament/RowTournamentV2'
 import ReactMarkdown from 'react-markdown'
 import { notFound } from 'next/navigation'
 
 export default async function Page({ params }) {
-    const env = process.env.NODE_ENV
-
     const casino = await getCasino(params.slug)
     if (!casino.id) {
         notFound()
     }
     const torneos = await getNextTournamentsByCasino(casino.id)
-    var pasttorneos = []
-    if (env == 'development') {
-        pasttorneos = await getPastTournamentsByCasino(casino.id)
-    }
 
     return (
         <main className="mx-5">

@@ -1,5 +1,3 @@
-export const revalidate = 600
-
 import CardTour from '../../../components/tour/CardTour'
 import RowEventoV2 from '../../../components/evento/RowEventoV2'
 import { notFound } from 'next/navigation'
