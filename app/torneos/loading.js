@@ -18,13 +18,13 @@ export default async function Loading() {
                             <div className="flex flex-row w-full">
                                 <div className="flex items-center justify-between w-full">
                                     <div className="flex items-center justify-between">
-                                        <Skeleton className="w-20 h-10 rounded-sm bg-slate-200 mr-2" />
-                                        <Skeleton className="w-10 h-10 rounded-sm bg-slate-200 mr-5" />
-                                        <Skeleton className="w-96 h-4 rounded-sm bg-slate-200 mr-5" />
+                                        <Skeleton className="w-10 md:w-20 h-10 rounded-sm bg-slate-200 mr-2" />
+                                        <Skeleton className="w-5 md:w-10 h-10 rounded-sm bg-slate-200 mr-5" />
+                                        <Skeleton className="w-24 md:w-96 h-4 rounded-sm bg-slate-200 mr-5" />
                                     </div>
                                     <div className="flex items-center justify-between">
-                                        <Skeleton className="w-20 h-4 rounded-sm bg-slate-200 mr-5" />
-                                        <Skeleton className="w-20 h-6 rounded-sm bg-slate-200 mr-2" />
+                                        <Skeleton className="w-5 md:w-20 h-4 rounded-sm bg-slate-200 mr-5" />
+                                        <Skeleton className="w-5 md:w-20 h-6 rounded-sm bg-slate-200 mr-2" />
                                     </div>
                                 </div>
                             </div>
