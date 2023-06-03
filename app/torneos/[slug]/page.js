@@ -1,20 +1,11 @@
-export const revalidate = 60
-
 import ReactMarkdown from 'react-markdown'
 import CardCasino from '../../../components/casino/CardCasino'
 import CardEvento from '../../../components/evento/CardEvento'
 import { notFound } from 'next/navigation'
 import { getTextColor, formatDate } from '../../../lib/utils'
-import {
-    getCasinoById,
-    getEventById,
-    getTodayTournaments,
-    getTournament,
-} from '../../../lib/prisma'
+import { getCasinoById, getEventById, getTournament } from '../../../lib/prisma'
 
 export default async function Page({ params }) {
-    const env = process.env.NODE_ENV
-
     var torneo = await getTournament(params.slug)
 
     if (!torneo.id) {
@@ -96,12 +87,4 @@ export default async function Page({ params }) {
             </div>
         </main>
     )
-}
-
-export async function generateStaticParams() {
-    const tournaments = await getTodayTournaments()
-
-    return tournaments.map((tournament) => ({
-        slug: tournament.slug,
-    }))
 }

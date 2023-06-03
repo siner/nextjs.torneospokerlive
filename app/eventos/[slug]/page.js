@@ -1,5 +1,3 @@
-export const revalidate = 60
-
 import CardCasino from '../../../components/casino/CardCasino'
 import CardEvento from '../../../components/evento/CardEvento'
 import Calendar from '../../../components/calendar/Calendar'
@@ -91,12 +89,4 @@ export default async function Page({ params }) {
             </div>
         </main>
     )
-}
-
-export async function generateStaticParams() {
-    const events = await getAllEvents()
-
-    return events.map((event) => ({
-        slug: event.slug,
-    }))
 }
