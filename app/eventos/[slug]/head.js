@@ -4,15 +4,20 @@ import { getSimpleDate } from '../../../lib/utils'
 
 export default async function Head({ params }) {
     var evento = await getEvent(params.slug)
-    let datestringfrom = getSimpleDate(evento.from)
-    let datestringto = getSimpleDate(evento.to)
+
+    var description = ''
 
     var casino = ''
     if (evento.casino) {
         casino = evento.casino.name
     }
     var title = 'Evento no encontrado - Torneos Poker Live'
-    var description = `Evento de poker del circuito ${evento.tour.name} en el ${casino} del ${datestringfrom} al ${datestringto}`
+    if (evento.id) {
+        let datestringfrom = getSimpleDate(evento.from)
+        let datestringto = getSimpleDate(evento.to)
+        description = `Evento de poker del circuito ${evento.tour.name} en el ${casino} del ${datestringfrom} al ${datestringto}`
+    }
+
     if (evento.name) title = `${evento.name} ${casino} - Torneos Poker Live`
 
     return (
