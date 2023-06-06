@@ -8,7 +8,7 @@ import {
 import RowTournamentV2 from '../../../components/tournament/RowTournamentV2'
 import ReactMarkdown from 'react-markdown'
 import { notFound } from 'next/navigation'
-export const revalidate = 0
+export const revalidate = 60
 
 export default async function Page({ params }) {
     const casino = await getCasino(params.slug)

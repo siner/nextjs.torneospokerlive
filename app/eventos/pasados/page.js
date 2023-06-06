@@ -1,6 +1,6 @@
 import RowEventoV2 from '../../../components/evento/RowEventoV2'
 import { getPastEvents } from '../../../lib/prisma'
-export const revalidate = 0
+export const revalidate = 60
 
 export default async function Page() {
     const pastevents = await getPastEvents()

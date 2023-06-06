@@ -3,7 +3,7 @@ import RowEventoV2 from '../../../components/evento/RowEventoV2'
 import { notFound } from 'next/navigation'
 
 import { getTour, getAllEventsByTour, getAllTours } from '../../../lib/prisma'
-export const revalidate = 0
+export const revalidate = 60
 
 export default async function Page({ params }) {
     const tour = await getTour(params.slug)

@@ -3,7 +3,7 @@ import CardEvento from '../../../components/evento/CardEvento'
 import Calendar from '../../../components/calendar/Calendar'
 import RowTournamentV2 from '../../../components/tournament/RowTournamentV2'
 import { notFound } from 'next/navigation'
-export const revalidate = 0
+export const revalidate = 60
 
 import {
     getEvent,

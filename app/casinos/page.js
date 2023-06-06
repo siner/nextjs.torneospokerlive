@@ -1,6 +1,6 @@
 import CardCasino from '../../components/casino/CardCasino'
 import { getAllCasinos } from '../../lib/prisma'
-export const revalidate = 0
+export const revalidate = 60
 
 export default async function Page() {
     const casinos = await getAllCasinos()

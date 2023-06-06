@@ -9,7 +9,7 @@ import {
     getTournament,
     getNextTournaments,
 } from '../../../lib/prisma'
-export const revalidate = 0
+export const revalidate = 60
 
 export default async function Page({ params }) {
     var torneo = await getTournament(params.slug)
