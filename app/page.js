@@ -8,6 +8,7 @@ import {
 } from '../lib/prisma'
 import Link from 'next/link'
 import RowEventoV2 from '../components/evento/RowEventoV2'
+export const revalidate = 0
 
 export default async function Page() {
     const torneos = await getTodayTournaments()

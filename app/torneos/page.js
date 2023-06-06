@@ -1,6 +1,7 @@
 import RowTournamentV2 from '../../components/tournament/RowTournamentV2'
 
 import { getNextTournaments2 } from '../../lib/prisma'
+export const revalidate = 0
 
 export default async function Page() {
     const torneos = await getNextTournaments2()

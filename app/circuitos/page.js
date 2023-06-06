@@ -1,5 +1,6 @@
 import CardTour from '../../components/tour/CardTour'
 import { getAllTours } from '../../lib/prisma'
+export const revalidate = 0
 
 export default async function Page() {
     const tours = await getAllTours()
