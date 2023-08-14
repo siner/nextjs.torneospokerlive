@@ -73,38 +73,37 @@ export default function RowTournamentV2(props) {
                             </Link>
                         </div>
                     )}
-                    {event && (
-                        <div className="flex flex-col items-center justify-center w-14 h-10 mr-4 p-2">
-                            {torneo.evento && (
-                                <Link
-                                    href={'/eventos/' + torneo.evento.slug}
-                                    className="relative block"
-                                >
-                                    <Image
-                                        src={`https://wsrv.nl/?url=${torneo.evento.tour.logo}&w=100&h=100&fit=contain`}
-                                        width={100}
-                                        height={100}
-                                        alt={'Icono ' + torneo.evento.name}
-                                        className="mx-auto"
-                                    />
-                                </Link>
-                            )}
-                        </div>
-                    )}
+
                     <div className="grow pl-1 mr-2 md:mr-5 p-2">
                         <a href={'/torneos/' + torneo.slug}>
-                            <div className="font-medium text-sm md:text-base">
-                                {torneo.name}
-                                {isnew && (
-                                    <span className="badge badge-warning warning-content ml-2">
-                                        New
-                                    </span>
+                            <div className="flex space-x-2 items-center content-center font-medium text-sm md:text-base">
+                                {event && torneo.evento && (
+                                    <div className="h-8 w-8">
+                                        <Link
+                                            href={
+                                                '/eventos/' + torneo.evento.slug
+                                            }
+                                            className="relative block"
+                                        >
+                                            <Image
+                                                src={`https://wsrv.nl/?url=${torneo.evento.tour.logo}&w=100&h=100&fit=contain`}
+                                                width={30}
+                                                height={30}
+                                                alt={
+                                                    'Icono ' +
+                                                    torneo.evento.name
+                                                }
+                                                className=""
+                                            />
+                                        </Link>
+                                    </div>
                                 )}
+                                <span>{torneo.name}</span>
                             </div>
                         </a>
                     </div>
 
-                    <div className="pl-1 mr-2 md:mr-5 text-right p-2 w-40">
+                    <div className="pl-1 mr-2 md:mr-5 text-right p-2 w-20 md:w-40">
                         <a href={'/torneos/' + torneo.slug}>
                             <div className="text-xs hidden md:block">
                                 {datestring} - {hour}
