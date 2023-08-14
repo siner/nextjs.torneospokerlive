@@ -78,25 +78,18 @@ export default function RowTournamentV2(props) {
                         <a href={'/torneos/' + torneo.slug}>
                             <div className="flex space-x-2 items-center content-center font-medium text-sm md:text-base">
                                 {event && torneo.evento && (
-                                    <div className="h-8 w-8">
-                                        <Link
-                                            href={
-                                                '/eventos/' + torneo.evento.slug
-                                            }
-                                            className="relative block"
-                                        >
-                                            <Image
-                                                src={`https://wsrv.nl/?url=${torneo.evento.tour.logo}&w=100&h=100&fit=contain`}
-                                                width={30}
-                                                height={30}
-                                                alt={
-                                                    'Icono ' +
-                                                    torneo.evento.name
-                                                }
-                                                className=""
-                                            />
-                                        </Link>
-                                    </div>
+                                    <Link
+                                        href={'/eventos/' + torneo.evento.slug}
+                                        className="relative block"
+                                    >
+                                        <Image
+                                            src={`https://wsrv.nl/?url=${torneo.evento.tour.logo}&w=100&h=100&fit=contain`}
+                                            width={30}
+                                            height={30}
+                                            alt={'Icono ' + torneo.evento.name}
+                                            className="w-8 mr-2"
+                                        />
+                                    </Link>
                                 )}
                                 <span>{torneo.name}</span>
                             </div>
