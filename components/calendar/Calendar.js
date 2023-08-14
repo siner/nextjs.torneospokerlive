@@ -8,7 +8,7 @@ import { getDateText } from '../../lib/utils'
 import './styles.css'
 
 export default function Calendar(props) {
-    var { torneos, value } = props
+    var { torneos, value, casino, event } = props
     const [selectedDate, setSelectedDate] = useState(
         value ? moment(value) : moment()
     )
@@ -82,6 +82,8 @@ export default function Calendar(props) {
                                                 <MiniRowTournament
                                                     key={torneo.id}
                                                     torneo={torneo}
+                                                    casino={casino}
+                                                    event={event}
                                                 />
                                             ))}
                                     </div>

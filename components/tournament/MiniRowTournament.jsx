@@ -1,7 +1,7 @@
 import { getTextColor } from '../../lib/utils'
-
+import Image from 'next/image'
 export default function MiniRowTournament(props) {
-    var { torneo } = props
+    var { torneo, casino, event } = props
     const backgroundColor = torneo.casino.color
     const textColor = getTextColor(backgroundColor)
     let datetorneo = new Date(torneo.date)
@@ -20,7 +20,30 @@ export default function MiniRowTournament(props) {
         >
             <div className="w-full flex gap-2 justify-between p-1 items-start">
                 <div className="name w-full text-left text-xs">
-                    <a href={'/torneos/' + torneo.slug}>{torneo.name}</a>
+                    <a
+                        href={'/torneos/' + torneo.slug}
+                        className="flex justify-start items-center content-center"
+                    >
+                        {casino && (
+                            <Image
+                                src={`https://wsrv.nl/?url=${torneo.casino.logo}&w=100&h=40&fit=contain`}
+                                width={20}
+                                height={8}
+                                alt={'Logo ' + torneo.casino.name}
+                                className="mr-2 w-5 h-3"
+                            />
+                        )}
+                        {event && torneo.evento && (
+                            <Image
+                                src={`https://wsrv.nl/?url=${torneo.evento.tour.logo}&w=100&h=100&fit=contain`}
+                                width={20}
+                                height={20}
+                                alt={'Icono ' + torneo.evento.name}
+                                className="mr-2 h-5"
+                            />
+                        )}
+                        {torneo.name}
+                    </a>
                 </div>
             </div>
         </div>
