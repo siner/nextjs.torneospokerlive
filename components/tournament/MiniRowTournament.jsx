@@ -1,4 +1,5 @@
-import { getTextColor } from '../../lib/utils'
+import { formatDate, getTextColor } from '../../lib/utils'
+
 import Image from 'next/image'
 export default function MiniRowTournament(props) {
     var { torneo, casino, event } = props
