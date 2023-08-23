@@ -5,8 +5,7 @@ export default function MiniRowTournament(props) {
     const backgroundColor = torneo.casino.color
     const textColor = getTextColor(backgroundColor)
     let datetorneo = new Date(torneo.date)
-    const hour = datetorneo.getHours()
-    const minutes = datetorneo.getMinutes()
+    let { datestring, hour } = formatDate(datetorneo)
     let today = new Date()
     today.setHours(0, 0, 0, 0)
     let opacity = datetorneo < today ? '0.7' : '1'
@@ -48,7 +47,7 @@ export default function MiniRowTournament(props) {
                             <span>{torneo.name}</span>
                         </div>
                         <span className="text-right">
-                            {hour}:{String(minutes).padStart(2, '0')}
+                            {hour}
                         </span>
                     </a>
                 </div>
