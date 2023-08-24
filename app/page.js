@@ -16,7 +16,7 @@ export default async function Page() {
     const nextevents = await getNextEvents()
 
     return (
-        <main className="mx-5">
+        <main className="mx-10">
             {currentevents.length > 0 && (
                 <div>
                     <h2 className="text-2xl font-bold py-4">

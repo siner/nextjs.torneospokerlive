@@ -10,8 +10,9 @@ export default function RowTournamentV2(props) {
     const textColor = getTextColor(backgroundColor)
     let date = torneo.date
     if (torneo.hour) date = torneo.date + ' ' + torneo.hour
-    let { datestring, hour } = formatDate(date)
+
     let datetorneo = new Date(torneo.date)
+    let { datestring, hour } = formatDate(datetorneo)
     let today = new Date()
     today.setHours(0, 0, 0, 0)
     let opacity = datetorneo < today ? '0.6' : '1'
@@ -59,18 +60,23 @@ export default function RowTournamentV2(props) {
                                 backgroundColor: backgroundColor,
                             }}
                         >
-                            <Link
-                                href={'/casinos/' + torneo.casino.slug}
-                                className="relative block"
+                            <div
+                                className="tooltip"
+                                data-tip={torneo.casino.name}
                             >
-                                <Image
-                                    src={`https://wsrv.nl/?url=${torneo.casino.logo}&w=100&h=40&fit=contain`}
-                                    width={100}
-                                    height={40}
-                                    alt={'Logo ' + torneo.casino.name}
-                                    className="mx-auto"
-                                />
-                            </Link>
+                                <Link
+                                    href={'/casinos/' + torneo.casino.slug}
+                                    className="relative block"
+                                >
+                                    <Image
+                                        src={`https://wsrv.nl/?url=${torneo.casino.logo}&w=100&h=40&fit=contain`}
+                                        width={100}
+                                        height={40}
+                                        alt={'Logo ' + torneo.casino.name}
+                                        className="mx-auto"
+                                    />
+                                </Link>
+                            </div>
                         </div>
                     )}
 
@@ -78,18 +84,28 @@ export default function RowTournamentV2(props) {
                         <a href={'/torneos/' + torneo.slug}>
                             <div className="flex space-x-2 items-center content-center font-medium text-sm md:text-base">
                                 {event && torneo.evento && (
-                                    <Link
-                                        href={'/eventos/' + torneo.evento.slug}
-                                        className="relative block"
+                                    <div
+                                        className="tooltip"
+                                        data-tip={torneo.evento.name}
                                     >
-                                        <Image
-                                            src={`https://wsrv.nl/?url=${torneo.evento.tour.logo}&w=100&h=100&fit=contain`}
-                                            width={30}
-                                            height={30}
-                                            alt={'Icono ' + torneo.evento.name}
-                                            className="w-8 mr-2"
-                                        />
-                                    </Link>
+                                        <Link
+                                            href={
+                                                '/eventos/' + torneo.evento.slug
+                                            }
+                                            className="relative block"
+                                        >
+                                            <Image
+                                                src={`https://wsrv.nl/?url=${torneo.evento.tour.logo}&w=100&h=100&fit=contain`}
+                                                width={30}
+                                                height={30}
+                                                alt={
+                                                    'Icono ' +
+                                                    torneo.evento.name
+                                                }
+                                                className="w-8 mr-2"
+                                            />
+                                        </Link>
+                                    </div>
                                 )}
                                 <span>{torneo.name}</span>
                             </div>
