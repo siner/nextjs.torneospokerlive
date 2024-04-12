@@ -5,7 +5,8 @@ export async function getAllTournaments() {
   const { data, error } = await supabase
     .from("Tournament")
     .select("*")
-    .order("date", { ascending: true });
+    .order("date", { ascending: true })
+    .order("time", { ascending: true });
   if (error) throw error;
   return data;
 }
@@ -41,7 +42,8 @@ export async function getNextTournaments() {
     .from("Tournament")
     .select("*, casino:Casino(*), event:Event(*, tour:Tour(*))")
     .gte("date", new Date().toISOString().split("T")[0])
-    .order("date", { ascending: true });
+    .order("date", { ascending: true })
+    .order("time", { ascending: true });
   if (error) throw error;
   return data;
 }
@@ -90,7 +92,8 @@ export async function getNextTorneosByCasino(casinoId: number) {
     .select("*, casino:Casino(*), event:Event(*, tour:Tour(*))")
     .eq("casinoId", casinoId)
     .gte("date", new Date().toISOString().split("T")[0])
-    .order("date", { ascending: true });
+    .order("date", { ascending: true })
+    .order("time", { ascending: true });
   if (error) throw error;
   return data;
 }
@@ -151,7 +154,8 @@ export async function getTournamentsByEvent(eventId: number) {
     .from("Tournament")
     .select("*, casino:Casino(*), event:Event(*, tour:Tour(*))")
     .eq("eventId", eventId)
-    .order("date", { ascending: true });
+    .order("date", { ascending: true })
+    .order("time", { ascending: true });
   if (error) throw error;
   return data;
 }
