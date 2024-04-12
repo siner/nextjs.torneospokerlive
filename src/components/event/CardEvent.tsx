@@ -21,7 +21,7 @@ export default function CardEvent(props: { event: any; showCasino: boolean }) {
               src={`https://wsrv.nl/?url=${evento.tour.logo}&w=200&h=200&fit=contain&mask=circle`}
               width={100}
               height={100}
-              alt={evento.nombre}
+              alt={evento.name}
             />
             {showCasino && (
               <img
@@ -29,7 +29,7 @@ export default function CardEvent(props: { event: any; showCasino: boolean }) {
                 src={`https://wsrv.nl/?url=${evento.casino.logo}&w=200&h=200&fit=contain&mask=circle`}
                 width={100}
                 height={100}
-                alt={evento.casino.nombre}
+                alt={evento.casino.name}
               />
             )}
           </figure>
@@ -71,7 +71,8 @@ export default function CardEvent(props: { event: any; showCasino: boolean }) {
               </div>
             </div>
             <h2 className="card-title">
-              <span className="font-bold mb-2">{evento.nombre}</span>
+              <p className="font-bold mb-2">{evento.name}</p>
+              <p className="text-sm">{evento.casino.name}</p>
             </h2>
           </div>
         </div>

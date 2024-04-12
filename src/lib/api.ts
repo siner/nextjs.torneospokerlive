@@ -138,8 +138,8 @@ export async function getCurrentEvents() {
   const { data, error } = await supabase
     .from("Event")
     .select("*, casino:Casino(*), tour:Tour(*)")
-    .lte("to", new Date().toISOString().split("T")[0])
-    .gte("from", new Date().toISOString().split("T")[0])
+    .gte("to", new Date().toISOString().split("T")[0])
+    .lte("from", new Date().toISOString().split("T")[0])
     .order("from", { ascending: true });
   if (error) throw error;
   return data;
