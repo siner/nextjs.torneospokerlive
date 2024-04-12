@@ -52,7 +52,7 @@ export default async function EditCasino({
                   }}
                 >
                   <img
-                    alt="Product image"
+                    alt={casino.name}
                     className="aspect-square w-full rounded-md object-cover"
                     height="300"
                     src={`https://wsrv.nl/?url=${casino.logo}&w=300&h=300&fit=contain`}

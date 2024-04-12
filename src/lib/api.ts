@@ -171,6 +171,16 @@ export async function getTour(slug: string) {
   return data[0];
 }
 
+export async function getTourById(tourId: number) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("Tour")
+    .select("*")
+    .eq("id", tourId);
+  if (error) throw error;
+  return data[0];
+}
+
 export async function getEventsByTour(tourId: number) {
   const supabase = createClient();
   const { data, error } = await supabase

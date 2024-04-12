@@ -37,21 +37,30 @@ export default function AdminNavigation() {
       </Link>
       <Link
         href="/admin/circuitos"
-        className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+        className={
+          "flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary " +
+          (pathname === "circuitos" ? "text-primary bg-gray-200" : "")
+        }
       >
         <Trophy className="h-4 w-4" />
         Circuitos
       </Link>
       <Link
         href="/admin/eventos"
-        className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+        className={
+          "flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary " +
+          (pathname === "eventos" ? "text-primary bg-gray-200" : "")
+        }
       >
         <CalendarDays className="h-4 w-4" />
         Eventos
       </Link>
       <Link
         href="/admin/torneos"
-        className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+        className={
+          "flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary " +
+          (pathname === "torneos" ? "text-primary bg-gray-200" : "")
+        }
       >
         <CalendarClock className="h-4 w-4" />
         Torneos
