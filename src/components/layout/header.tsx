@@ -14,6 +14,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import { createClient } from "@/lib/supabase/server";
 import Navigation from "./navigation";
+import SearchBar from "./search";
 
 export default async function Header() {
   const supabase = createClient();
@@ -77,16 +78,9 @@ export default async function Header() {
         <Navigation />
       </nav>
       <div className="flex md:w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-        <form className="hidden md:block ml-auto flex-1 sm:flex-initial">
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Buscar..."
-              className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
-            />
-          </div>
-        </form>
+        <SearchBar />
+        {/*
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
@@ -121,6 +115,7 @@ export default async function Header() {
             )}
           </DropdownMenuContent>
         </DropdownMenu>
+        */}
       </div>
     </header>
   );

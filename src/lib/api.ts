@@ -11,6 +11,52 @@ export async function getAllTournaments() {
   return data;
 }
 
+export async function getSearchTournaments(
+  search: string | string[] | undefined
+) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("Tournament")
+    .select("*, casino:Casino(*), event:Event(*, tour:Tour(*))")
+    .ilike("name", `%${search}%`)
+    .gte("date", new Date().toISOString().split("T")[0])
+    .order("date", { ascending: true })
+    .order("time", { ascending: true });
+  if (error) throw error;
+  return data;
+}
+
+export async function getSearchEvents(search: string | string[] | undefined) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("Event")
+    .select("*, casino:Casino(*), tour:Tour(*)")
+    .ilike("name", `%${search}%`)
+    .order("from", { ascending: true });
+  if (error) throw error;
+  return data;
+}
+
+export async function getSearchCasinos(search: string | string[] | undefined) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("Casino")
+    .select("*")
+    .ilike("name", `%${search}%`);
+  if (error) throw error;
+  return data;
+}
+
+export async function getSearchTours(search: string | string[] | undefined) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("Tour")
+    .select("*")
+    .ilike("name", `%${search}%`);
+  if (error) throw error;
+  return data;
+}
+
 export async function getTodayTournaments() {
   const supabase = createClient();
   const { data, error } = await supabase
