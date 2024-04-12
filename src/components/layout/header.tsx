@@ -76,7 +76,6 @@ export default async function Header() {
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
         <Navigation />
       </nav>
-      {/*
       <div className="flex md:w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
         <form className="hidden md:block ml-auto flex-1 sm:flex-initial">
           <div className="relative">
@@ -123,7 +122,6 @@ export default async function Header() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      */}
     </header>
   );
 }

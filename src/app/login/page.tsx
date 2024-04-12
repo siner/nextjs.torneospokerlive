@@ -24,7 +24,7 @@ export default async function LoginForm() {
   }
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center mt-20">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl">Entrar</CardTitle>

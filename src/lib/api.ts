@@ -11,6 +11,34 @@ export async function getAllTournaments() {
   return data;
 }
 
+export async function getNumberCasinos() {
+  const supabase = createClient();
+  const { data, error } = await supabase.from("Casino").select("id");
+  if (error) throw error;
+  return data.length;
+}
+
+export async function getNumberEvents() {
+  const supabase = createClient();
+  const { data, error } = await supabase.from("Event").select("id");
+  if (error) throw error;
+  return data.length;
+}
+
+export async function getNumberTournaments() {
+  const supabase = createClient();
+  const { data, error } = await supabase.from("Tournament").select("id");
+  if (error) throw error;
+  return data.length;
+}
+
+export async function getNumberTours() {
+  const supabase = createClient();
+  const { data, error } = await supabase.from("Tour").select("id");
+  if (error) throw error;
+  return data.length;
+}
+
 export async function getTodayTournaments() {
   const supabase = createClient();
   const { data, error } = await supabase
