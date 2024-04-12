@@ -121,6 +121,16 @@ export async function getCasino(slug: string) {
   return data[0];
 }
 
+export async function getCasinoById(casinoId: number) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("Casino")
+    .select("*")
+    .eq("id", casinoId);
+  if (error) throw error;
+  return data[0];
+}
+
 export async function getEventsByCasino(casinoId: number) {
   const supabase = createClient();
   const { data, error } = await supabase

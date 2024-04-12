@@ -8,30 +8,32 @@ import {
   Home,
   Trophy,
 } from "lucide-react";
-import { Badge } from "../ui/badge";
 
 export default function AdminNavigation() {
+  const admin = usePathname().split("/")[1];
   const pathname = usePathname().split("/")[2];
 
   return (
     <>
       <Link
         href="/admin"
-        className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+        className={
+          "flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary " +
+          (!pathname ? "text-primary bg-gray-200" : "")
+        }
       >
         <Home className="h-4 w-4" />
         Dashboard
       </Link>
       <Link
         href="/admin/casinos"
-        className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+        className={
+          "flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary " +
+          (pathname === "casinos" ? "text-primary bg-gray-200" : "")
+        }
       >
         <Building className="h-4 w-4" />
         Casinos
-        {/*        <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-          6
-        </Badge>
-  */}
       </Link>
       <Link
         href="/admin/circuitos"

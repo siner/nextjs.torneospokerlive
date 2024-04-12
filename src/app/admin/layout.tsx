@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Admin",
@@ -111,7 +112,7 @@ export default async function Layout({
     redirect("/");
   }
   return (
-    <div className="grid w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+    <div className="grid w-full md:grid-cols-[120px_1fr] lg:grid-cols-[180px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block pb-10">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex-1">
@@ -145,6 +146,7 @@ export default async function Layout({
           {children}
         </main>
       </div>
+      <Toaster />
     </div>
   );
 }
