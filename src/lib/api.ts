@@ -246,3 +246,23 @@ export async function getEvent(slug: string) {
   if (error) throw error;
   return data[0];
 }
+
+export async function getEventById(eventId: number) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("Event")
+    .select("*, tour:Tour(*), casino:Casino(*)")
+    .eq("id", eventId);
+  if (error) throw error;
+  return data[0];
+}
+
+export async function getAllEvents() {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("Event")
+    .select("*, tour:Tour(*), casino:Casino(*)")
+    .order("from", { ascending: true });
+  if (error) throw error;
+  return data;
+}
