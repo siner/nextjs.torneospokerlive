@@ -1,6 +1,7 @@
 import { getEvent, getTournamentsByEvent } from "@/lib/api";
 import CardTour from "@/components/tour/CardTour";
 import RowTournament from "@/components/tournament/RowTournament";
+import CardCasino from "@/components/casino/CardCasino";
 
 export async function generateMetadata({
   params,
@@ -23,8 +24,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
   return (
     <div>
       <div className="md:flex gap-4">
-        <div className="w-100 md:w-4/12 mt-6">
-          <CardTour tour={event.tour} />
+        <div className="w-100 md:w-4/12 mt-6 space-y-2">
+          <div className="mb-4">
+            <CardTour tour={event.tour} />
+          </div>
+          <CardCasino casino={event.casino} />
         </div>
         <div className="md:w-8/12">
           {tournaments.length > 0 && (
@@ -35,7 +39,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
               <div className="space-y-0.5">
                 {tournaments.map((tournament: any) => (
-                  <div key={event.id} className="w-full">
+                  <div key={"event-" + event.id} className="w-full">
                     <RowTournament
                       torneo={tournament}
                       event={false}

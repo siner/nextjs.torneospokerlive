@@ -15,7 +15,7 @@ export default async function Home() {
       <h2 className="text-2xl font-bold py-4">Eventos live pasados</h2>
       <div className="space-y-0.5">
         {pastEvents.map((event: any) => (
-          <div key={event.id}>
+          <div key={"evento-" + event.id}>
             <RowEvent event={event} showCasino />
           </div>
         ))}

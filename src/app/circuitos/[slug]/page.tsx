@@ -32,7 +32,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
               <div className="space-y-0.5">
                 {events.map((event: any) => (
-                  <div key={event.id} className="w-full">
+                  <div key={"evento-" + event.id} className="w-full">
                     <RowEvent event={event} showtour={false} />
                   </div>
                 ))}

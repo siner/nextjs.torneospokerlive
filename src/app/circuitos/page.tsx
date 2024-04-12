@@ -14,7 +14,7 @@ export default async function Home() {
       <h1 className="text-2xl font-bold py-4">Casinos</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {tours.map((tour: any) => (
-          <div key={tour.id} className="w-full">
+          <div key={"circuito-" + tour.id} className="w-full">
             <CardTour tour={tour} />
           </div>
         ))}

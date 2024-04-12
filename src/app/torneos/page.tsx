@@ -15,7 +15,7 @@ export default async function Home() {
       <div className="space-y-0.5">
         {nextTournaments?.map((torneo: any) => (
           <RowTournament
-            key={torneo.id}
+            key={"torneo-" + torneo.id}
             torneo={torneo}
             casino="true"
             event="true"
