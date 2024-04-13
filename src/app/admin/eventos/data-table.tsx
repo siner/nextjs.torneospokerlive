@@ -25,7 +25,6 @@ import { DataTablePagination } from "@/components/datatables/pagination";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Select } from "@/components/ui/select";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -59,13 +58,14 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="flex items-center justify-between py-4">
+      <div className="flex items-center justify-between py-4 gap-2">
         <Input
           placeholder="Buscar Evento..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
+          onChange={(event) => {
+            table.getColumn("name")?.setFilterValue(event.target.value);
+            console.log(table.getColumn("name")?.getFilterValue());
+          }}
           className="max-w-sm"
         />
         <Link href="/admin/eventos/edit">

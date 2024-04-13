@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
 
-export async function login(formData: FormData) {
+export async function signup(formData: FormData) {
   const supabase = createClient();
 
   // type-casting here for convenience
@@ -15,12 +15,14 @@ export async function login(formData: FormData) {
     password: formData.get("password") as string,
   };
 
-  const { data, error } = await supabase.auth.signInWithPassword(user);
+  const { data, error } = await supabase.auth.signUp(user);
+  console.log(data, error);
 
-  if (!data?.user) {
-    redirect("/login?error=true");
+  if (data.user) {
+    revalidatePath("/login", "layout");
+    redirect("/login?success=true");
   }
 
-  revalidatePath("/", "layout");
-  redirect("/");
+  revalidatePath("/registro", "layout");
+  redirect("/registro?error=true");
 }

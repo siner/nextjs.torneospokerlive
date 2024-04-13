@@ -1,4 +1,4 @@
-import { login } from "./actions";
+import { signup } from "./actions";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
@@ -15,16 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export default async function LoginForm({
-  searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+export default async function LoginForm() {
   const supabase = createClient();
-
-  const fail = searchParams?.error;
-  const success = searchParams?.success;
-  const code = searchParams?.code;
 
   const { data, error } = await supabase.auth.getUser();
   if (data?.user) {
@@ -35,9 +27,9 @@ export default async function LoginForm({
     <form className="flex items-center justify-center mt-20">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Entrar</CardTitle>
+          <CardTitle className="text-2xl">Registrarse</CardTitle>
           <CardDescription>
-            Entrar con tu cuenta de correo electrónico
+            Registrarse con tu email y contraseña
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -58,34 +50,15 @@ export default async function LoginForm({
               </div>
               <Input id="password" name="password" type="password" required />
             </div>
-            {fail && (
-              <div className="text-red-500 text-sm">
-                Credenciales incorrectas
-              </div>
-            )}
-            {success && (
-              <div className="text-green-600 text-sm">
-                <p>Usuario registrado con éxito.</p>
-                <p>
-                  Recibirás un email de confirmación. Por favor, revisa tu
-                  bandeja de entrada o spam.
-                </p>
-              </div>
-            )}
-            {code && (
-              <div className="text-green-600 text-sm">
-                <p>Email validado con éxito.</p>
-                <p>Ya puedes iniciar sesión.</p>
-              </div>
-            )}
-            <Button formAction={login} type="submit" className="w-full">
-              Login
+
+            <Button formAction={signup} type="submit" className="w-full">
+              Registrarse
             </Button>
           </div>
           <div className="mt-4 text-center text-sm">
-            Si no tienes cuenta, puedes{" "}
-            <Link href="/registro" className="underline">
-              Registrarte
+            Si ya tienes cuenta, puedes{" "}
+            <Link href="/login" className="underline">
+              Entrar
             </Link>
           </div>
         </CardContent>

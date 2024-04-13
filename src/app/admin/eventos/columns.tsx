@@ -7,6 +7,16 @@ import { Pencil, SquareArrowOutUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+export type Casino = {
+  id: number;
+  name: string;
+};
+
+export type Tour = {
+  id: number;
+  name: string;
+};
+
 export type Event = {
   id: number;
   name: string;
@@ -15,6 +25,8 @@ export type Event = {
   tourId: number;
   from: string;
   to: string;
+  casino: Casino;
+  tour: Tour;
 };
 
 export const columns: ColumnDef<Event>[] = [
@@ -31,16 +43,24 @@ export const columns: ColumnDef<Event>[] = [
     ),
   },
   {
-    accessorKey: "casinoId",
+    accessorKey: "casino",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Casino" />
     ),
+    cell: ({ row }) => {
+      const evento = row.original;
+      return evento.casino.name;
+    },
   },
   {
-    accessorKey: "tourId",
+    accessorKey: "tour",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Circuito" />
     ),
+    cell: ({ row }) => {
+      const evento = row.original;
+      return evento.tour.name;
+    },
   },
   {
     accessorKey: "from",

@@ -106,7 +106,10 @@ export async function getTournament(slug: string) {
 
 export async function getAllCasinos() {
   const supabase = createClient();
-  const { data, error } = await supabase.from("Casino").select("*");
+  const { data, error } = await supabase
+    .from("Casino")
+    .select("*")
+    .order("name");
   if (error) throw error;
   return data;
 }
@@ -156,7 +159,7 @@ export async function getNextTorneosByCasino(casinoId: number) {
 
 export async function getAllTours() {
   const supabase = createClient();
-  const { data, error } = await supabase.from("Tour").select("*");
+  const { data, error } = await supabase.from("Tour").select("*").order("name");
   if (error) throw error;
   return data;
 }
@@ -262,7 +265,16 @@ export async function getAllEvents() {
   const { data, error } = await supabase
     .from("Event")
     .select("*, tour:Tour(*), casino:Casino(*)")
-    .order("from", { ascending: true });
+    .order("from", { ascending: false });
   if (error) throw error;
   return data;
+}
+
+// Perfil
+
+export async function getProfile(id: string) {
+  const supabase = createClient();
+  const { data, error } = await supabase.from("user").select("*").eq("id", id);
+  if (error) throw error;
+  return data[0];
 }

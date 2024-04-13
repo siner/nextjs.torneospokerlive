@@ -9,12 +9,22 @@ import CardEvent from "@/components/event/CardEvent";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import RowEvent from "@/components/event/RowEvent";
+import { redirect } from "next/navigation";
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const todayTournaments = await getTodayTournaments();
   const tomorrowTournaments = await getTomorrowTournaments();
   const currentEvents = await getCurrentEvents();
   const nextEvents = await getNextEvents();
+
+  const code = searchParams?.code;
+  if (code) {
+    redirect(`/login?code=${code}`);
+  }
 
   return (
     <>

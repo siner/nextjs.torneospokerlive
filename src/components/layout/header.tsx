@@ -25,9 +25,9 @@ export default async function Header() {
   if (data?.user) {
     logged = true;
     const role = await supabase
-      .from("user_roles")
-      .select("role, user_id")
-      .eq("user_id", data?.user?.id);
+      .from("user")
+      .select("role")
+      .eq("id", data?.user?.id);
 
     if (!role.error && role.data.length !== 0) {
       if (role.data[0].role === "admin") {
@@ -79,7 +79,6 @@ export default async function Header() {
       </nav>
       <div className="flex md:w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
         <SearchBar />
-        {/*
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -88,7 +87,11 @@ export default async function Header() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            {logged && <DropdownMenuLabel>Mi perfil</DropdownMenuLabel>}
+            {logged && (
+              <DropdownMenuItem>
+                <Link href="/ajustes">Mi perfil</Link>
+              </DropdownMenuItem>
+            )}
             {!logged && (
               <>
                 <DropdownMenuLabel>
@@ -115,7 +118,6 @@ export default async function Header() {
             )}
           </DropdownMenuContent>
         </DropdownMenu>
-        */}
       </div>
     </header>
   );
