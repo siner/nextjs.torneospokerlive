@@ -88,6 +88,11 @@ export default async function LoginForm({
               Registrarte
             </Link>
           </div>
+          <div className="mt-4 text-center text-sm">
+            <Link href="/forgot-password" className="underline">
+              He olvidado mi contraseña
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </form>

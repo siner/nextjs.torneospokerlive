@@ -16,7 +16,6 @@ export async function signup(formData: FormData) {
   };
 
   const { data, error } = await supabase.auth.signUp(user);
-  console.log(data, error);
 
   if (data.user) {
     revalidatePath("/login", "layout");

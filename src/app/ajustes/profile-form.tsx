@@ -53,14 +53,11 @@ export default function AccountForm({ user }: { user: any }) {
         toast({ description: "Todos los campos son requeridos" });
         return;
       }
-      console.log(user?.id);
-      console.log(name);
       const { data, error } = await supabase.from("user").upsert({
         id: user?.id,
         name: name,
         surname: surname,
       });
-      console.log(data);
       if (error) throw error;
       toast({ description: "Perfil editado correctamente" });
     } catch (error) {

@@ -64,7 +64,6 @@ export function DataTable<TData, TValue>({
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) => {
             table.getColumn("name")?.setFilterValue(event.target.value);
-            console.log(table.getColumn("name")?.getFilterValue());
           }}
           className="max-w-sm"
         />

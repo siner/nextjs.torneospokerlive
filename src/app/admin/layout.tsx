@@ -28,12 +28,10 @@ export default async function Layout({
     redirect("/login");
   }
 
-  console.log(data);
   const user = await supabase
     .from("user")
     .select("role, id")
     .eq("id", data.user.id);
-  console.log(user);
 
   if (user.error || user.data.length === 0) {
     redirect("/error");
