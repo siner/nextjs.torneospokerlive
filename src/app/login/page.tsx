@@ -1,4 +1,4 @@
-import { login, twitterLogin, setSession } from "./actions";
+import { login, twitterLogin } from "./actions";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
@@ -14,9 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Twitter } from "lucide-react";
 import { TwitterLogoIcon } from "@radix-ui/react-icons";
-import { set } from "date-fns";
 
 export default async function LoginForm({
   searchParams,
@@ -29,11 +27,8 @@ export default async function LoginForm({
   const success = searchParams?.success;
   const code = searchParams?.code;
 
-  if (code) {
-    setSession(code as string);
-  }
-
   const { data, error } = await supabase.auth.getUser();
+
   if (data?.user) {
     redirect("/admin");
   }
@@ -78,12 +73,6 @@ export default async function LoginForm({
                     Recibirás un email de confirmación. Por favor, revisa tu
                     bandeja de entrada o spam.
                   </p>
-                </div>
-              )}
-              {code && (
-                <div className="text-green-600 text-sm">
-                  <p>Email validado con éxito.</p>
-                  <p>Ya puedes iniciar sesión.</p>
                 </div>
               )}
               <Button formAction={login} type="submit" className="w-full">
