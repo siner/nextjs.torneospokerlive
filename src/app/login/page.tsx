@@ -1,4 +1,4 @@
-import { login, twitterLogin } from "./actions";
+import { login, twitterLogin, setSession } from "./actions";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Twitter } from "lucide-react";
 import { TwitterLogoIcon } from "@radix-ui/react-icons";
+import { set } from "date-fns";
 
 export default async function LoginForm({
   searchParams,
@@ -27,6 +28,10 @@ export default async function LoginForm({
   const fail = searchParams?.error;
   const success = searchParams?.success;
   const code = searchParams?.code;
+
+  if (code) {
+    setSession(code as string);
+  }
 
   const { data, error } = await supabase.auth.getUser();
   if (data?.user) {

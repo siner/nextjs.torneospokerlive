@@ -30,6 +30,7 @@ export async function twitterLogin() {
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "twitter",
+    options: { redirectTo: process.env.BASE_URL + "/login" },
   });
 
   if (error) {
@@ -38,4 +39,15 @@ export async function twitterLogin() {
 
   revalidatePath(data.url, "layout");
   redirect(data.url);
+}
+
+export async function setSession(code: string) {
+  const supabase = createClient();
+
+  const session = await supabase.auth.exchangeCodeForSession(code);
+  if (session?.data?.session) {
+    supabase.auth.setSession(session.data.session);
+    revalidatePath("/", "layout");
+    redirect("/");
+  }
 }
