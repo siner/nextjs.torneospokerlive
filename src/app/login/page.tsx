@@ -25,7 +25,6 @@ export default async function LoginForm({
 
   const fail = searchParams?.error;
   const success = searchParams?.success;
-  const code = searchParams?.code;
 
   const { data, error } = await supabase.auth.getUser();
 
