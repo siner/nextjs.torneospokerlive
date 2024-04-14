@@ -280,6 +280,17 @@ export async function getProfile(id: string) {
   return data[0];
 }
 
+export async function getStarredCasinos(id: string) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("casino_stars")
+    .select("casino:Casino(*)")
+    .eq("user_id", id);
+  if (error) throw error;
+  const casinos = data.map((d: any) => d.casino);
+  return casinos;
+}
+
 // Admin
 
 export async function getAllUsers() {

@@ -33,8 +33,14 @@ export default async function Layout({
           className="grid gap-4 text-sm text-muted-foreground"
           x-chunk="dashboard-04-chunk-0"
         >
-          <Link href="#" className="font-semibold text-primary">
+          <Link href="/ajustes" className="font-semibold text-primary">
             Perfil
+          </Link>
+          <Link
+            href="/ajustes/mis-casinos"
+            className="font-semibold text-primary"
+          >
+            Mis casinos
           </Link>
         </nav>
         <>{children}</>

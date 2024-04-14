@@ -97,9 +97,14 @@ export default async function Header() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {logged && (
-              <DropdownMenuItem>
-                <Link href="/ajustes">Mi perfil</Link>
-              </DropdownMenuItem>
+              <>
+                <DropdownMenuItem>
+                  <Link href="/ajustes">Mi perfil</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href="/ajustes/mis-casinos">Mis casinos</Link>
+                </DropdownMenuItem>
+              </>
             )}
             {!logged && (
               <>
