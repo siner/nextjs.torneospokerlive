@@ -10,7 +10,7 @@ export async function forgotpassword(formData: FormData) {
 
   const email = formData.get("email") as string;
 
-  const base_url = process.env.NEXT_PUBLIC_BASE_URL;
+  const base_url = process.env.BASE_URL;
 
   const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: base_url + "/reset-password",
