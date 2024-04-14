@@ -98,8 +98,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
                   <strong>Buy In</strong>: {tournament.buyin}€{" "}
                   {tournament.fee &&
                     "(" +
-                      (tournament.buyin - tournament.fee) +
-                      "€ + fee " +
+                      (tournament.buyin - tournament.fee - tournament.bounty) +
+                      "€ + " +
+                      (tournament.bounty
+                        ? tournament.bounty + "€ (bounty) + "
+                        : "") +
+                      "fee " +
                       tournament.fee +
                       "€)"}
                 </li>
