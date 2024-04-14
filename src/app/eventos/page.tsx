@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   description: "",
 };
 
+export const revalidate = 3600;
+
 export default async function Home() {
   const currentEvents = await getCurrentEvents();
   const nextEvents = await getNextEvents();

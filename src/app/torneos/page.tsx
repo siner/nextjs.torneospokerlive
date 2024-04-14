@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   description: "",
 };
 
+export const revalidate = 3600;
+
 export default async function Home() {
   const nextTournaments = await getNextTournaments();
 

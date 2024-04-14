@@ -16,6 +16,8 @@ export async function generateMetadata({
   };
 }
 
+export const revalidate = 3600;
+
 export default async function Page({ params }: { params: { slug: string } }) {
   const tournament = await getTournament(params.slug);
   if (!tournament) {

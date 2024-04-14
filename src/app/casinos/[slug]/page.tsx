@@ -5,10 +5,17 @@ import RowTournament from "@/components/tournament/RowTournament";
 import { remark } from "remark";
 import html from "remark-html";
 
-export const metadata: Metadata = {
-  title: "",
-  description: "",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const casino = await getCasino(params.slug);
+  return {
+    title: `${casino.name} - Torneos Poker Live`,
+  };
+}
+export const revalidate = 3600;
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const casino = await getCasino(params.slug);
@@ -17,7 +24,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
   }
   const torneos = await getNextTorneosByCasino(casino.id);
 
-  metadata.title = `${casino.name} - Torneos Poker Live`;
   const processedContent = await remark().use(html).process(casino.description);
   const contentHtml = processedContent.toString();
 
