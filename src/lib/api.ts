@@ -278,3 +278,19 @@ export async function getProfile(id: string) {
   if (error) throw error;
   return data[0];
 }
+
+// Admin
+
+export async function getAllUsers() {
+  const supabase = createClient();
+  const { data, error } = await supabase.from("user").select("*");
+  if (error) throw error;
+  return data;
+}
+
+export async function getUserById(id: string) {
+  const supabase = createClient();
+  const { data, error } = await supabase.from("user").select("*").eq("id", id);
+  if (error) throw error;
+  return data[0];
+}

@@ -5,6 +5,7 @@ import {
   Building,
   CalendarClock,
   CalendarDays,
+  CircleUser,
   Home,
   Trophy,
 } from "lucide-react";
@@ -24,6 +25,16 @@ export default function AdminNavigation() {
       >
         <Home className="h-4 w-4" />
         Dashboard
+      </Link>
+      <Link
+        href="/admin/usuarios"
+        className={
+          "flex items-center gap-3 px-3 py-2 text-muted-foreground transition-all hover:text-primary " +
+          (pathname === "usuarios" ? "text-primary bg-gray-200" : "")
+        }
+      >
+        <CircleUser className="h-4 w-4" />
+        Usuarios
       </Link>
       <Link
         href="/admin/casinos"

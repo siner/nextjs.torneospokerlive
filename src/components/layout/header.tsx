@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { CircleUser, Menu, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,18 +22,19 @@ export default async function Header() {
   var admin = false;
   var logged = false;
   const { data } = await supabase.auth.getUser();
-
+  var role = null;
+  var avatarName = data?.user?.email;
   if (data?.user) {
     logged = true;
-    const role = await supabase
+    role = await supabase
       .from("user")
-      .select("role")
+      .select("role, username")
       .eq("id", data?.user?.id);
-
     if (!role.error && role.data.length !== 0) {
       if (role.data[0].role === "admin") {
         admin = true;
       }
+      if (role.data[0].username) avatarName = role.data[0].username;
     }
   }
 
@@ -83,7 +85,14 @@ export default async function Header() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
-              <CircleUser className="h-5 w-5" />
+              {logged && (
+                <img
+                  src={`https://ui-avatars.com/api/?name=${avatarName}&s=100&background=random`}
+                  alt="Avatar"
+                  className="rounded-full w-8 h-8"
+                />
+              )}
+              {!logged && <CircleUser className="h-5 w-5" />}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
