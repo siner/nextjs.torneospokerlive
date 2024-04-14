@@ -118,9 +118,10 @@ export async function getCasino(slug: string) {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("Casino")
-    .select("*")
+    .select("*, casino_stars(*)")
     .eq("slug", slug);
   if (error) throw error;
+
   return data[0];
 }
 
