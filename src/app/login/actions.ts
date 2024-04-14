@@ -24,3 +24,18 @@ export async function login(formData: FormData) {
   revalidatePath("/", "layout");
   redirect("/");
 }
+
+export async function twitterLogin() {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "twitter",
+  });
+
+  if (error) {
+    redirect("/login?error=true");
+  }
+
+  revalidatePath(data.url, "layout");
+  redirect(data.url);
+}

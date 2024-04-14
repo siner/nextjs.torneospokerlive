@@ -1,4 +1,4 @@
-import { login } from "./actions";
+import { login, twitterLogin } from "./actions";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Twitter } from "lucide-react";
+import { TwitterLogoIcon } from "@radix-ui/react-icons";
 
 export default async function LoginForm({
   searchParams,
@@ -32,7 +34,7 @@ export default async function LoginForm({
   }
 
   return (
-    <form className="flex items-center justify-center mt-20">
+    <div className="flex items-center justify-center mt-20">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl">Entrar</CardTitle>
@@ -42,45 +44,56 @@ export default async function LoginForm({
         </CardHeader>
         <CardContent>
           <div className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                name="email"
-                placeholder="m@example.com"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Contraseña</Label>
+            <form className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="m@example.com"
+                  required
+                />
               </div>
-              <Input id="password" name="password" type="password" required />
-            </div>
-            {fail && (
-              <div className="text-red-500 text-sm">
-                Credenciales incorrectas
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="password">Contraseña</Label>
+                </div>
+                <Input id="password" name="password" type="password" required />
               </div>
-            )}
-            {success && (
-              <div className="text-green-600 text-sm">
-                <p>Usuario registrado con éxito.</p>
-                <p>
-                  Recibirás un email de confirmación. Por favor, revisa tu
-                  bandeja de entrada o spam.
-                </p>
-              </div>
-            )}
-            {code && (
-              <div className="text-green-600 text-sm">
-                <p>Email validado con éxito.</p>
-                <p>Ya puedes iniciar sesión.</p>
-              </div>
-            )}
-            <Button formAction={login} type="submit" className="w-full">
-              Login
-            </Button>
+              {fail && (
+                <div className="text-red-500 text-sm">
+                  Credenciales incorrectas
+                </div>
+              )}
+              {success && (
+                <div className="text-green-600 text-sm">
+                  <p>Usuario registrado con éxito.</p>
+                  <p>
+                    Recibirás un email de confirmación. Por favor, revisa tu
+                    bandeja de entrada o spam.
+                  </p>
+                </div>
+              )}
+              {code && (
+                <div className="text-green-600 text-sm">
+                  <p>Email validado con éxito.</p>
+                  <p>Ya puedes iniciar sesión.</p>
+                </div>
+              )}
+              <Button formAction={login} type="submit" className="w-full">
+                Login
+              </Button>
+            </form>
+            <form>
+              <Button
+                formAction={twitterLogin}
+                type="submit"
+                className="w-full flex items-center justify-center gap-2 bg-blue-400 text-white"
+              >
+                <TwitterLogoIcon className="w-6 h-6" /> Login con Twitter
+              </Button>
+            </form>
           </div>
           <div className="mt-4 text-center text-sm">
             Si no tienes cuenta, puedes{" "}
@@ -95,6 +108,6 @@ export default async function LoginForm({
           </div>
         </CardContent>
       </Card>
-    </form>
+    </div>
   );
 }
