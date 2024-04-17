@@ -96,6 +96,26 @@ export async function getNextTournaments() {
   return data;
 }
 
+export async function getMyCasinosNextTournaments(userId: string) {
+  const supabase = createClient();
+  const { data: casinos, error: casinos_error } = await supabase
+    .from("casino_stars")
+    .select("casino_id")
+    .eq("user_id", userId);
+
+  const { data, error } = await supabase
+    .from("Tournament")
+    .select(
+      "*, casino:Casino(*), event:Event(*, casino:Casino(*), tour:Tour(*))"
+    )
+    .in("casinoId", casinos?.map((c: any) => c.casino_id) || [])
+    .gte("date", new Date().toISOString().split("T")[0])
+    .order("date", { ascending: true })
+    .order("time", { ascending: true });
+  if (error) throw error;
+  return data;
+}
+
 export async function getTournament(slug: string) {
   const supabase = createClient();
   const { data, error } = await supabase
@@ -229,6 +249,41 @@ export async function getCurrentEvents() {
     .select("*, casino:Casino(*), tour:Tour(*)")
     .gte("to", new Date().toISOString().split("T")[0])
     .lte("from", new Date().toISOString().split("T")[0])
+    .order("from", { ascending: true });
+  if (error) throw error;
+  return data;
+}
+
+export async function getMyCasinosCurrentEvents(userId: string) {
+  const supabase = createClient();
+  const { data: casinos, error: casinos_error } = await supabase
+    .from("casino_stars")
+    .select("casino_id")
+    .eq("user_id", userId);
+
+  const { data, error } = await supabase
+    .from("Event")
+    .select("*, casino:Casino(*), tour:Tour(*)")
+    .in("casinoId", casinos?.map((c: any) => c.casino_id) || [])
+    .gte("to", new Date().toISOString().split("T")[0])
+    .lte("from", new Date().toISOString().split("T")[0])
+    .order("from", { ascending: true });
+  if (error) throw error;
+  return data;
+}
+
+export async function getMyCasinosNextEvents(userId: string) {
+  const supabase = createClient();
+  const { data: casinos, error: casinos_error } = await supabase
+    .from("casino_stars")
+    .select("casino_id")
+    .eq("user_id", userId);
+
+  const { data, error } = await supabase
+    .from("Event")
+    .select("*, casino:Casino(*), tour:Tour(*)")
+    .in("casinoId", casinos?.map((c: any) => c.casino_id) || [])
+    .gte("from", new Date().toISOString().split("T")[0])
     .order("from", { ascending: true });
   if (error) throw error;
   return data;
