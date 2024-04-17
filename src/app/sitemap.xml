@@ -12,31 +12,31 @@
     <priority>1</priority>
   </url>
   <url>
-    <loc>https://acme.com/circuitos</loc>
+    <loc>https://www.torneospokerlive.com/circuitos</loc>
     <lastmod>2024-04-17T15:02:24.021Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
     <url>
-    <loc>https://acme.com/casinos</loc>
+    <loc>https://www.torneospokerlive.com/casinos</loc>
     <lastmod>2024-04-17T15:02:24.021Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://acme.com/eventos</loc>
+    <loc>https://www.torneospokerlive.com/eventos</loc>
     <lastmod>2024-04-17T15:02:24.021Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://acme.com/eventos/pasados</loc>
+    <loc>https://www.torneospokerlive.com/eventos/pasados</loc>
     <lastmod>2024-04-17T15:02:24.021Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://acme.com/torneos</loc>
+    <loc>https://www.torneospokerlive.com/torneos</loc>
     <lastmod>2024-04-17T15:02:24.021Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
