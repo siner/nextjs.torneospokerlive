@@ -1,0 +1,14 @@
+User-Agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /ajustes/
+Disallow: /login/
+Disallow: /registro/
+Disallow: /forgot-password/
+Disallow: /reset-password/
+
+Sitemap: https://www.torneospokerlive.com/sitemap.xml
+Sitemap: https://www.torneospokerlive.com/casinos/sitemap/0.xml
+Sitemap: https://www.torneospokerlive.com/circuitos/sitemap/0.xml
+Sitemap: https://www.torneospokerlive.com/eventos/sitemap/0.xml
+Sitemap: https://www.torneospokerlive.com/torneos/sitemap/0.xml
