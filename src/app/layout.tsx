@@ -13,6 +13,9 @@ const fontSans = FontSans({
 export const metadata: Metadata = {
   title: "Torneos Poker Live",
   description: "",
+  metadataBase: new URL(
+    process.env.BASE_URL || "https://www.torneospokerlive.com"
+  ),
 };
 import Header from "@/components/layout/header";
 
