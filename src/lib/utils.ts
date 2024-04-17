@@ -27,11 +27,18 @@ export function getDateText(datestring: string) {
 
 export function formatDate(date: Date) {
   let newdate = new Date(date);
-  newdate.setHours(newdate.getHours() + 2);
+  let ayer = new Date();
+  ayer.setDate(ayer.getDate() - 1);
   let datestring = newdate.toLocaleDateString("es-ES", {
     month: "long",
     day: "numeric",
   });
+  if (newdate < ayer)
+    datestring = newdate.toLocaleDateString("es-ES", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
   let hour =
     newdate.getHours() + ":" + String(newdate.getMinutes()).padStart(2, "0");
   return { datestring, hour };

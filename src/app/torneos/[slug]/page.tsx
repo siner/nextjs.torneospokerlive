@@ -31,6 +31,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const textColor = getTextColor(backgroundColor);
   let { datestring, hour } = formatDate(tournament.date);
   if (tournament.time) hour = tournament.time.substring(0, 5);
+  else hour = "";
 
   const processedContent = await remark().use(html).process(tournament.content);
   const contentHtml = processedContent.toString();
@@ -90,7 +91,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
           </div>
           <div className="p-5">
             <div className="font-bold mb-4">
-              {datestring} - {hour}
+              {datestring} {hour ? " - " + hour : ""}
             </div>
             <ul>
               {tournament.fee && (

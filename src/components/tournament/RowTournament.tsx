@@ -68,7 +68,7 @@ export default function RowTournament(props: any) {
               </div>
             </div>
 
-            <div className="pl-1 mr-2 text-right p-2 w-24 md:w-40">
+            <div className="pl-1 mr-2 text-right p-2 w-24 md:w-44">
               <div className="text-xs hidden md:block">
                 {datestring}
                 {torneo.time ? " - " + torneo.time.substring(0, 5) : ""}
