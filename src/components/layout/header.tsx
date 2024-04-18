@@ -98,30 +98,30 @@ export default async function Header() {
           <DropdownMenuContent align="end">
             {logged && (
               <>
-                <DropdownMenuItem>
+                <DropdownMenuItem asChild>
                   <Link href="/ajustes">Mi perfil</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem asChild>
                   <Link href="/ajustes/mis-casinos">Mis casinos</Link>
                 </DropdownMenuItem>
               </>
             )}
             {!logged && (
               <>
-                <DropdownMenuLabel>
+                <DropdownMenuItem asChild>
                   <Link href="/login">Login</Link>
-                </DropdownMenuLabel>
+                </DropdownMenuItem>
               </>
             )}
             {admin && (
-              <DropdownMenuLabel>
+              <DropdownMenuItem asChild>
                 <Link href="/admin">Admin</Link>
-              </DropdownMenuLabel>
+              </DropdownMenuItem>
             )}
             {logged && (
               <>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem asChild>
                   <form action="/auth/signout" method="post">
                     <button className="button block" type="submit">
                       Salir
