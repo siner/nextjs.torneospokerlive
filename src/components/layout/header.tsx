@@ -42,7 +42,7 @@ export default async function Header() {
   }
 
   return (
-    <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
+    <header className="sticky top-0 flex justify-between h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="shrink-0 lg:hidden">
@@ -67,10 +67,7 @@ export default async function Header() {
           </nav>
         </SheetContent>
       </Sheet>
-      <Link
-        href="/"
-        className="flex items-center gap-2 font-bold text-lg w-1/2 lg:w-96"
-      >
+      <Link href="/" className="flex items-center gap-2 font-bold text-lg">
         <svg
           width="33"
           height="35"
@@ -91,7 +88,7 @@ export default async function Header() {
             fill="currentColor"
           ></path>
         </svg>
-        <h1>Torneos Poker Live</h1>
+        <h1 className="w-[180px]">Torneos Poker Live</h1>
       </Link>
       <nav className="hidden flex-col gap-6 text-lg font-medium lg:flex lg:flex-row lg:items-center lg:gap-5 lg:text-sm">
         <Navigation />
