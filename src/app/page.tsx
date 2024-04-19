@@ -29,7 +29,7 @@ export default async function Home({
   return (
     <>
       <h2 className="text-2xl font-bold py-4">Eventos live actuales</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {currentEvents.map((event: any) => (
           <div key={"event-" + event.id}>
             <CardEvent event={event} showCasino />
