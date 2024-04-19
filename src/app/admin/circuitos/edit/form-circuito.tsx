@@ -37,7 +37,7 @@ export default function FormCircuito({ circuito }: { circuito: any }) {
     setLoading(true);
     if (!circuito) {
       supabase
-        .from("Circuito")
+        .from("Tour")
         .insert({
           name,
           slug,
@@ -50,7 +50,7 @@ export default function FormCircuito({ circuito }: { circuito: any }) {
         });
     } else {
       supabase
-        .from("Casino")
+        .from("Tour")
         .update({
           name,
           slug,
