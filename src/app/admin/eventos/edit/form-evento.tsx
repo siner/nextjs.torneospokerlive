@@ -62,6 +62,11 @@ export default function FormEvento({
       return;
     }
     setLoading(true);
+    var date = new Date(to);
+    const date_to = format(date, "yyyy-MM-dd");
+    date = new Date(from);
+    const date_from = format(date, "yyyy-MM-dd");
+
     if (!evento) {
       supabase
         .from("Event")
@@ -70,8 +75,8 @@ export default function FormEvento({
           slug,
           casinoId,
           tourId,
-          from,
-          to,
+          from: date_from,
+          to: date_to,
         })
         .then(() => {
           setLoading(false);
@@ -86,8 +91,8 @@ export default function FormEvento({
           slug,
           casinoId,
           tourId,
-          from,
-          to,
+          from: date_from,
+          to: date_to,
         })
         .eq("id", evento.id)
         .then(() => {

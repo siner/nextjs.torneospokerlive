@@ -76,6 +76,9 @@ export default function FormTorneo({
       return;
     }
     setLoading(true);
+    var real_date = new Date(date);
+    const fixed_date = format(real_date, "yyyy-MM-dd");
+
     if (!torneo) {
       supabase
         .from("Tournament")
@@ -84,7 +87,7 @@ export default function FormTorneo({
           slug,
           casinoId,
           eventId,
-          date,
+          date: fixed_date,
           time,
           buyin,
           fee,
@@ -108,7 +111,7 @@ export default function FormTorneo({
           slug,
           casinoId,
           eventId,
-          date,
+          date: fixed_date,
           time,
           buyin,
           fee,
