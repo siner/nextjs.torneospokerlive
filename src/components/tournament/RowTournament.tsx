@@ -16,7 +16,7 @@ export default function RowTournament(props: any) {
   return (
     <a href={"/torneos/" + torneo.slug}>
       <div
-        className="flex flex-col w-full bg-base-100 hover:bg-base-200 border-solid border shadow-sm"
+        className="flex flex-col w-full bg-base-100 hover:bg-base-200 border-solid border shadow-sm mb-0.5"
         style={{
           opacity: opacity,
         }}
@@ -64,7 +64,14 @@ export default function RowTournament(props: any) {
                     />
                   </div>
                 )}
-                <span>{torneo.name}</span>
+                <div className="flex flex-col items-start text-left">
+                  <span>{torneo.name}</span>
+                  {casino && (
+                    <small className="hidden md:inline-block text-xs font-light">
+                      {torneo.casino.name}
+                    </small>
+                  )}
+                </div>
               </div>
             </div>
 

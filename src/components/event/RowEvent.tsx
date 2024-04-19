@@ -17,7 +17,7 @@ export default function RowEvent(props: any) {
   return (
     <a href={"/eventos/" + event.slug}>
       <div
-        className="flex flex-col w-full bg-base-100 base-content hover:bg-base-200 border-solid border shadow-sm"
+        className="flex flex-col w-full bg-base-100 base-content hover:bg-base-200 border-solid border shadow-sm mb-0.5"
         style={{
           opacity: opacity,
         }}
