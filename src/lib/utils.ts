@@ -44,6 +44,15 @@ export function formatDate(date: Date) {
   return { datestring, hour };
 }
 
+export function formatFullDate(date: Date) {
+  let newdate = new Date(date);
+  return newdate.toLocaleDateString("es-ES", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
 export function getMobileDate(date: string) {
   let newdate = new Date(date);
   return [

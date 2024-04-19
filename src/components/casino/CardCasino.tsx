@@ -23,7 +23,7 @@ export default async function CardCasino({ casino }: { casino: any }) {
 
   const bg = casino.color;
   return (
-    <a href={"/casinos/" + casino.slug}>
+    <a href={"/casinos/" + casino.slug} className="block">
       <div className="card w-full bg-base-100 shadow-xl">
         <figure className="h-32 md:h-40" style={{ backgroundColor: bg }}>
           <img

@@ -9,12 +9,26 @@ export const metadata: Metadata = {
 };
 
 import * as React from "react";
-import { Menu } from "lucide-react";
+import {
+  Building,
+  CalendarClock,
+  CalendarDays,
+  CircleUser,
+  Home,
+  Menu,
+  Trophy,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import AdminNavigation from "@/components/layout/admin-navigation";
+import Link from "next/link";
 
 export default async function Layout({
   children,
@@ -44,14 +58,14 @@ export default async function Layout({
       <div className="hidden border-r bg-muted/40 md:block pb-10">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex-1">
-            <nav className="grid items-start px-2 text-sm font-medium lg:px-4 mt-6">
+            <nav className="grid items-start text-sm font-medium lg:px-4 mt-6">
               <AdminNavigation />
             </nav>
           </div>
         </div>
       </div>
       <div className="flex flex-col">
-        <header className="md:hidden flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+        <header className="md:hidden flex h-14 items-center gap-4 border-b md:px-4 lg:h-[60px] lg:px-6">
           <Sheet>
             <SheetTrigger asChild>
               <Button
@@ -64,13 +78,63 @@ export default async function Layout({
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="flex flex-col">
-              <nav className="grid gap-2 text-lg font-medium">
-                <AdminNavigation />
+              <nav className="mt-8 text-lg font-medium flex flex-col gap-4">
+                <SheetClose asChild>
+                  <Link href="/admin" className="flex items-center gap-2">
+                    <Home className="h-4 w-4" />
+                    Dashboard
+                  </Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link
+                    href="/admin/usuarios"
+                    className="flex items-center gap-2"
+                  >
+                    <CircleUser className="h-4 w-4" />
+                    Usuarios
+                  </Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link
+                    href="/admin/casinos"
+                    className="flex items-center gap-2"
+                  >
+                    <Building className="h-4 w-4" />
+                    Casinos
+                  </Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link
+                    href="/admin/circuitos"
+                    className="flex items-center gap-2"
+                  >
+                    <Trophy className="h-4 w-4" />
+                    Circuitos
+                  </Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link
+                    href="/admin/eventos"
+                    className="flex items-center gap-2"
+                  >
+                    <CalendarDays className="h-4 w-4" />
+                    Eventos
+                  </Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link
+                    href="/admin/torneos"
+                    className="flex items-center gap-2"
+                  >
+                    <CalendarClock className="h-4 w-4" />
+                    Torneos
+                  </Link>
+                </SheetClose>
               </nav>
             </SheetContent>
           </Sheet>
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+        <main className="flex flex-1 flex-col gap-4 md:p-4 lg:gap-6 lg:p-6">
           {children}
         </main>
       </div>

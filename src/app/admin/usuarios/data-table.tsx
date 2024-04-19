@@ -58,7 +58,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="flex items-center justify-between py-4 gap-2">
+      <div className="flex items-center justify-between py-4 gap-4">
         <Input
           placeholder="Buscar email..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
@@ -87,7 +87,7 @@ export function DataTable<TData, TValue>({
         />
       </div>
       <div className="rounded-md border">
-        <Table>
+        <Table className="table-auto">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

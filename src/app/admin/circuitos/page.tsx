@@ -9,7 +9,7 @@ export default async function PrivatePage() {
       <div className="flex items-center">
         <h1 className="text-lg font-semibold md:text-2xl">Circuitos</h1>
       </div>
-      <div className="container mx-auto">
+      <div className="md:container mx-auto">
         <DataTable columns={columns} data={tours} />
       </div>
     </>

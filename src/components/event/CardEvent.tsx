@@ -9,7 +9,7 @@ export default function CardEvent(props: { event: any; showCasino: boolean }) {
   const bg = evento.casino.color;
 
   return (
-    <a href={"/eventos/" + evento.slug}>
+    <a href={"/eventos/" + evento.slug} className="block">
       <div className="indicator w-full">
         <div className="grid card w-full bg-base-100 shadow-lg rounded-md h-80">
           <figure

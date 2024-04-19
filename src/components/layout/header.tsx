@@ -6,12 +6,15 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
 
 import { createClient } from "@/lib/supabase/server";
 import Navigation from "./navigation";
@@ -49,7 +52,18 @@ export default async function Header() {
         </SheetTrigger>
         <SheetContent side="left">
           <nav className="grid gap-6 text-lg font-medium">
-            <Navigation />
+            <SheetClose asChild>
+              <Link href="/circuitos">Circuitos</Link>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link href="/eventos">Eventos</Link>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link href="/torneos">Torneos</Link>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link href="/casinos">Casinos</Link>
+            </SheetClose>
           </nav>
         </SheetContent>
       </Sheet>
