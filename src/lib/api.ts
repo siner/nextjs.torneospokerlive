@@ -4,7 +4,7 @@ export async function getAllTournaments() {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("Tournament")
-    .select("*, casino:Casino(*), event:Event(*, tour:Tour(*))")
+    .select("*, casinoId, casino:Casino(*), event:Event(*, tour:Tour(*))")
     .order("date", { ascending: false })
     .order("time", { ascending: true });
   if (error) throw error;
@@ -62,7 +62,9 @@ export async function getTodayTournaments() {
   const { data, error } = await supabase
     .from("Tournament")
     .select("*, casino:Casino(*), event:Event(*, tour:Tour(*))")
-    .eq("date", new Date().toISOString().split("T")[0]);
+    .eq("date", new Date().toISOString().split("T")[0])
+    .order("date", { ascending: false })
+    .order("time", { ascending: true });
   if (error) throw error;
   return data;
 }
@@ -77,7 +79,9 @@ export async function getTomorrowTournaments() {
       new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
         .toISOString()
         .split("T")[0]
-    );
+    )
+    .order("date", { ascending: false })
+    .order("time", { ascending: true });
   if (error) throw error;
   return data;
 }

@@ -18,6 +18,12 @@ export type Casino = {
 
 export const columns: ColumnDef<Casino>[] = [
   {
+    accessorKey: "id",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="ID" />
+    ),
+  },
+  {
     accessorKey: "logo",
     header: "",
     cell: ({ row }) => (

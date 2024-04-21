@@ -70,13 +70,13 @@ export default function FormTorneo({
   }
 
   function updateTorneo() {
-    if (!name || !slug || !casinoId || !eventId || !date || !time || !buyin) {
+    if (!name || !slug || !casinoId || !date || !time || !buyin) {
       toast({ description: "Todos los campos son requeridos" });
       setError(true);
       return;
     }
     setLoading(true);
-    var real_date = new Date(date);
+    const real_date = new Date(date);
     const fixed_date = format(real_date, "yyyy-MM-dd");
 
     if (!torneo) {
