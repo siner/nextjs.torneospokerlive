@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   ),
 };
 import Header from "@/components/layout/header";
+export const runtime = "edge";
 
 export default function RootLayout({
   children,
