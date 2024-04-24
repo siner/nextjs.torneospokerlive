@@ -4,7 +4,7 @@ const nextConfig = {};
 
 export default withSentryConfig(
   nextConfig,
-  {
+  ({
     silent: true,
     org: "franmoreno",
     project: "torneospokerlive",
@@ -15,5 +15,5 @@ export default withSentryConfig(
     hideSourceMaps: true,
     disableLogger: true,
     automaticVercelMonitors: true,
-  }
+  })
 );
