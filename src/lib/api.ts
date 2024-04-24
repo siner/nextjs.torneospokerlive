@@ -148,7 +148,7 @@ export async function getAllCasinos() {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("Casino")
-    .select("*")
+    .select("*, casino_stars(*)")
     .order("name");
   if (error) throw error;
   return data;

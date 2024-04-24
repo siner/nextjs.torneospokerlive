@@ -7,17 +7,17 @@ export default async function CardCasino({ casino }: { casino: any }) {
 
   const user = await supabase.auth.getUser();
   var isStarred = false;
-  var userId = null;
+  var userId: string | null | undefined = null;
+
   if (user) {
     userId = user.data?.user?.id;
-    const { data, error } = await supabase
-      .from("casino_stars")
-      .select("casino_id")
-      .eq("user_id", user.data?.user?.id)
-      .eq("casino_id", casino.id);
-
-    if (data && data.length > 0) {
-      isStarred = true;
+    const casino_stars = casino.casino_stars;
+    if (casino_stars) {
+      casino_stars.forEach((casino_star: any) => {
+        if (casino_star.user_id === userId) {
+          isStarred = true;
+        }
+      });
     }
   }
 
