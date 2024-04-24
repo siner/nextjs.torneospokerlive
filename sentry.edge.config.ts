@@ -8,7 +8,7 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import { SupabaseIntegration } from "@supabase/sentry-js-integration";
 
 Sentry.init({
-  dsn: "https://9b46ccc557860ab03e68b4935b2d574e@o4507142025314304.ingest.de.sentry.io/4507142026625104",
+  dsn: process.env.SENTRY_DSN,
 
   integrations: [
     new SupabaseIntegration(SupabaseClient, {
