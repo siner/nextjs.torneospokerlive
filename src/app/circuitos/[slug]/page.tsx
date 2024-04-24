@@ -3,10 +3,21 @@ import type { Metadata } from "next";
 import CardTour from "@/components/tour/CardTour";
 import RowEvent from "@/components/event/RowEvent";
 
-export const metadata: Metadata = {
-  title: "",
-  description: "",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const tour = await getTour(params.slug);
+  if (!tour) {
+    return {
+      title: "Not found",
+    };
+  }
+  return {
+    title: `${tour.name} - Torneos Poker Live`,
+  };
+}
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const tour = await getTour(params.slug);
@@ -14,8 +25,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
     return <div>Not found</div>;
   }
   const events = await getEventsByTour(tour.id);
-
-  metadata.title = `${tour.name} - Torneos Poker Live`;
 
   return (
     <div>

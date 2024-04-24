@@ -11,6 +11,11 @@ export async function generateMetadata({
   params: { slug: string };
 }) {
   const casino = await getCasino(params.slug);
+  if (!casino) {
+    return {
+      title: "Not found",
+    };
+  }
   return {
     title: `${casino.name} - Torneos Poker Live`,
   };
