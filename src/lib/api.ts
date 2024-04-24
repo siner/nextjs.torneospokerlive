@@ -240,7 +240,7 @@ export async function getNextEvents() {
   const { data, error } = await supabase
     .from("Event")
     .select("*, casino:Casino(*), tour:Tour(*)")
-    .gte("from", new Date().toISOString().split("T")[0])
+    .gt("from", new Date().toISOString().split("T")[0])
     .order("from", { ascending: true });
   if (error) throw error;
   return data;
