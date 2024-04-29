@@ -12,15 +12,8 @@ import {
 } from "@/components/ui/card";
 import Login from "./form-login";
 
-export default async function LoginForm({
-  searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+export default async function LoginForm() {
   const supabase = createClient();
-
-  const fail = searchParams?.error as string;
-  const success = searchParams?.success as string;
 
   const { data, error } = await supabase.auth.getUser();
 

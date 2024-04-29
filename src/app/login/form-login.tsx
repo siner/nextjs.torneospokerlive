@@ -6,9 +6,10 @@ import { createClient } from "@/lib/supabase/client";
 import { TwitterLogoIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function Login() {
-  const searchParams = new URLSearchParams(window.location.search);
+  const searchParams = useSearchParams();
   const urlSuccess = searchParams.get("success");
   const urlFail = searchParams.get("error");
 
@@ -33,6 +34,11 @@ export default function Login() {
 
   async function emailLogin() {
     const supabase = createClient();
+
+    if (!email || !password) {
+      setFail(true);
+      return;
+    }
 
     const user = {
       email: email as string,
