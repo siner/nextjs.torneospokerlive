@@ -9,7 +9,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 import Link from "next/link";
 import { useState } from "react";
-import { RefreshCcw, Search } from "lucide-react";
+import { RefreshCcw, Search, UploadCloudIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function FormCircuito({ circuito }: { circuito: any }) {
@@ -19,12 +19,44 @@ export default function FormCircuito({ circuito }: { circuito: any }) {
   const [slug, setSlug] = useState(circuito ? circuito.slug : "");
   const [logo, setLogo] = useState(circuito ? circuito.logo : "");
   const [error, setError] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
   const { toast } = useToast();
   const router = useRouter();
 
   function generateSlug() {
     if (name) {
       setSlug(name.toLowerCase().replace(/ /g, "-"));
+    }
+  }
+
+  function handleChange(event: any) {
+    console.log(event.target.files[0]);
+    setFile(event.target.files[0]);
+  }
+
+  function handleUpload() {
+    uploadFile();
+  }
+
+  async function uploadFile() {
+    const formData = new FormData();
+    if (!file) return;
+    formData.append("image", file);
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_UPLOAD_URL + "/upload",
+      {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Access-Token": `${process.env.NEXT_PUBLIC_CDN_ACCESS_TOKEN}`,
+        },
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      setLogo(data.url);
+    } else {
+      toast({ description: "Error al subir la imagen" });
     }
   }
 
@@ -97,16 +129,31 @@ export default function FormCircuito({ circuito }: { circuito: any }) {
           </div>
         </div>
         <div className="grid gap-3">
-          <Label htmlFor="logo">Logo</Label>
-          <Input
-            id="logo"
-            type="text"
-            name="logo"
-            className="w-full"
-            defaultValue={logo}
-            onChange={(e) => setLogo(e.target.value)}
-          />
+          <div>
+            <Label htmlFor="logo">Logo</Label>
+            <Input
+              id="logo"
+              type="text"
+              name="logo"
+              className="w-full"
+              defaultValue={logo}
+              value={logo}
+              onChange={(e) => setLogo(e.target.value)}
+            />
+          </div>
+          <div className="flex w-full max-w-sm items-center gap-1.5">
+            <Input id="file" type="file" name="file" onChange={handleChange} />
+            <Button
+              onClick={handleUpload}
+              size="sm"
+              variant="outline"
+              className="w-10"
+            >
+              <UploadCloudIcon />
+            </Button>
+          </div>
         </div>
+
         <div className="flex justify-end gap-4">
           <Button size="sm" onClick={() => updateCircuito()} disabled={loading}>
             {loading ? "Guardando ..." : "Guardar"}
