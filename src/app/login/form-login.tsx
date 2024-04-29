@@ -27,7 +27,7 @@ export default function Login() {
         router.push(redirect);
         return;
       }
-      router.push("/admin");
+      router.refresh();
       return;
     }
   }, [logged, router, redirect]);
