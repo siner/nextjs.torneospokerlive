@@ -18,7 +18,7 @@ export default async function LoginForm() {
   const { data, error } = await supabase.auth.getUser();
 
   if (data?.user) {
-    redirect("/admin");
+    redirect("/");
   }
 
   return (

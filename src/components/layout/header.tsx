@@ -34,9 +34,6 @@ export default async function Header() {
       .select("role, username")
       .eq("id", data?.user?.id);
     if (!role.error && role.data.length !== 0) {
-      if (role.data[0].role === "admin") {
-        admin = true;
-      }
       if (role.data[0].username) avatarName = role.data[0].username;
     }
   }
@@ -126,11 +123,6 @@ export default async function Header() {
                   <Link href="/login">Login</Link>
                 </DropdownMenuItem>
               </>
-            )}
-            {admin && (
-              <DropdownMenuItem asChild>
-                <Link href="/admin">Admin</Link>
-              </DropdownMenuItem>
             )}
             {logged && (
               <>

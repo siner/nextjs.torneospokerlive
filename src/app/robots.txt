@@ -1,6 +1,5 @@
 User-Agent: *
 Allow: /
-Disallow: /admin/
 Disallow: /ajustes/
 Disallow: /login/
 Disallow: /registro/
