@@ -6,6 +6,8 @@ import { Label } from "@/components/ui/label";
 import { createClient } from "@/lib/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { set } from "date-fns";
+import { UploadCloudIcon } from "lucide-react";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 export default function AccountForm({ user }: { user: any }) {
   const supabase = createClient();
@@ -13,8 +15,41 @@ export default function AccountForm({ user }: { user: any }) {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [username, setUsername] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+
   const [wrongUsername, setWrongUsername] = useState(false);
   const { toast } = useToast();
+
+  function handleChange(event: any) {
+    setFile(event.target.files[0]);
+  }
+
+  function handleUpload() {
+    uploadFile();
+  }
+
+  async function uploadFile() {
+    const formData = new FormData();
+    if (!file) return;
+    formData.append("image", file);
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_UPLOAD_URL + "/upload",
+      {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Access-Token": `${process.env.NEXT_PUBLIC_CDN_ACCESS_TOKEN}`,
+        },
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      setAvatar(data.url);
+    } else {
+      toast({ description: "Error al subir la imagen" });
+    }
+  }
 
   const getProfile = useCallback(async () => {
     try {
@@ -22,7 +57,7 @@ export default function AccountForm({ user }: { user: any }) {
 
       const { data, error, status } = await supabase
         .from("user")
-        .select("name, surname, username")
+        .select("name, surname, username, avatar")
         .eq("id", user?.id)
         .single();
 
@@ -33,6 +68,7 @@ export default function AccountForm({ user }: { user: any }) {
       if (data) {
         setName(data.name);
         setSurname(data.surname);
+        setAvatar(data.avatar);
         setUsername(data.username);
       }
     } catch (error) {
@@ -63,6 +99,7 @@ export default function AccountForm({ user }: { user: any }) {
         id: user?.id,
         name: name,
         surname: surname,
+        avatar: avatar,
         username: username,
       });
       if (error) throw error;
@@ -133,6 +170,32 @@ export default function AccountForm({ user }: { user: any }) {
           />
         </div>
       </div>
+      <div className="grid gap-3">
+        <div className="flex w-full max-w-sm items-end gap-2.5">
+          <div>
+            <Label htmlFor="logo">Avatar</Label>
+            <Avatar>
+              <AvatarImage
+                src={
+                  avatar
+                    ? `https://wsrv.nl/?url=${avatar}&w=100&h=100&fit=cover&mask=circle`
+                    : `https://ui-avatars.com/api/?name=${username}&s=100&background=random`
+                }
+              />
+            </Avatar>
+          </div>
+          <Input id="file" type="file" name="file" onChange={handleChange} />
+          <Button
+            onClick={handleUpload}
+            size="sm"
+            variant="outline"
+            className="w-10"
+          >
+            <UploadCloudIcon />
+          </Button>
+        </div>
+      </div>
+
       <div className="flex justify-end gap-4">
         <Button size="sm" onClick={() => updateProfile()} disabled={loading}>
           {loading ? "Guardando ..." : "Guardar"}
