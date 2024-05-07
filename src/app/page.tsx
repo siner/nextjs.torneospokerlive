@@ -10,6 +10,12 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import RowEvent from "@/components/event/RowEvent";
 import { redirect } from "next/navigation";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 
 export default async function Home({
   searchParams,
@@ -28,13 +34,40 @@ export default async function Home({
 
   return (
     <>
-      <h2 className="text-2xl font-bold py-4">Eventos live actuales</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {currentEvents.map((event: any) => (
-          <div key={"event-" + event.id}>
-            <CardEvent event={event} showCasino />
+      <div className="md:flex items-start justify-center gap-10">
+        <div className="md:w-2/3">
+          <h2 className="text-2xl font-bold py-4">Eventos live actuales</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+            {currentEvents.map((event: any) => (
+              <div key={"event-" + event.id}>
+                <CardEvent event={event} showCasino />
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+        <div className="md:w-1/3">
+          <Card className="w-full mt-4">
+            <CardHeader>
+              <h2 className="text-2xl font-bold">¿Echas en falta algo?</h2>
+            </CardHeader>
+            <CardContent>
+              <p>
+                Si echas en falta algún evento o torneo en nuestra web, puedes
+                añadirlo tú mismo.
+              </p>
+            </CardContent>
+            <CardFooter>
+              <div className="flex gap-2">
+                <Link href="/eventos/add">
+                  <Button>Nuevo Evento</Button>
+                </Link>
+                <Link href="/torneos/add">
+                  <Button>Nuevo Torneo</Button>
+                </Link>
+              </div>
+            </CardFooter>
+          </Card>
+        </div>
       </div>
       <h2 className="text-2xl font-bold py-4">Torneos de Hoy</h2>
       <div className="space-y-0.5">

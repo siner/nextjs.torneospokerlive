@@ -32,6 +32,7 @@ export async function getSearchEvents(search: string | string[] | undefined) {
     .from("Event")
     .select("*, casino:Casino(*), tour:Tour(*)")
     .ilike("name", `%${search}%`)
+    .not("draft", "is", true)
     .order("from", { ascending: true });
   if (error) throw error;
   return data;
@@ -63,6 +64,7 @@ export async function getTodayTournaments() {
     .from("Tournament")
     .select("*, casino:Casino(*), event:Event(*, tour:Tour(*))")
     .eq("date", new Date().toISOString().split("T")[0])
+    .not("draft", "is", true)
     .order("date", { ascending: false })
     .order("time", { ascending: true });
   if (error) throw error;
@@ -80,6 +82,7 @@ export async function getTomorrowTournaments() {
         .toISOString()
         .split("T")[0]
     )
+    .not("draft", "is", true)
     .order("date", { ascending: false })
     .order("time", { ascending: true });
   if (error) throw error;
@@ -93,6 +96,7 @@ export async function getNextTournaments() {
     .select(
       "*, casino:Casino(*), event:Event(*, casino:Casino(*), tour:Tour(*))"
     )
+    .not("draft", "is", true)
     .gte("date", new Date().toISOString().split("T")[0])
     .order("date", { ascending: true })
     .order("time", { ascending: true });
@@ -114,6 +118,7 @@ export async function getMyCasinosNextTournaments(userId: string) {
     )
     .in("casinoId", casinos?.map((c: any) => c.casino_id) || [])
     .gte("date", new Date().toISOString().split("T")[0])
+    .not("draft", "is", true)
     .order("date", { ascending: true })
     .order("time", { ascending: true });
   if (error) throw error;
@@ -127,7 +132,8 @@ export async function getTournament(slug: string) {
     .select(
       "*, casino:Casino(*), event:Event(*, casino:Casino(*), tour:Tour(*))"
     )
-    .eq("slug", slug);
+    .eq("slug", slug)
+    .not("draft", "is", true);
   if (error) throw error;
   return data[0];
 }
@@ -180,7 +186,8 @@ export async function getEventsByCasino(casinoId: number) {
   const { data, error } = await supabase
     .from("Event")
     .select("*")
-    .eq("casinoId", casinoId);
+    .eq("casinoId", casinoId)
+    .not("draft", "is", true);
   if (error) throw error;
   return data;
 }
@@ -192,6 +199,7 @@ export async function getNextTorneosByCasino(casinoId: number) {
     .select("*, casino:Casino(*), event:Event(*, tour:Tour(*))")
     .eq("casinoId", casinoId)
     .gte("date", new Date().toISOString().split("T")[0])
+    .not("draft", "is", true)
     .order("date", { ascending: true })
     .order("time", { ascending: true });
   if (error) throw error;
@@ -230,6 +238,7 @@ export async function getEventsByTour(tourId: number) {
   const { data, error } = await supabase
     .from("Event")
     .select("*, casino:Casino(*), tour:Tour(*)")
+    .not("draft", "is", true)
     .eq("tourId", tourId);
   if (error) throw error;
   return data;
@@ -241,6 +250,7 @@ export async function getNextEvents() {
     .from("Event")
     .select("*, casino:Casino(*), tour:Tour(*)")
     .gt("from", new Date().toISOString().split("T")[0])
+    .not("draft", "is", true)
     .order("from", { ascending: true });
   if (error) throw error;
   return data;
@@ -253,6 +263,7 @@ export async function getCurrentEvents() {
     .select("*, casino:Casino(*), tour:Tour(*)")
     .gte("to", new Date().toISOString().split("T")[0])
     .lte("from", new Date().toISOString().split("T")[0])
+    .not("draft", "is", true)
     .order("from", { ascending: true });
   if (error) throw error;
   return data;
@@ -271,6 +282,7 @@ export async function getMyCasinosCurrentEvents(userId: string) {
     .in("casinoId", casinos?.map((c: any) => c.casino_id) || [])
     .gte("to", new Date().toISOString().split("T")[0])
     .lte("from", new Date().toISOString().split("T")[0])
+    .not("draft", "is", true)
     .order("from", { ascending: true });
   if (error) throw error;
   return data;
@@ -288,6 +300,7 @@ export async function getMyCasinosNextEvents(userId: string) {
     .select("*, casino:Casino(*), tour:Tour(*)")
     .in("casinoId", casinos?.map((c: any) => c.casino_id) || [])
     .gte("from", new Date().toISOString().split("T")[0])
+    .not("draft", "is", true)
     .order("from", { ascending: true });
   if (error) throw error;
   return data;
@@ -299,6 +312,7 @@ export async function getTournamentsByEvent(eventId: number) {
     .from("Tournament")
     .select("*, casino:Casino(*), event:Event(*, tour:Tour(*))")
     .eq("eventId", eventId)
+    .not("draft", "is", true)
     .order("date", { ascending: true })
     .order("time", { ascending: true });
   if (error) throw error;
@@ -311,6 +325,7 @@ export async function getPastEvents() {
     .from("Event")
     .select("*, casino:Casino(*), tour:Tour(*)")
     .lte("to", new Date().toISOString().split("T")[0])
+    .not("draft", "is", true)
     .order("from", { ascending: false });
   if (error) throw error;
   return data;
@@ -321,7 +336,8 @@ export async function getEvent(slug: string) {
   const { data, error } = await supabase
     .from("Event")
     .select("*, tour:Tour(*), casino:Casino(*)")
-    .eq("slug", slug);
+    .eq("slug", slug)
+    .not("draft", "is", true);
   if (error) throw error;
   return data[0];
 }
@@ -341,6 +357,7 @@ export async function getAllEvents() {
   const { data, error } = await supabase
     .from("Event")
     .select("*, tour:Tour(*), casino:Casino(*)")
+    .not("draft", "is", true)
     .order("from", { ascending: false });
   if (error) throw error;
   return data;

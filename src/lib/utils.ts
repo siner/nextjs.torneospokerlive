@@ -71,6 +71,10 @@ export function getSimpleDate(date: string) {
   ].join("/");
 }
 
+export function getSlugDate(date: Date) {
+  return date.toISOString().split("T")[0];
+}
+
 export function getPagination(page: number, size: number) {
   const limit = size ? +size : 5;
   const from = page ? page * limit : 0;
