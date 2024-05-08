@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import { CircleUser, Menu, Search } from "lucide-react";
+import { CircleUser, Menu, MailIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -20,6 +20,7 @@ import { createClient } from "@/lib/supabase/server";
 import Navigation from "./navigation";
 import SearchBar from "./search";
 import { Avatar, AvatarImage } from "../ui/avatar";
+import { EnvelopeClosedIcon, TwitterLogoIcon } from "@radix-ui/react-icons";
 
 export default async function Header() {
   const supabase = createClient();
@@ -51,6 +52,7 @@ export default async function Header() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left">
+          <h2 className="text-xl font-bold mb-5">Menú</h2>
           <nav className="grid gap-6 text-lg font-medium">
             <SheetClose asChild>
               <Link href="/circuitos">Circuitos</Link>
@@ -65,6 +67,23 @@ export default async function Header() {
               <Link href="/casinos">Casinos</Link>
             </SheetClose>
           </nav>
+          <h2 className="text-xl font-bold mt-5 mb-5">Contacto</h2>
+          <div className="flex gap-4">
+            <SheetClose asChild>
+              <a
+                href="https://twitter.com/livetorneos"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <TwitterLogoIcon className="h-8 w-8" />
+              </a>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link href="/contacto">
+                <MailIcon className="h-8 w-8" />
+              </Link>
+            </SheetClose>
+          </div>
         </SheetContent>
       </Sheet>
       <Link href="/" className="flex items-center gap-2 font-bold text-lg">
@@ -95,7 +114,17 @@ export default async function Header() {
       </nav>
       <div className="flex md:w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
         <SearchBar />
-
+        <a
+          href="https://twitter.com/livetorneos"
+          target="_blank"
+          rel="noreferrer noopener"
+          className="hidden md:block"
+        >
+          <TwitterLogoIcon className="h-5 w-5" />
+        </a>
+        <Link href="/contacto" className="hidden md:block">
+          <MailIcon className="h-5 w-5" />
+        </Link>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">

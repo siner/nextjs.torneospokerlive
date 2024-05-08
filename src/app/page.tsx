@@ -16,6 +16,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import { TwitterLogoIcon } from "@radix-ui/react-icons";
 
 export default async function Home({
   searchParams,
@@ -45,7 +46,34 @@ export default async function Home({
             ))}
           </div>
         </div>
-        <div className="md:w-1/3">
+        <div className="md:w-1/3 space-y-4">
+          <Card className="w-full mt-4">
+            <CardHeader>
+              <h2 className="text-2xl font-bold">Contacta con nosotros</h2>
+            </CardHeader>
+            <CardContent>
+              <p>
+                Si quieres decirnos algo, ponte en contacto con nosotros por
+                alguna de nuestras vías.
+              </p>
+            </CardContent>
+            <CardFooter>
+              <div className="flex gap-2">
+                <Link href="/contacto">
+                  <Button>Contacto</Button>
+                </Link>
+                <Link
+                  href="https://www.twitter.com/livetorneos"
+                  target="_blank"
+                >
+                  <Button>
+                    <TwitterLogoIcon className="w-6 h-6 mr-2" />
+                    Twitter
+                  </Button>
+                </Link>
+              </div>
+            </CardFooter>
+          </Card>
           <Card className="w-full mt-4">
             <CardHeader>
               <h2 className="text-2xl font-bold">¿Echas en falta algo?</h2>
