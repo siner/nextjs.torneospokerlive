@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from 'next/script'
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -36,6 +37,11 @@ export default function RootLayout({
           <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 px-4 pb-4 bg-muted/40">
             {children}
           </main>
+          <Script
+          src="https://cloud.umami.is/script.js"
+          data-website-id="de03ef4a-a7c8-4e91-a732-ba7f5a95ecea"
+          strategy="beforeInteractive"
+        />
         </div>
       </body>
     </html>
