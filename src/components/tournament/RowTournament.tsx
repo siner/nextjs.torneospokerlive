@@ -1,98 +1,140 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from "next/link";
 import { formatDate, getTextColor } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Clock, Target } from "lucide-react";
 
 export default function RowTournament(props: any) {
   var { torneo, casino, event } = props;
 
-  const backgroundColor = torneo.casino.color;
+  const backgroundColor = torneo.casino?.color || "#ffffff";
   const textColor = getTextColor(backgroundColor);
 
   let datetorneo = new Date(torneo.date);
   let { datestring, hour } = formatDate(datetorneo);
   let today = new Date();
   today.setHours(0, 0, 0, 0);
-  let opacity = datetorneo < today ? "0.6" : "1";
+  const isPast = datetorneo < today;
+  const buyin = parseInt(torneo.buyin) || 0;
+  const fee = parseInt(torneo.fee) || 0;
+  const bounty = parseInt(torneo.bounty) || 0;
+  const baseBuyin = buyin - fee - bounty;
 
   return (
-    <a href={"/torneos/" + torneo.slug}>
-      <div
-        className="flex flex-col w-full bg-base-100 hover:bg-base-200 border-solid border shadow-sm mb-0.5"
-        style={{
-          opacity: opacity,
-        }}
-      >
-        <div className="flex flex-row w-full md:hidden justify-between px-1 pb-1 bg-secondary">
-          {casino && (
-            <div className="text-xs md:hidden">{torneo.casino.name}</div>
-          )}
-          <div className="text-xs">
-            {datestring}
-            {torneo.time ? " - " + torneo.time.substring(0, 5) : ""}
-          </div>
+    <div className={`border-b hover:bg-accent ${isPast ? "opacity-60" : ""}`}>
+      <div className="flex items-center gap-4 px-4 py-3">
+        <div className="flex-shrink-0 w-20 text-xs text-muted-foreground text-center">
+          <div>{datestring}</div>
+          {torneo.time && <div>{torneo.time.substring(0, 5)}</div>}
         </div>
-        <div className="flex flex-row w-full">
-          <div className="flex items-center justify-between flex-1 cursor-pointer select-none w-full">
-            {casino && (
-              <div
-                className="hidden md:flex flex-col items-center justify-center rounded-full mx-2"
-                style={{
-                  backgroundColor: backgroundColor,
-                }}
-              >
-                <div className="tooltip" data-tip={torneo.casino.name}>
+        <div className="hidden sm:flex flex-col items-center justify-center flex-shrink-0 w-12 gap-1">
+          {casino && torneo.casino && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Avatar
+                    className="h-8 w-8 border"
+                    style={{ backgroundColor }}
+                  >
+                    <AvatarImage
+                      src={torneo.casino.logo}
+                      alt={`Logo ${torneo.casino.name}`}
+                      className="object-contain p-0.5"
+                    />
+                  </Avatar>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{torneo.casino.name}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+          {event && torneo.event?.tour?.logo && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
                   <img
-                    src={torneo.casino.logo}
-                    height={30}
-                    width={30}
-                    alt={"Logo " + torneo.casino.name}
-                    className="h-8 w-8 mx-auto rounded-full object-contain"
+                    src={torneo.event.tour.logo}
+                    width={24}
+                    height={24}
+                    alt={"Icono " + torneo.event.name}
+                    className="h-6 w-6 rounded-full object-contain"
                   />
-                </div>
-              </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>
+                    {torneo.event.tour.name} - {torneo.event.name}
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+        </div>
+        <div className="flex-grow text-left">
+          <Link
+            href={"/torneos/" + torneo.slug}
+            className="block font-semibold text-sm sm:text-base hover:underline mb-1"
+          >
+            {torneo.name}
+          </Link>
+          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+            {casino && torneo.casino && (
+              <span className="inline-flex items-center gap-1.5">
+                {torneo.casino.name}
+              </span>
             )}
-
-            <div className="grow pl-1 mr-2 md:mr-5 p-2">
-              <div className="flex space-x-2 items-center content-center font-medium text-sm md:text-base">
-                {event && torneo.event && (
-                  <div className="tooltip" data-tip={torneo.event.name}>
+            {torneo.leveltime && (
+              <span className="flex items-center gap-1 whitespace-nowrap">
+                <Clock className="h-3 w-3" /> {torneo.leveltime}
+              </span>
+            )}
+            {event && torneo.event?.tour?.logo && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
                     <img
                       src={torneo.event.tour.logo}
-                      width={30}
-                      height={30}
+                      width={16}
+                      height={16}
                       alt={"Icono " + torneo.event.name}
-                      className="w-8 mr-2 rounded-full object-contain"
+                      className="sm:hidden h-4 w-4 rounded-full object-contain"
                     />
-                  </div>
-                )}
-                <div className="flex flex-col items-start text-left">
-                  <span>{torneo.name}</span>
-                  {casino && (
-                    <small className="hidden md:inline-block text-xs font-light">
-                      {torneo.casino.name}
-                    </small>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div className="pl-1 mr-2 text-right p-2 w-24 md:w-44">
-              <div className="text-xs hidden md:block">
-                {datestring}
-                {torneo.time ? " - " + torneo.time.substring(0, 5) : ""}
-              </div>
-              <div className="text-base font-bold md:hidden">
-                {parseInt(torneo.buyin) > 0 && <span>{torneo.buyin}€</span>}
-              </div>
-            </div>
-
-            <div className="pl-1 mr-2 text-right p-2 hidden md:block w-24">
-              <div className="text-xl font-bold">
-                {parseInt(torneo.buyin) > 0 && <span>{torneo.buyin}€</span>}
-              </div>
-            </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>
+                      {torneo.event.tour.name} - {torneo.event.name}
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
           </div>
         </div>
+        <div className="flex-shrink-0 w-auto text-right font-medium">
+          {buyin > 0 ? (
+            <>
+              <div className="text-base">{`${buyin}€`}</div>
+              {(fee > 0 || bounty > 0) && (
+                <div className="text-xs text-muted-foreground font-normal hidden sm:block">
+                  ({baseBuyin > 0 ? `${baseBuyin}€ + ` : ""}
+                  {fee > 0 ? `${fee}€` : ""}
+                  {bounty > 0 ? `${fee > 0 ? " + " : ""}${bounty}€ KO` : ""})
+                </div>
+              )}
+            </>
+          ) : (
+            <span className="text-sm text-muted-foreground hidden sm:block">
+              Registro Cerrado
+            </span>
+          )}
+        </div>
       </div>
-    </a>
+    </div>
   );
 }

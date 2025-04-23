@@ -1,6 +1,29 @@
 import { withSentryConfig } from "@sentry/nextjs";
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "www.gravatar.com",
+        port: "",
+        pathname: "/avatar/**",
+      },
+      {
+        protocol: "https",
+        hostname: "ui-avatars.com",
+        port: "",
+        pathname: "/api/**",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.torneospokerlive.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
+  },
+};
 
 export default withSentryConfig(
   nextConfig,

@@ -1,8 +1,8 @@
 # Gestión de Tareas
 
-## Feature: Mejora de Usabilidad y Estética (Layout y Navegación)
+## Feature: Mejora de Usabilidad y Estética (Layout, Navegación, Listados)
 
-Mejorar la experiencia de usuario y el diseño visual de la aplicación, aplicando un layout centrado consistente y mejorando la navegación.
+Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 
 ## Completed Tasks
 
@@ -30,11 +30,46 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación, aplican
 - [x] Implementar mejoras Layout: Centrar contenido de `main` en `layout.tsx` usando `container`.
 - [x] Implementar mejoras Estética: Mejorar hover/activo en `Navigation` desktop.
 - [x] Implementar mejoras Estética: Simplificar `Sheet` móvil (eliminar H2 Menú).
+- [x] Implementar mejoras UI/UX: Refactorizar `RowTournament` para usar `Card` de Shadcn/ui.
+- [x] Implementar mejoras UI/UX: Corregir linter error en `RowTournament` post-refactor.
+- [x] Implementar mejoras UI/UX: Refactorizar `RowTournament` a formato compacto (sin Card, flex, 3 cols).
+- [x] Implementar mejoras UI/UX: Añadir Fee, Bounty, LevelTime a `RowTournament`.
+- [x] Implementar mejoras UI/UX: Ajustar ancho de columna Fecha en `RowTournament`.
+- [x] Implementar mejoras UI/UX: Ajustar formato de Buy-in/Fee/Bounty en `RowTournament`.
+- [x] Implementar mejoras UI/UX: Cambiar icono de Bounty en `RowTournament` (Percent -> Target).
+- [x] Implementar mejoras UI/UX: Aumentar tamaño fuente Buyin en `RowTournament`.
+- [x] Implementar mejoras UI/UX: Centrar verticalmente columna Costos en `RowTournament`.
+- [x] Implementar mejoras UI/UX: Mostrar "Registro Cerrado" si Buyin=0 en `RowTournament`.
+- [x] Implementar mejoras UI/UX: Ajustar alineación vertical de Costos en móvil (`pt-1`) (Intento 1 fallido).
+- [x] Implementar mejoras UI/UX: Reajustar layout `RowTournament` para mejor responsividad móvil (flex-col -> sm:flex-row) (Intento 2).
+- [x] Implementar mejoras UI/UX: Reajustar layout `RowTournament` a 3 columnas con `items-center` y Link en nombre (Intento 3).
+- [x] Implementar mejoras UI/UX: Refactorizar `RowTournament` a 4 columnas desktop, logos en col 2, fix leveltime wrap (Intento 4).
+- [x] Revisión visual final de `RowTournament` (móvil y desktop).
+- [x] Analizar página de listado `/eventos` y componente `RowEvent`.
+- [x] Implementar mejoras UI/UX: Refactorizar `RowEvent` con estilo similar a `RowTournament` (3 columnas desktop, Link en nombre, clases estándar).
+- [x] Implementar mejoras UI/UX: Ajustar `RowEvent` con logos desktop horizontales y mismo tamaño.
+- [x] Implementar mejoras UI/UX: Mejorar layout de detalles (casino/tour) en móvil en `RowEvent`.
+- [x] Revisión visual de `RowEvent`.
+- [x] Analizar página de listado `/casinos` y componente `CardCasino`.
+- [x] Refactorizar `CardCasino` usando Shadcn UI.
+- [x] Configurar `next.config.mjs` para dominio de imágenes.
+- [x] Corregir problema de layout="fill" en `next/image` para `CardCasino`.
+- [x] Revisión visual y ajuste final de `CardCasino` (incluye color de fondo).
+- [x] Analizar página de listado `/circuitos` y componente `CardTour`.
+- [x] Corregir H1 en `circuitos/page.tsx`.
+- [x] Refactorizar `CardTour` usando Shadcn UI y `next/image` (sin favoritos).
+- [x] Actualizar uso de `next/image` (prop `fill`, clase `object-contain`) en `CardTour` y `CardCasino`.
+- [x] Añadir prop `sizes` a `next/image` en `CardTour` y `CardCasino`.
+- [x] Añadir prop `sizes` a `next/image` en `CardTour` y `CardCasino`.
 
 ## In Progress Tasks
 
-- [ ] Evaluar y mejorar otros aspectos estéticos de la aplicación (ej: páginas de listado/detalle).
-- [ ] Implementar mejoras estéticas identificadas.
+- [ ] Revisar layout grid en `/casinos/page.tsx` para optimizar espaciado y responsive.
+- [ ] Investigar warning persistente de `next/image` con `fill` y `relative` parent en `CardTour` (opcional, aparcado por ahora).
+- [ ] Analizar y proponer mejoras para `CardEvent` (eventos actuales).
+- [ ] Aplicar estilo de fila a listados de Circuitos si se decide cambiar.
+- [ ] Analizar y proponer mejoras para páginas de detalle (Torneo/Evento).
+- [ ] Analizar y proponer mejoras para formularios (Login/Registro).
 
 ## Future Tasks
 
@@ -46,10 +81,16 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación, aplican
 
 ## Implementation Plan
 
-1.  **Análisis y Discusión:** Identificar puntos débiles UI/UX. ✅ (Navegación, Header, Footer, Layout)
-2.  **Propuesta:** Sugerir cambios. ✅ (Refactorizar Nav, Espaciado, Iconos, Footer, Logo, Layout Centrado, Estética Nav)
-3.  **Implementación Iterativa:** Aplicar cambios. ✅ (Nav, Header, Footer, Layout, Estética Nav)
-4.  **Revisión:** Validar mejoras. ⏳ (Pendiente revisión y siguientes pasos)
+1.  **Análisis y Discusión:** Identificar puntos débiles UI/UX. ✅ (Layout, Nav, Listados T/E/C)
+2.  **Propuesta:** Sugerir cambios. ✅ (Layout Centrado, Estética Nav, Refactor Rows, Refactor CardCasino)
+3.  **Implementación Iterativa:** Aplicar cambios. ✅ (Layout, Nav, Rows, CardCasino)
+4.  **Revisión:** Validar mejoras. ⏳ (Pendiente revisión `CardCasino` y siguientes pasos)
+
+- Se ha completado el refactor de `CardCasino` y `CardTour` usando Shadcn UI.
+- Se ha actualizado el uso de `next/image` a la API moderna.
+- Se corrigió el título H1 en la página de circuitos.
+- **Nota:** Queda pendiente un warning de `next/image` en `CardTour`.
+- **Próximo paso:** Decidido por el usuario.
 
 ### Relevant Files
 
@@ -57,8 +98,18 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación, aplican
 - `src/components/layout/navigation.tsx` ✅
 - `src/components/layout/footer.tsx` ✅
 - `src/app/layout.tsx` ✅
+- `src/app/torneos/page.tsx` ✅ (Analizado)
+- `src/components/tournament/RowTournament.tsx` ✅ (Refactorizado v5 + 4col)
 - `src/app/globals.css`
 - `src/components/`
 - `src/app/**/page.tsx`
 - `tailwind.config.ts`
+- `src/app/eventos/page.tsx` ✅ (Analizado)
+- `src/components/event/RowEvent.tsx` ✅ (Refactorizado v2 + user tweaks)
+- `src/components/event/CardEvent.tsx`
+- `src/app/casinos/page.tsx` ✅ (Analizado)
+- `src/components/casino/CardCasino.tsx` ✅ (Refactorizado)
+- `src/components/event/CardEvent.tsx`
 - `project-docs/TASKS.md` ✅
+- `src/app/circuitos/page.tsx` ✅ (Analizado y H1 corregido)
+- `src/components/tour/CardTour.tsx` ✅ (Refactorizado, `next/image` actualizado)

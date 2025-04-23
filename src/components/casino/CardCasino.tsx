@@ -1,51 +1,57 @@
+import Link from "next/link";
 import { CasinoStar } from "./CasinoStar";
 import { createClient } from "@/lib/supabase/server";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 /* eslint-disable @next/next/no-img-element */
 export default async function CardCasino({ casino }: { casino: any }) {
   const supabase = createClient();
-
-  const user = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   var isStarred = false;
-  var userId: string | null | undefined = null;
 
-  if (user) {
-    userId = user.data?.user?.id;
-    const casino_stars = casino.casino_stars;
-    if (casino_stars) {
-      casino_stars.forEach((casino_star: any) => {
-        if (casino_star.user_id === userId) {
-          isStarred = true;
-        }
-      });
-    }
+  if (user && casino.casino_stars) {
+    isStarred = casino.casino_stars.some(
+      (star: any) => star.user_id === user.id
+    );
   }
 
-  const bg = casino.color;
   return (
-    <a href={"/casinos/" + casino.slug} className="block">
-      <div className="card w-full bg-base-100 shadow-xl">
-        <figure
-          className="h-32 md:h-40 flex justify-center items-center"
-          style={{ backgroundColor: bg }}
+    <Card className="overflow-hidden">
+      <CardContent className="p-0">
+        <div
+          className="aspect-video overflow-hidden relative"
+          style={{ backgroundColor: casino.color }}
         >
-          <img
-            src={`${casino.logo}`}
-            alt={casino.nombre}
-            className="h-32 object-contain mx-auto"
-          />
-        </figure>
-        <div className="card-body flex items-center justify-center text-center p-4 space-x-4 md:p-8">
-          {userId && (
+          <Link
+            href={"/casinos/" + casino.slug}
+            className="block w-full h-full"
+          >
+            <img
+              src={`${casino.logo}`}
+              alt={`Logo ${casino.name}`}
+              sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
+              className="mx-auto p-4 object-contain h-full w-full"
+            />
+          </Link>
+        </div>
+        <div className="p-4 flex justify-between items-center">
+          <Link
+            href={"/casinos/" + casino.slug}
+            className="block font-semibold hover:underline truncate"
+          >
+            {casino.name}
+          </Link>
+          {user && (
             <CasinoStar
               casinoId={casino.id}
-              userId={userId}
+              userId={user.id}
               isStarred={isStarred}
             />
           )}
-          <h2 className="card-title">{casino.name}</h2>
         </div>
-      </div>
-    </a>
+      </CardContent>
+    </Card>
   );
 }
