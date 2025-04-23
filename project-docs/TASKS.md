@@ -74,6 +74,7 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - [x] Revisar layout grid en `/casinos/page.tsx` (Decidido OK por ahora).
 - [x] Investigar warning persistente de `next/image` con `fill` (Decidido ignorar por ahora).
 - [x] Analizar `CardEvent` (Decidido OK por ahora).
+- [x] Reestructurar página principal (`page.tsx`): ocultar secciones vacías, cards secundarias al final, mensaje amigable si no hay contenido.
 
 ## In Progress Tasks
 
@@ -90,13 +91,14 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 ## Implementation Plan
 
 1.  **Análisis y Discusión:** Identificar puntos débiles UI/UX. ✅ (Layout, Nav, Listados T/E/C)
-2.  **Propuesta:** Sugerir cambios. ✅ (Layout Centrado, Estética Nav, Refactor Rows, Refactor CardCasino)
-3.  **Implementación Iterativa:** Aplicar cambios. ✅ (Layout, Nav, Rows, CardCasino)
+2.  **Propuesta:** Sugerir cambios. ✅ (Layout Centrado, Estética Nav, Refactor Rows, Refactor CardCasino, Reestructuración Home)
+3.  **Implementación Iterativa:** Aplicar cambios. ✅ (Layout, Nav, Rows, CardCasino, Home)
 4.  **Revisión:** Validar mejoras. ⏳ (Pendiente revisión `CardCasino` y siguientes pasos)
 
 - Se ha completado el refactor de `CardCasino` y `CardTour` usando Shadcn UI.
 - Se ha actualizado el uso de `next/image` a la API moderna.
 - Se corrigió el título H1 en la página de circuitos.
+- Se ha reestructurado la página principal para ocultar secciones vacías y mejorar la jerarquía visual.
 - **Nota:** Queda pendiente un warning de `next/image` en `CardTour`.
 - **Próximo paso:** Decidido por el usuario.
 
@@ -121,3 +123,4 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - `project-docs/TASKS.md` ✅
 - `src/app/circuitos/page.tsx` ✅ (Analizado y H1 corregido)
 - `src/components/tour/CardTour.tsx` ✅ (Refactorizado, `next/image` actualizado)
+- `src/app/page.tsx` ✅ (Reestructurada: condicionales, cards al final, mensaje vacío)

@@ -133,7 +133,7 @@ export default async function Home({
 
       {/* Cards secundarias siempre al final */}
       <section className="w-full max-w-3xl mx-auto mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="w-full">
+        <Card className="w-full flex flex-col justify-between">
           <CardHeader>
             <h2 className="text-2xl font-bold">Contacta con nosotros</h2>
           </CardHeader>
@@ -157,7 +157,7 @@ export default async function Home({
             </div>
           </CardFooter>
         </Card>
-        <Card className="w-full">
+        <Card className="w-full flex flex-col justify-between">
           <CardHeader>
             <h2 className="text-2xl font-bold">¿Echas en falta algo?</h2>
           </CardHeader>
