@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
-import Image from "next/image";
 
 /* eslint-disable @next/next/no-img-element */
 interface CardCasinoProps {
@@ -21,12 +20,10 @@ export default function CardCasino({ casino }: CardCasinoProps) {
             href={"/casinos/" + casino.slug}
             className="block w-full h-full"
           >
-            <Image
+            <img
               src={`${casino.logo}`}
               alt={`Logo ${casino.name}`}
-              fill
-              sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
-              className="mx-auto p-4 object-contain"
+              className="mx-auto p-4 object-contain h-full w-full"
             />
           </Link>
         </div>

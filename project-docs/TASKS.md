@@ -75,10 +75,15 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - [x] Investigar warning persistente de `next/image` con `fill` (Decidido ignorar por ahora).
 - [x] Analizar `CardEvent` (Decidido OK por ahora).
 - [x] Reestructurar página principal (`page.tsx`): ocultar secciones vacías, cards secundarias al final, mensaje amigable si no hay contenido.
+- [x] Revisión de CardEvent y CardTour para confirmar uso de <img>
+- [x] Reemplazo de next/image por <img> en CardCasino
 
 ## In Progress Tasks
 
 - [ ] Revisar/Mejorar formularios (Login/Registro).
+- [ ] Revisión visual y de props para asegurar consistencia entre los tres componentes
+- [ ] Añadir comentarios aclaratorios en el código
+- [ ] Probar los componentes en diferentes tamaños de pantalla
 
 ## Future Tasks
 
@@ -87,6 +92,7 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - [ ] Añadir documentación de componentes/APIs.
 - [ ] Funcionalidades para usuarios registrados.
 - [ ] Mantener Changelog.
+- [ ] Documentar en overview.md la decisión de usar <img> por simplicidad y consistencia
 
 ## Implementation Plan
 

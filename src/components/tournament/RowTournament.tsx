@@ -33,18 +33,20 @@ export default function RowTournament(props: any) {
           <div>{datestring}</div>
           {torneo.time && <div>{torneo.time.substring(0, 5)}</div>}
         </div>
-        <div className="hidden sm:flex flex-col items-center justify-center flex-shrink-0 w-12 gap-1">
+        <div className="hidden md:flex items-center justify-start flex-shrink-0 w-24  gap-1">
           {casino && torneo.casino && (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Avatar
-                    className="h-8 w-8 border"
+                    className="h-10 w-10 border"
                     style={{ backgroundColor }}
                   >
-                    <AvatarImage
+                    <img
                       src={torneo.casino.logo}
                       alt={`Logo ${torneo.casino.name}`}
+                      width={40}
+                      height={40}
                       className="object-contain p-0.5"
                     />
                   </Avatar>
@@ -61,10 +63,10 @@ export default function RowTournament(props: any) {
                 <TooltipTrigger asChild>
                   <img
                     src={torneo.event.tour.logo}
-                    width={24}
-                    height={24}
+                    width={40}
+                    height={40}
                     alt={"Icono " + torneo.event.name}
-                    className="h-6 w-6 rounded-full object-contain"
+                    className="h-10 w-10 rounded-full object-contain"
                   />
                 </TooltipTrigger>
                 <TooltipContent>
@@ -94,26 +96,28 @@ export default function RowTournament(props: any) {
                 <Clock className="h-3 w-3" /> {torneo.leveltime}
               </span>
             )}
-            {event && torneo.event?.tour?.logo && (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <img
-                      src={torneo.event.tour.logo}
-                      width={16}
-                      height={16}
-                      alt={"Icono " + torneo.event.name}
-                      className="sm:hidden h-4 w-4 rounded-full object-contain"
-                    />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>
-                      {torneo.event.tour.name} - {torneo.event.name}
-                    </p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            )}
+            <div className="hidden sm:block">
+              {event && torneo.event?.tour?.logo && (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <img
+                        src={torneo.event.tour.logo}
+                        width={16}
+                        height={16}
+                        alt={"Icono " + torneo.event.name}
+                        className="sm:hidden h-4 w-4 rounded-full object-contain"
+                      />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>
+                        {torneo.event.tour.name} - {torneo.event.name}
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )}
+            </div>
           </div>
         </div>
         <div className="flex-shrink-0 w-auto text-right font-medium">
