@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { Suspense } from "react";
+import { createClient } from "@/lib/supabase/server";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -29,11 +30,33 @@ function HeaderFallback() {
   );
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = createClient();
+  var logged = false;
+  var avatar = null;
+  const { data } = await supabase.auth.getUser();
+  var role = null;
+  var avatarName = data?.user?.email;
+  if (data?.user) {
+    logged = true;
+    role = await supabase
+      .from("user")
+      .select("role, username, avatar")
+      .eq("id", data?.user?.id);
+    if (!role.error && role.data.length !== 0) {
+      if (role.data[0].username) avatarName = role.data[0].username;
+      if (role.data[0].avatar) avatar = role.data[0].avatar;
+    }
+  }
+  var user = {
+    logged: logged,
+    avatar: avatar,
+    avatarName: avatarName,
+  };
   return (
     <html lang="es">
       <body
@@ -43,8 +66,7 @@ export default function RootLayout({
         )}
       >
         <Suspense fallback={<HeaderFallback />}>
-          {/* @ts-expect-error Async Server Component */}
-          <Header />
+          <Header user={user} />
         </Suspense>
         <main className="flex-grow bg-muted/40 py-4">
           <div className="container mx-auto">{children}</div>

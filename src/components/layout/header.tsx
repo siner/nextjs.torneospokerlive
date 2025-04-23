@@ -20,27 +20,11 @@ import { createClient } from "@/lib/supabase/server";
 import Navigation from "./navigation";
 import SearchBar from "./search";
 import { Avatar, AvatarImage } from "../ui/avatar";
-import { TwitterLogoIcon } from "@radix-ui/react-icons";
 
-export default async function Header() {
-  const supabase = createClient();
-  var admin = false;
-  var logged = false;
-  var avatar = null;
-  const { data } = await supabase.auth.getUser();
-  var role = null;
-  var avatarName = data?.user?.email;
-  if (data?.user) {
-    logged = true;
-    role = await supabase
-      .from("user")
-      .select("role, username, avatar")
-      .eq("id", data?.user?.id);
-    if (!role.error && role.data.length !== 0) {
-      if (role.data[0].username) avatarName = role.data[0].username;
-      if (role.data[0].avatar) avatar = role.data[0].avatar;
-    }
-  }
+export default function Header({ user }: { user: any }) {
+  const logged = user.logged;
+  const avatar = user.avatar;
+  const avatarName = user.avatarName;
 
   return (
     <header className="sticky top-0 h-16 border-b bg-background z-50">
