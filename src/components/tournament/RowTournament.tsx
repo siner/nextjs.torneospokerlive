@@ -41,11 +41,11 @@ export default function RowTournament(props: any) {
               >
                 <div className="tooltip" data-tip={torneo.casino.name}>
                   <img
-                    src={`https://wsrv.nl/?url=${torneo.casino.logo}&w=30&h=30&fit=contain&mask=circle`}
+                    src={torneo.casino.logo}
                     width={30}
                     height={30}
                     alt={"Logo " + torneo.casino.name}
-                    className="mx-auto"
+                    className="mx-auto rounded-full object-contain"
                   />
                 </div>
               </div>
@@ -56,11 +56,11 @@ export default function RowTournament(props: any) {
                 {event && torneo.event && (
                   <div className="tooltip" data-tip={torneo.event.name}>
                     <img
-                      src={`https://wsrv.nl/?url=${torneo.event.tour.logo}&w=30&h=30&fit=contain&mask=circle`}
+                      src={torneo.event.tour.logo}
                       width={30}
                       height={30}
                       alt={"Icono " + torneo.event.name}
-                      className="w-8 mr-2"
+                      className="w-8 mr-2 rounded-full object-contain"
                     />
                   </div>
                 )}

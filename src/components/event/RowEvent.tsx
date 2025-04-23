@@ -37,21 +37,21 @@ export default function RowEvent(props: any) {
               }}
             >
               <img
-                src={`https://wsrv.nl/?url=${event.casino.logo}&w=30&h=30&fit=contain&mask=circle`}
+                src={event.casino.logo}
                 width={30}
                 height={30}
                 alt={"Logo " + event.casino.name}
-                className="mx-auto object-cover"
+                className="mx-auto object-cover rounded-full"
               />
             </div>
             {showtour && (
               <div className="flex flex-col items-center justify-center w-14 h-10 mr-4 p-2">
                 <img
-                  src={`https://wsrv.nl/?url=${event.tour.logo}&w=30&h=30&fit=contain&mask=circle`}
+                  src={event.tour.logo}
                   width={30}
                   height={30}
                   alt={"Icono " + event.name}
-                  className="mx-auto"
+                  className="mx-auto rounded-full object-contain"
                 />
               </div>
             )}

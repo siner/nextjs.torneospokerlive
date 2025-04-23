@@ -17,16 +17,16 @@ export default function CardEvent(props: { event: any; showCasino: boolean }) {
             style={{ backgroundColor: bg }}
           >
             <img
-              className="mx-auto"
-              src={`https://wsrv.nl/?url=${evento.tour.logo}&w=200&h=200&fit=contain&mask=circle`}
+              className="mx-auto rounded-full object-contain"
+              src={evento.tour.logo}
               width={100}
               height={100}
               alt={evento.name}
             />
             {showCasino && (
               <img
-                className="mx-auto"
-                src={`https://wsrv.nl/?url=${evento.casino.logo}&w=200&h=200&fit=contain&mask=circle`}
+                className="mx-auto rounded-full object-contain"
+                src={evento.casino.logo}
                 width={100}
                 height={100}
                 alt={evento.casino.name}

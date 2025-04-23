@@ -178,7 +178,7 @@ export default function AccountForm({ user }: { user: any }) {
               <AvatarImage
                 src={
                   avatar
-                    ? `https://wsrv.nl/?url=${avatar}&w=100&h=100&fit=cover&mask=circle`
+                    ? avatar
                     : `https://ui-avatars.com/api/?name=${username}&s=100&background=random`
                 }
               />

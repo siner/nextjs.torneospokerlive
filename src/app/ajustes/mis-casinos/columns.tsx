@@ -30,9 +30,9 @@ export const columns: ColumnDef<Casino>[] = [
           }}
         >
           <img
-            src={`https://wsrv.nl/?url=${casino.logo}&w=100&h=100&fit=contain&mask=circle`}
+            src={`${casino.logo}`}
             alt="logo"
-            className="h-10 w-10"
+            className="h-10 w-10 rounded-full object-cover"
           />
         </div>
       );
