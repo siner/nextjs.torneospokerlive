@@ -6,6 +6,8 @@ import { createClient } from "@/lib/supabase/client";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 
 export default function Register() {
   const searchParams = useSearchParams();
@@ -21,6 +23,9 @@ export default function Register() {
   const [registered, setRegistered] = useState(false);
   const [message, setMessage] = useState("");
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
   useEffect(() => {
     if (registered) {
@@ -30,18 +35,37 @@ export default function Register() {
   }, [registered, router]);
 
   async function emailRegister() {
+    setLoading(true);
+    setFail(false);
+    setMessage("");
     const supabase = createClient();
     console.log("emailRegister");
 
     if (!email || !password || !repeatPassword || !username) {
       setFail(true);
       setMessage("Rellena todos los campos obligatorios");
+      setLoading(false);
+      return;
+    }
+
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      setFail(true);
+      setMessage("Introduce un email válido");
+      setLoading(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      setFail(true);
+      setMessage("La contraseña debe tener al menos 6 caracteres");
+      setLoading(false);
       return;
     }
 
     if (password !== repeatPassword) {
       setFail(true);
       setMessage("Las contraseñas no coinciden");
+      setLoading(false);
       return;
     }
 
@@ -54,6 +78,7 @@ export default function Register() {
       if (data && data?.length > 0) {
         setFail(true);
         setMessage("El nombre de usuario ya existe");
+        setLoading(false);
         return;
       }
     }
@@ -68,6 +93,8 @@ export default function Register() {
     if (!data?.user) {
       setFail(true);
       setMessage("Error al registrar el usuario");
+      setLoading(false);
+      return;
     }
 
     await supabase.from("user").upsert([
@@ -81,10 +108,25 @@ export default function Register() {
     ]);
 
     setRegistered(true);
+    setLoading(false);
   }
 
   return (
     <div className="grid gap-4">
+      {fail && (
+        <Alert variant="destructive" className="mb-2">
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{message}</AlertDescription>
+        </Alert>
+      )}
+      {registered && (
+        <Alert className="mb-2">
+          <AlertTitle>Registro exitoso</AlertTitle>
+          <AlertDescription>
+            ¡Te has registrado correctamente! Redirigiendo al login...
+          </AlertDescription>
+        </Alert>
+      )}
       <div className="grid gap-2 grid-cols-2">
         <div>
           <Label htmlFor="email">Email</Label>
@@ -96,6 +138,7 @@ export default function Register() {
             onChange={(e) => setEmail(e.target.value)}
             className={fail && !email ? "border-red-500" : ""}
             required
+            autoComplete="email"
           />
         </div>
         <div>
@@ -106,6 +149,7 @@ export default function Register() {
             onChange={(e) => setUsername(e.target.value)}
             className={fail && !username ? "border-red-500" : ""}
             required
+            autoComplete="username"
           />
         </div>
       </div>
@@ -117,6 +161,7 @@ export default function Register() {
             name="name"
             onChange={(e) => setName(e.target.value)}
             required
+            autoComplete="given-name"
           />
         </div>
         <div>
@@ -126,17 +171,29 @@ export default function Register() {
             name="last-name"
             onChange={(e) => setLastName(e.target.value)}
             required
+            autoComplete="family-name"
           />
         </div>
       </div>
       <div className="grid gap-2">
-        <div className="flex items-center">
+        <div className="flex items-center justify-between">
           <Label htmlFor="password">Contraseña</Label>
+          <button
+            type="button"
+            tabIndex={-1}
+            className="ml-2 text-xs text-muted-foreground hover:text-foreground focus:outline-none"
+            onClick={() => setShowPassword((v) => !v)}
+            aria-label={
+              showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+            }
+          >
+            {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
+          </button>
         </div>
         <Input
           id="password"
           name="password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           onChange={(e) => setPassword(e.target.value)}
           className={
             fail && (!password || password != repeatPassword)
@@ -144,16 +201,28 @@ export default function Register() {
               : ""
           }
           required
+          autoComplete="new-password"
         />
       </div>
       <div className="grid gap-2">
-        <div className="flex items-center">
+        <div className="flex items-center justify-between">
           <Label htmlFor="repeat-password">Repetir contraseña</Label>
+          <button
+            type="button"
+            tabIndex={-1}
+            className="ml-2 text-xs text-muted-foreground hover:text-foreground focus:outline-none"
+            onClick={() => setShowRepeatPassword((v) => !v)}
+            aria-label={
+              showRepeatPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+            }
+          >
+            {showRepeatPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
+          </button>
         </div>
         <Input
           id="repeat-password"
           name="repeat-password"
-          type="password"
+          type={showRepeatPassword ? "text" : "password"}
           className={
             fail && (!repeatPassword || password != repeatPassword)
               ? "border-red-500"
@@ -161,13 +230,16 @@ export default function Register() {
           }
           onChange={(e) => setRepeatPassword(e.target.value)}
           required
+          autoComplete="new-password"
         />
       </div>
-
-      {fail && <div className="text-red-500 text-sm">{message}</div>}
-
-      <Button onClick={emailRegister} type="submit" className="w-full">
-        Registrarse
+      <Button
+        onClick={emailRegister}
+        type="submit"
+        className="w-full"
+        disabled={loading}
+      >
+        {loading ? "Registrando..." : "Registrarse"}
       </Button>
     </div>
   );

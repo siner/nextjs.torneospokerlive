@@ -60,16 +60,24 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - [x] Refactorizar `CardTour` usando Shadcn UI y `next/image` (sin favoritos).
 - [x] Actualizar uso de `next/image` (prop `fill`, clase `object-contain`) en `CardTour` y `CardCasino`.
 - [x] Añadir prop `sizes` a `next/image` en `CardTour` y `CardCasino`.
-- [x] Añadir prop `sizes` a `next/image` en `CardTour` y `CardCasino`.
+- [x] Analizar página de detalle de Torneo (`/torneos/[slug]`).
+- [x] Refactorizar detalles de torneo con `<dl>`.
+- [x] Solucionar error linter de `CardCasino` async.
+- [x] Refactorizar detalles de torneo con grid de `<Card>` e iconos.
+- [x] Refactorizar cabecera, fecha/hora y descripción de detalle de torneo con `<Card>`.
+- [x] Revisión visual final de detalle de Torneo.
+- [x] Analizar página de detalle de Evento (`/eventos/[slug]`).
+- [x] Añadir Card de encabezado a detalle de Evento (nombre, fechas, logos).
+- [x] Envolver lista de torneos de detalle de Evento en Card.
+- [x] Eliminar columna lateral redundante en detalle de Evento.
+- [x] Revisión visual final y ajustes de detalle de Evento.
+- [x] Revisar layout grid en `/casinos/page.tsx` (Decidido OK por ahora).
+- [x] Investigar warning persistente de `next/image` con `fill` (Decidido ignorar por ahora).
+- [x] Analizar `CardEvent` (Decidido OK por ahora).
 
 ## In Progress Tasks
 
-- [ ] Revisar layout grid en `/casinos/page.tsx` para optimizar espaciado y responsive.
-- [ ] Investigar warning persistente de `next/image` con `fill` y `relative` parent en `CardTour` (opcional, aparcado por ahora).
-- [ ] Analizar y proponer mejoras para `CardEvent` (eventos actuales).
-- [ ] Aplicar estilo de fila a listados de Circuitos si se decide cambiar.
-- [ ] Analizar y proponer mejoras para páginas de detalle (Torneo/Evento).
-- [ ] Analizar y proponer mejoras para formularios (Login/Registro).
+- [ ] Revisar/Mejorar formularios (Login/Registro).
 
 ## Future Tasks
 

@@ -34,17 +34,6 @@ export default async function LoginForm() {
           <div className="grid gap-4">
             <Login />
           </div>
-          <div className="mt-4 text-center text-sm">
-            Si no tienes cuenta, puedes{" "}
-            <Link href="/registro" className="underline">
-              Registrarte
-            </Link>
-          </div>
-          <div className="mt-4 text-center text-sm">
-            <Link href="/forgot-password" className="underline">
-              He olvidado mi contraseña
-            </Link>
-          </div>
         </CardContent>
       </Card>
     </div>
