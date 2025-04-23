@@ -42,10 +42,10 @@ export default function RowTournament(props: any) {
                 <div className="tooltip" data-tip={torneo.casino.name}>
                   <img
                     src={torneo.casino.logo}
-                    width={30}
                     height={30}
+                    width={30}
                     alt={"Logo " + torneo.casino.name}
-                    className="mx-auto rounded-full object-contain"
+                    className="h-8 w-8 mx-auto rounded-full object-contain"
                   />
                 </div>
               </div>

@@ -13,7 +13,6 @@ export default function RowEvent(props: any) {
   let today = new Date();
   today.setHours(0, 0, 0, 0);
   let opacity = dateevento < today ? "0.8" : "1";
-
   return (
     <a href={"/eventos/" + event.slug}>
       <div
@@ -41,7 +40,7 @@ export default function RowEvent(props: any) {
                 width={30}
                 height={30}
                 alt={"Logo " + event.casino.name}
-                className="mx-auto object-cover rounded-full"
+                className="w-8 h-8 mx-auto rounded-full object-contain"
               />
             </div>
             {showtour && (
@@ -51,7 +50,7 @@ export default function RowEvent(props: any) {
                   width={30}
                   height={30}
                   alt={"Icono " + event.name}
-                  className="mx-auto rounded-full object-contain"
+                  className="w-8 h-8 mx-auto rounded-full object-contain"
                 />
               </div>
             )}
