@@ -13,7 +13,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { CalendarDays } from "lucide-react";
-
+import Link from "next/link";
 export async function generateMetadata({
   params,
 }: {
@@ -64,13 +64,15 @@ export default async function Page({ params }: { params: { slug: string } }) {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <img
-                      src={event.tour.logo}
-                      alt={`Logo ${event.tour.name}`}
-                      width={80}
-                      height={80}
-                      className="h-20 w-20 rounded-full object-contain"
-                    />
+                    <Link href={"/circuitos/" + event.tour.slug}>
+                      <img
+                        src={event.tour.logo}
+                        alt={`Logo ${event.tour.name}`}
+                        width={80}
+                        height={80}
+                        className="h-20 w-20 rounded-full object-contain"
+                      />
+                    </Link>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>{event.tour.name}</p>
@@ -86,13 +88,15 @@ export default async function Page({ params }: { params: { slug: string } }) {
                       className="h-20 w-20 border"
                       style={{ backgroundColor: casinoBgColor }}
                     >
-                      <img
-                        src={event.casino.logo}
-                        width={80}
-                        height={80}
-                        alt={`Logo ${event.casino.name}`}
-                        className="h-20 w-20 rounded-full object-contain"
-                      />
+                      <Link href={"/casinos/" + event.casino.slug}>
+                        <img
+                          src={event.casino.logo}
+                          width={80}
+                          height={80}
+                          alt={`Logo ${event.casino.name}`}
+                          className="h-20 w-20 rounded-full object-contain"
+                        />
+                      </Link>
                     </Avatar>
                   </TooltipTrigger>
                   <TooltipContent>

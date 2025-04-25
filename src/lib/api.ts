@@ -252,8 +252,11 @@ export async function getNextEvents() {
     .gt("from", new Date().toISOString().split("T")[0])
     .not("draft", "is", true)
     .order("from", { ascending: true });
-  if (error) throw error;
-  return data;
+  if (error) {
+    console.error("Error fetching next events:", error);
+    return [];
+  }
+  return data || [];
 }
 
 export async function getCurrentEvents() {
@@ -381,4 +384,22 @@ export async function getStarredCasinos(id: string) {
   if (error) throw error;
   const casinos = data.map((d: any) => d.casino);
   return casinos;
+}
+
+// Nueva función para obtener próximos eventos por casino
+export async function getNextEventsByCasino(casinoId: number) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("Event")
+    .select("*, casino:Casino(*), tour:Tour(*)")
+    .eq("casinoId", casinoId)
+    .gt("from", new Date().toISOString().split("T")[0])
+    .not("draft", "is", true)
+    .order("from", { ascending: true });
+
+  if (error) {
+    console.error(`Error fetching next events for casino ${casinoId}:`, error);
+    return [];
+  }
+  return data || [];
 }

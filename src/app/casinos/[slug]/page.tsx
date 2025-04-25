@@ -1,9 +1,17 @@
-import { getCasino, getNextTorneosByCasino } from "@/lib/api";
+/* eslint-disable @next/next/no-img-element */
+import {
+  getCasino,
+  getNextTorneosByCasino,
+  getNextEventsByCasino,
+} from "@/lib/api";
 import type { Metadata } from "next";
-import CardCasino from "@/components/casino/CardCasino";
 import RowTournament from "@/components/tournament/RowTournament";
+import RowEvent from "@/components/event/RowEvent";
 import { remark } from "remark";
 import html from "remark-html";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar } from "@/components/ui/avatar";
+import { getTextColor } from "@/lib/utils";
 
 export async function generateMetadata({
   params,
@@ -28,29 +36,98 @@ export default async function Page({ params }: { params: { slug: string } }) {
     return <div>Not found</div>;
   }
   const torneos = await getNextTorneosByCasino(casino.id);
+  const nextEvents = await getNextEventsByCasino(casino.id);
 
-  const processedContent = await remark().use(html).process(casino.description);
+  const processedDescription = await remark()
+    .use(html)
+    .process(casino.description);
+  const descriptionHtml = processedDescription.toString();
+
+  const processedContent = await remark()
+    .use(html)
+    .process(casino.content || "");
   const contentHtml = processedContent.toString();
 
+  const casinoBgColor = casino.color || "#ffffff";
+  const casinoTextColor = getTextColor(casinoBgColor);
+
   return (
-    <div>
-      <div className="md:flex gap-4">
-        <div className="w-100 md:w-4/12 mt-6">
-          <CardCasino casino={casino} />
-          <div className="mt-4">
-            <div className="p-2 prose">{contentHtml}</div>
+    <div className="space-y-6">
+      <Card style={{ backgroundColor: casinoBgColor }}>
+        <div className="flex justify-between items-center p-6">
+          <div className="flex-grow mr-4">
+            <CardHeader className="p-0 mb-2">
+              <CardTitle
+                className="text-2xl md:text-3xl font-bold"
+                style={{ color: casinoTextColor }}
+              >
+                {casino.name}
+              </CardTitle>
+            </CardHeader>
+            {contentHtml && (
+              <div
+                className="prose dark:prose-invert max-w-none text-sm"
+                style={{ color: casinoTextColor }}
+                dangerouslySetInnerHTML={{ __html: contentHtml }}
+              />
+            )}
+          </div>
+          <div
+            className="w-40 flex-shrink-0"
+            style={{ backgroundColor: casinoBgColor }}
+          >
+            <img
+              src={casino.logo}
+              alt={`Logo ${casino.name}`}
+              width={200}
+              height={200}
+              className="object-contain p-1"
+            />
           </div>
         </div>
-        <div className="md:w-8/12">
-          {torneos.length > 0 && (
-            <div>
-              <h2 className="text-4xl font-bold py-4">
-                Próximos Torneos en {casino.name}
-              </h2>
+        {descriptionHtml && (
+          <CardContent className="pt-0 px-6 pb-6">
+            <div
+              className="prose dark:prose-invert max-w-none mt-4 border-t pt-4"
+              style={{ color: casinoTextColor }}
+              dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+            />
+          </CardContent>
+        )}
+      </Card>
 
-              <div className="space-y-0.5">
+      {nextEvents.length > 0 && (
+        <div>
+          <h2 className="text-xl font-semibold py-4">
+            Próximos Eventos en {casino.name}
+          </h2>
+          <Card>
+            <CardContent className="p-0">
+              <div className="space-y-0">
+                {nextEvents.map((event) => (
+                  <RowEvent
+                    key={"event-" + event.id}
+                    event={event}
+                    showCasino={false}
+                    showTour={true}
+                  />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {torneos.length > 0 && (
+        <div>
+          <h2 className="text-xl font-semibold py-4">
+            Próximos Torneos en {casino.name}
+          </h2>
+          <Card>
+            <CardContent className="p-0">
+              <div className="space-y-0">
                 {torneos.map((torneo) => (
-                  <div key={"torneo-" + torneo.id} className="w-full">
+                  <div key={"torneo-" + torneo.id}>
                     <RowTournament
                       torneo={torneo}
                       event={true}
@@ -59,10 +136,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
                   </div>
                 ))}
               </div>
-            </div>
-          )}
+            </CardContent>
+          </Card>
         </div>
-      </div>
+      )}
     </div>
   );
 }

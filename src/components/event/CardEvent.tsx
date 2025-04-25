@@ -28,7 +28,7 @@ export default function CardEvent(props: { event: any; showCasino: boolean }) {
           </Link>
           {/* Logo del casino si corresponde */}
           {showCasino && (
-            <Link href={"/casinos/" + evento.casino.slug} className="block">
+            <Link href={"/eventos/" + evento.slug} className="block">
               <img
                 src={evento.casino.logo}
                 alt={`Logo ${evento.casino.name}`}
@@ -76,10 +76,12 @@ export default function CardEvent(props: { event: any; showCasino: boolean }) {
             </div>
           </div>
           <h2 className="card-title text-lg font-bold mb-1 truncate w-full">
-            {evento.name}
+            <Link href={"/eventos/" + evento.slug}>{evento.name}</Link>
           </h2>
           <p className="text-sm text-muted-foreground truncate w-full">
-            {evento.casino.name}
+            <Link href={"/casinos/" + evento.casino.slug}>
+              {evento.casino.name}
+            </Link>
           </p>
         </div>
       </CardContent>

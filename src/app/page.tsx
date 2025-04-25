@@ -17,6 +17,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { TwitterLogoIcon } from "@radix-ui/react-icons";
+import { formatDate } from "@/lib/utils";
 
 export default async function Home({
   searchParams,
@@ -27,6 +28,12 @@ export default async function Home({
   const tomorrowTournaments = await getTomorrowTournaments();
   const currentEvents = await getCurrentEvents();
   const nextEvents = await getNextEvents();
+
+  const today = new Date();
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+  const { datestring: todayDateString } = formatDate(today);
+  const { datestring: tomorrowDateString } = formatDate(tomorrow);
 
   const code = searchParams?.code;
   if (code) {
@@ -60,7 +67,9 @@ export default async function Home({
           {/* Torneos de hoy */}
           {todayTournaments.length > 0 && (
             <>
-              <h2 className="text-2xl font-bold py-4">Torneos de Hoy</h2>
+              <h2 className="text-2xl font-bold py-4">
+                Torneos de Hoy ({todayDateString})
+              </h2>
               <div className="space-y-0.5 mb-6">
                 {todayTournaments.map((torneo) => (
                   <RowTournament
@@ -68,6 +77,7 @@ export default async function Home({
                     torneo={torneo}
                     casino="true"
                     event="true"
+                    hideDate={true}
                   />
                 ))}
               </div>
@@ -77,7 +87,9 @@ export default async function Home({
           {/* Torneos de mañana */}
           {tomorrowTournaments.length > 0 && (
             <>
-              <h2 className="text-2xl font-bold py-4">Torneos de Mañana</h2>
+              <h2 className="text-2xl font-bold py-4">
+                Torneos de Mañana ({tomorrowDateString})
+              </h2>
               <div className="space-y-0.5 mb-6">
                 {tomorrowTournaments.map((torneo) => (
                   <RowTournament
@@ -85,6 +97,7 @@ export default async function Home({
                     torneo={torneo}
                     casino="true"
                     event="true"
+                    hideDate={true}
                   />
                 ))}
               </div>

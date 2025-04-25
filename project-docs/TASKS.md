@@ -77,6 +77,16 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - [x] Reestructurar página principal (`page.tsx`): ocultar secciones vacías, cards secundarias al final, mensaje amigable si no hay contenido.
 - [x] Revisión de CardEvent y CardTour para confirmar uso de <img>
 - [x] Reemplazo de next/image por <img> en CardCasino
+- [x] Implementar prop `hideDate` en `RowTournament` para ocultar fecha y agrandar hora.
+- [x] Modificar `page.tsx` para mostrar fecha en títulos y ocultarla en `RowTournament`.
+- [x] Refactorizar layout de `casinos/[slug]/page.tsx` similar a `eventos/[slug]/page.tsx`.
+- [x] Mejorar cabecera de `casinos/[slug]/page.tsx` (color fondo, mostrar `content`).
+- [x] Reajustar layout cabecera `casinos/[slug]/page.tsx` (logo derecha, content markdown bajo título).
+- [x] Crear función API `getNextEventsByCasino`.
+- [x] Corregir función API `getNextEventsByCasino` (tipo ID y nombre columna).
+- [x] Añadir sección 'Próximos Eventos' a `casinos/[slug]/page.tsx`.
+- [x] Reordenar secciones en `casinos/[slug]/page.tsx` (Eventos antes que Torneos).
+- [x] Optimizar padding móvil en `RowTournament.tsx`.
 
 ## In Progress Tasks
 
@@ -98,13 +108,16 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 
 1.  **Análisis y Discusión:** Identificar puntos débiles UI/UX. ✅ (Layout, Nav, Listados T/E/C)
 2.  **Propuesta:** Sugerir cambios. ✅ (Layout Centrado, Estética Nav, Refactor Rows, Refactor CardCasino, Reestructuración Home)
-3.  **Implementación Iterativa:** Aplicar cambios. ✅ (Layout, Nav, Rows, CardCasino, Home)
-4.  **Revisión:** Validar mejoras. ⏳ (Pendiente revisión `CardCasino` y siguientes pasos)
+3.  **Implementación Iterativa:** Aplicar cambios. ✅ (Layout, Nav, Rows, CardCasino, Home, RowTournament `hideDate`, Páginas Detalle Casino/Evento, Padding `RowTournament`)
+4.  **Revisión:** Validar mejoras. ⏳ (Pendiente revisión formularios y consistencia visual)
 
 - Se ha completado el refactor de `CardCasino` y `CardTour` usando Shadcn UI.
 - Se ha actualizado el uso de `next/image` a la API moderna.
 - Se corrigió el título H1 en la página de circuitos.
 - Se ha reestructurado la página principal para ocultar secciones vacías y mejorar la jerarquía visual.
+- Se ha añadido la prop `hideDate` a `RowTournament` y se ha usado en la home.
+- Se ha refactorizado la página de detalle del casino para parecerse a la del evento, mejorando la cabecera (color, markdown, layout) y añadiendo la sección de próximos eventos.
+- Se ha optimizado el padding móvil en `RowTournament`.
 - **Nota:** Queda pendiente un warning de `next/image` en `CardTour`.
 - **Próximo paso:** Decidido por el usuario.
 
@@ -115,7 +128,7 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - `src/components/layout/footer.tsx` ✅
 - `src/app/layout.tsx` ✅
 - `src/app/torneos/page.tsx` ✅ (Analizado)
-- `src/components/tournament/RowTournament.tsx` ✅ (Refactorizado v5 + 4col)
+- `src/components/tournament/RowTournament.tsx` ✅ (Prop `hideDate` implementada, Padding móvil optimizado)
 - `src/app/globals.css`
 - `src/components/`
 - `src/app/**/page.tsx`
@@ -125,8 +138,9 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - `src/components/event/CardEvent.tsx`
 - `src/app/casinos/page.tsx` ✅ (Analizado)
 - `src/components/casino/CardCasino.tsx` ✅ (Refactorizado)
-- `src/components/event/CardEvent.tsx`
 - `project-docs/TASKS.md` ✅
 - `src/app/circuitos/page.tsx` ✅ (Analizado y H1 corregido)
 - `src/components/tour/CardTour.tsx` ✅ (Refactorizado, `next/image` actualizado)
-- `src/app/page.tsx` ✅ (Reestructurada: condicionales, cards al final, mensaje vacío)
+- `src/app/page.tsx` ✅ (Fechas en títulos, hideDate en RowTournament)
+- `src/app/casinos/[slug]/page.tsx` ✅ (Eventos antes que Torneos)
+- `src/lib/api.ts` ✅ (Corregida `getNextEventsByCasino`)
