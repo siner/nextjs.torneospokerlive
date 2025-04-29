@@ -15,7 +15,7 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   title: "Torneos Poker Live",
-  description: "",
+  description: "Todos los torneos de poker en vivo en España",
   metadataBase: new URL(
     process.env.BASE_URL || "https://www.torneospokerlive.com"
   ),
