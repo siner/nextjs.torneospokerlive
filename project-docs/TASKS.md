@@ -88,6 +88,7 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - [x] Reordenar secciones en `casinos/[slug]/page.tsx` (Eventos antes que Torneos).
 - [x] Optimizar padding móvil en `RowTournament.tsx`.
 - [x] Refactorizar `middleware.ts` para evitar llamadas excesivas a `getSession` y definir rutas públicas.
+- [x] Ajustar layout cabecera `casinos/[slug]/page.tsx` para móviles.
 
 ## In Progress Tasks
 
@@ -143,6 +144,6 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - `src/app/circuitos/page.tsx` ✅ (Analizado y H1 corregido)
 - `src/components/tour/CardTour.tsx` ✅ (Refactorizado, `next/image` actualizado)
 - `src/app/page.tsx` ✅ (Fechas en títulos, hideDate en RowTournament)
-- `src/app/casinos/[slug]/page.tsx` ✅ (Eventos antes que Torneos)
+- `src/app/casinos/[slug]/page.tsx` ✅ (Layout cabecera responsive)
 - `src/lib/api.ts` ✅ (Corregida `getNextEventsByCasino`)
 - `middleware.ts` ✅ (Refactorizado para rate limit)

@@ -54,8 +54,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
   return (
     <div className="space-y-6">
       <Card style={{ backgroundColor: casinoBgColor }}>
-        <div className="flex justify-between items-center p-6">
-          <div className="flex-grow mr-4">
+        <div className="flex flex-col md:flex-row justify-between items-start p-6 gap-4">
+          <div className="flex-grow w-full md:w-auto md:mr-4 order-2 md:order-1">
             <CardHeader className="p-0 mb-2">
               <CardTitle
                 className="text-2xl md:text-3xl font-bold"
@@ -73,7 +73,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
             )}
           </div>
           <div
-            className="w-40 flex-shrink-0"
+            className="w-32 md:w-40 flex-shrink-0 mx-auto md:mx-0 order-1 md:order-2"
             style={{ backgroundColor: casinoBgColor }}
           >
             <img
@@ -81,7 +81,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
               alt={`Logo ${casino.name}`}
               width={200}
               height={200}
-              className="object-contain p-1"
+              className="object-contain p-1 w-full h-auto"
             />
           </div>
         </div>
