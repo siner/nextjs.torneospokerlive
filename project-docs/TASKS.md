@@ -6,6 +6,7 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 
 ## Completed Tasks
 
+- [x] Usar imagen del logo en la cabecera
 - [x] Crear estructura inicial de `project-docs`.
 - [x] Rellenar `tech-specs.md` (incluyendo BBDD).
 - [x] Rellenar `user-structure.md`.
@@ -137,13 +138,4 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - `tailwind.config.ts`
 - `src/app/eventos/page.tsx` ✅ (Analizado)
 - `src/components/event/RowEvent.tsx` ✅ (Refactorizado v2 + user tweaks)
-- `src/components/event/CardEvent.tsx`
-- `src/app/casinos/page.tsx` ✅ (Analizado)
-- `src/components/casino/CardCasino.tsx` ✅ (Refactorizado)
-- `project-docs/TASKS.md` ✅
-- `src/app/circuitos/page.tsx` ✅ (Analizado y H1 corregido)
-- `src/components/tour/CardTour.tsx` ✅ (Refactorizado, `next/image` actualizado)
-- `src/app/page.tsx` ✅ (Fechas en títulos, hideDate en RowTournament)
-- `src/app/casinos/[slug]/page.tsx` ✅ (Layout cabecera responsive)
-- `src/lib/api.ts` ✅ (Corregida `getNextEventsByCasino`)
-- `middleware.ts` ✅ (Refactorizado para rate limit)
+- `

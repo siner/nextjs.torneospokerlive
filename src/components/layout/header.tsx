@@ -47,44 +47,12 @@ export default function Header({ user }: { user: any }) {
           </SheetContent>
         </Sheet>
         <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="40"
-            height="60"
-            viewBox="0 0 60 80"
-          >
-            <rect width="60" height="80" fill="transparent" />
-            <rect
-              x="10"
-              y="10"
-              width="40"
-              height="60"
-              rx="5"
-              ry="5"
-              stroke="hsl(222.2,84%,4.9%)"
-              fill="none"
-              strokeWidth="3"
-            />
-            <text
-              x="18"
-              y="25"
-              fontFamily="Helvetica, Arial, sans-serif"
-              fontSize="10"
-              fill="hsl(222.2,84%,4.9%)"
-            >
-              A
-            </text>
-            <text
-              x="21"
-              y="54"
-              fontFamily="Helvetica, Arial, sans-serif"
-              fontSize="38"
-              fill="hsl(222.2,84%,4.9%)"
-            >
-              ♠
-            </text>
-          </svg>
-          <span>Torneos Poker Live</span>
+          <img
+            src="/logo-torneospokerlive.png"
+            alt="Torneos Poker Live Logo"
+            width={160}
+            className="h-10 w-auto"
+          />
         </Link>
         <nav className="hidden flex-col gap-6 text-lg font-medium lg:flex lg:flex-row lg:items-center lg:gap-5 lg:text-sm">
           <Navigation />
