@@ -2,11 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createClient } from "@/lib/supabase/client";
-import {
-  TwitterLogoIcon,
-  EyeOpenIcon,
-  EyeClosedIcon,
-} from "@radix-ui/react-icons";
+import { TwitterLogoIcon } from "@radix-ui/react-icons";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -21,7 +17,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Loader2 } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const loginSchema = z.object({
@@ -42,7 +38,6 @@ export default function Login() {
   const [success, setSuccess] = useState<string | null>(
     urlSuccess ? "Usuario registrado con éxito. Revisa tu email." : null
   );
-  const [isLoading, setIsLoading] = useState(false);
   const [isTwitterLoading, setIsTwitterLoading] = useState(false);
   const [redirectUrl, setRedirectUrl] = useState<string | null>(null);
   const router = useRouter();
@@ -56,6 +51,8 @@ export default function Login() {
     },
   });
 
+  const { isSubmitting } = form.formState;
+
   useEffect(() => {
     if (redirectUrl) {
       router.push(redirectUrl);
@@ -63,7 +60,6 @@ export default function Login() {
   }, [redirectUrl, router]);
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
-    setIsLoading(true);
     setError(null);
     setSuccess(null);
 
@@ -87,7 +83,6 @@ export default function Login() {
     } else {
       setError("Ocurrió un error inesperado.");
     }
-    setIsLoading(false);
   }
 
   async function twitterLogin() {
@@ -128,7 +123,7 @@ export default function Login() {
                   <Input
                     placeholder="tu@email.com"
                     {...field}
-                    disabled={isLoading || isTwitterLoading}
+                    disabled={isSubmitting || isTwitterLoading}
                   />
                 </FormControl>
                 <FormMessage />
@@ -146,20 +141,26 @@ export default function Login() {
                     <Input
                       type={showPassword ? "text" : "password"}
                       {...field}
-                      disabled={isLoading || isTwitterLoading}
+                      disabled={isSubmitting || isTwitterLoading}
                     />
                   </FormControl>
-                  <button
+                  <Button
                     type="button"
+                    variant="ghost"
+                    size="icon"
                     tabIndex={-1}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none"
+                    className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                     onClick={() => setShowPassword((v) => !v)}
                     aria-label={
                       showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
                     }
                   >
-                    {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
-                  </button>
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </Button>
                 </div>
                 <FormMessage />
               </FormItem>
@@ -182,9 +183,9 @@ export default function Login() {
           <Button
             type="submit"
             className="w-full"
-            disabled={isLoading || isTwitterLoading}
+            disabled={isSubmitting || isTwitterLoading}
           >
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Login
           </Button>
         </form>
@@ -205,7 +206,7 @@ export default function Login() {
         onClick={twitterLogin}
         type="button"
         className="w-full flex items-center justify-center gap-2"
-        disabled={isLoading || isTwitterLoading}
+        disabled={isSubmitting || isTwitterLoading}
       >
         {isTwitterLoading ? (
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -107,17 +107,17 @@ export async function getPosts({
   // TODO: Revisar si hay una forma mejor de combinar .match y .in si ambos filtros están activos
 
   // 4. Ejecutar consulta para obtener el conteo total (usando match)
-  const countQuery = supabase
+  const countQueryBuilder = supabase
     .from("blog_posts")
     .select("*", { count: "exact", head: true })
     .match(filters);
 
   // Aplicar filtro IN para tags si es necesario (no se puede con match)
   if (postIdsFromTag) {
-    countQuery.in("id", postIdsFromTag);
+    countQueryBuilder.in("id", postIdsFromTag);
   }
 
-  const { count, error: countError } = await countQuery;
+  const { count, error: countError } = await countQueryBuilder;
 
   if (countError) {
     console.error("Error fetching posts count:", countError);
@@ -130,7 +130,7 @@ export async function getPosts({
   }
 
   // 5. Ejecutar consulta para obtener los datos de la página actual (usando match)
-  const dataQuery = supabase
+  const dataQueryBuilder = supabase
     .from("blog_posts")
     .select("*, blog_categories:category_id ( name, slug )")
     .match(filters)
@@ -139,10 +139,10 @@ export async function getPosts({
 
   // Aplicar filtro IN para tags si es necesario
   if (postIdsFromTag) {
-    dataQuery.in("id", postIdsFromTag);
+    dataQueryBuilder.in("id", postIdsFromTag);
   }
 
-  const { data, error: dataError } = await dataQuery;
+  const { data, error: dataError } = await dataQueryBuilder;
 
   if (dataError) {
     console.error("Error fetching posts data:", dataError);

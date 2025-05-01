@@ -58,9 +58,9 @@ export default async function NoticiasPage({
 
       {/* Sección para mostrar filtros */}
       <div className="flex flex-col md:flex-row gap-8 pb-6 mb-6">
+        {/* Comentamos el filtro por categoría y tag por ahora
         {(categories.length > 0 || tags.length > 0) && (
           <aside className="w-full md:w-1/4 flex flex-col gap-6">
-            {/* Filtros por Categoría */}
             {categories.length > 0 && (
               <Card>
                 <CardHeader>
@@ -68,7 +68,6 @@ export default async function NoticiasPage({
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-1">
-                    {/* Añadir enlace para quitar filtro */}
                     <li>
                       <Link
                         href="/noticias"
@@ -99,7 +98,7 @@ export default async function NoticiasPage({
                 </CardContent>
               </Card>
             )}
-            {/* Filtros por Tags */}
+
             {tags.length > 0 && (
               <Card>
                 <CardHeader>
@@ -107,7 +106,6 @@ export default async function NoticiasPage({
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-1">
-                    {/* Añadir enlace para quitar filtro */}
                     <li>
                       <Link
                         href="/noticias"
@@ -140,17 +138,13 @@ export default async function NoticiasPage({
             )}
           </aside>
         )}
-        {/* Columna principal para los posts */}
-        <div
-          className={`w-full ${
-            categories.length > 0 || tags.length > 0 ? "md:w-3/4" : ""
-          }`}
-        >
+          */}
+        <div className={`w-full`}>
           {/* Aquí va la lista de posts */}
           {posts.length === 0 ? (
             <p>No hay noticias que coincidan con los filtros seleccionados.</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {posts.map((post) => (
                 <PostCard key={post.id} post={post} />
               ))}

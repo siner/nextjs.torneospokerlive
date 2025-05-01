@@ -1,246 +1,326 @@
 "use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { createClient } from "@/lib/supabase/client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { createClient } from "@/lib/supabase/client";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
-import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 
-export default function Register() {
-  const searchParams = useSearchParams();
-  const urlFail = searchParams.get("error");
+// Definir el esquema de validación con Zod
+const registerSchema = z
+  .object({
+    email: z.string().email({ message: "Introduce un email válido." }),
+    username: z.string().min(3, {
+      message: "El nombre de usuario debe tener al menos 3 caracteres.",
+    }),
+    name: z.string().optional(),
+    lastName: z.string().optional(),
+    password: z
+      .string()
+      .min(6, { message: "La contraseña debe tener al menos 6 caracteres." }),
+    repeatPassword: z.string(),
+  })
+  .refine((data) => data.password === data.repeatPassword, {
+    message: "Las contraseñas no coinciden.",
+    path: ["repeatPassword"], // Indicar en qué campo mostrar el error
+  });
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [username, setUsername] = useState("");
-  const [fail, setFail] = useState(urlFail ? true : false);
-  const [registered, setRegistered] = useState(false);
-  const [message, setMessage] = useState("");
+type RegisterFormValues = z.infer<typeof registerSchema>;
+
+export default function RegisterForm() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null); // Para mensaje post-registro
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
-  useEffect(() => {
-    if (registered) {
-      router.push("/login?success=true");
-      return;
-    }
-  }, [registered, router]);
+  const form = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      email: "",
+      username: "",
+      name: "",
+      lastName: "",
+      password: "",
+      repeatPassword: "",
+    },
+  });
 
-  async function emailRegister() {
-    setLoading(true);
-    setFail(false);
-    setMessage("");
+  const { isSubmitting } = form.formState;
+
+  async function onSubmit(values: RegisterFormValues) {
+    setError(null);
+    setSuccess(null);
     const supabase = createClient();
-    console.log("emailRegister");
 
-    if (!email || !password || !repeatPassword || !username) {
-      setFail(true);
-      setMessage("Rellena todos los campos obligatorios");
-      setLoading(false);
-      return;
-    }
-
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-      setFail(true);
-      setMessage("Introduce un email válido");
-      setLoading(false);
-      return;
-    }
-
-    if (password.length < 6) {
-      setFail(true);
-      setMessage("La contraseña debe tener al menos 6 caracteres");
-      setLoading(false);
-      return;
-    }
-
-    if (password !== repeatPassword) {
-      setFail(true);
-      setMessage("Las contraseñas no coinciden");
-      setLoading(false);
-      return;
-    }
-
-    if (username) {
-      const { data, error } = await supabase
+    // 1. Verificar si el username ya existe
+    try {
+      const { data: existingUser, error: usernameError } = await supabase
         .from("user")
         .select("username")
-        .eq("username", username);
+        .eq("username", values.username)
+        .maybeSingle(); // Usar maybeSingle para manejar 0 o 1 resultado
 
-      if (data && data?.length > 0) {
-        setFail(true);
-        setMessage("El nombre de usuario ya existe");
-        setLoading(false);
+      if (usernameError && usernameError.code !== "PGRST116") {
+        // Ignorar error "No rows found"
+        throw new Error(
+          "Error al verificar el nombre de usuario: " + usernameError.message
+        );
+      }
+      if (existingUser) {
+        form.setError("username", {
+          type: "manual",
+          message: "Este nombre de usuario ya existe.",
+        });
         return;
       }
+
+      // 2. Registrar usuario en Supabase Auth
+      const { data: signUpData, error: signUpError } =
+        await supabase.auth.signUp({
+          email: values.email,
+          password: values.password,
+          // No se puede pasar options.data directamente en signUp básico
+        });
+
+      if (signUpError) {
+        throw new Error(
+          "Error al registrar usuario en Auth: " + signUpError.message
+        );
+      }
+      if (!signUpData.user) {
+        throw new Error(
+          "No se recibió información del usuario tras el registro."
+        );
+      }
+
+      // 3. Insertar/Actualizar perfil en tabla 'user'
+      const { error: profileError } = await supabase.from("user").upsert({
+        id: signUpData.user.id,
+        email: values.email,
+        username: values.username,
+        name: values.name || null, // Usar null si está vacío
+        surname: values.lastName || null,
+      });
+
+      if (profileError) {
+        // Intentar deshacer el signUp si falla el perfil? Podría ser complejo.
+        // Por ahora solo mostramos el error.
+        console.error("Error guardando perfil:", profileError);
+        setError(
+          "Error al guardar los datos del perfil. Por favor, contacta soporte."
+        );
+        return;
+      }
+
+      // Éxito
+      setSuccess(
+        "¡Registro completado! Revisa tu email para confirmar tu cuenta."
+      );
+      // Opcional: redirigir directamente a login o mostrar mensaje
+      // router.push('/login?success=true'); // Redirigir o esperar
+      form.reset(); // Limpiar formulario
+    } catch (err: any) {
+      console.error("Registration process error:", err);
+      setError(
+        err.message || "Ocurrió un error inesperado durante el registro."
+      );
     }
-
-    const user = {
-      email: email as string,
-      password: password as string,
-    };
-
-    const { data, error } = await supabase.auth.signUp(user);
-
-    if (!data?.user) {
-      setFail(true);
-      setMessage("Error al registrar el usuario");
-      setLoading(false);
-      return;
-    }
-
-    await supabase.from("user").upsert([
-      {
-        id: data?.user?.id,
-        email,
-        name,
-        surname: lastName,
-        username,
-      },
-    ]);
-
-    setRegistered(true);
-    setLoading(false);
   }
 
   return (
-    <div className="grid gap-4">
-      {fail && (
-        <Alert variant="destructive" className="mb-2">
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>{message}</AlertDescription>
-        </Alert>
-      )}
-      {registered && (
-        <Alert className="mb-2">
-          <AlertTitle>Registro exitoso</AlertTitle>
-          <AlertDescription>
-            ¡Te has registrado correctamente! Redirigiendo al login...
-          </AlertDescription>
-        </Alert>
-      )}
-      <div className="grid gap-2 grid-cols-2">
-        <div>
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+        {/* Mensajes Generales */}
+        {error && (
+          <Alert variant="destructive">
+            <AlertTitle>Error de Registro</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+        {success && (
+          <Alert>
+            <AlertTitle>Registro Exitoso</AlertTitle>
+            <AlertDescription>{success}</AlertDescription>
+          </Alert>
+        )}
+
+        {/* Campos del Formulario */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
             name="email"
-            placeholder="m@example.com"
-            onChange={(e) => setEmail(e.target.value)}
-            className={fail && !email ? "border-red-500" : ""}
-            required
-            autoComplete="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email *</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="tu@email.com"
+                    {...field}
+                    disabled={isSubmitting}
+                    autoComplete="email"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-        <div>
-          <Label htmlFor="username">Nombre de usuario</Label>
-          <Input
-            id="username"
+          <FormField
+            control={form.control}
             name="username"
-            onChange={(e) => setUsername(e.target.value)}
-            className={fail && !username ? "border-red-500" : ""}
-            required
-            autoComplete="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nombre de usuario *</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="tu_usuario"
+                    {...field}
+                    disabled={isSubmitting}
+                    autoComplete="username"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
         </div>
-      </div>
-      <div className="grid gap-2 grid-cols-2">
-        <div>
-          <Label htmlFor="name">Nombre</Label>
-          <Input
-            id="name"
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
             name="name"
-            onChange={(e) => setName(e.target.value)}
-            required
-            autoComplete="given-name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nombre</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Tu nombre"
+                    {...field}
+                    disabled={isSubmitting}
+                    autoComplete="given-name"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Apellidos</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Tus apellidos"
+                    {...field}
+                    disabled={isSubmitting}
+                    autoComplete="family-name"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
         </div>
-        <div>
-          <Label htmlFor="last-name">Apellidos</Label>
-          <Input
-            id="last-name"
-            name="last-name"
-            onChange={(e) => setLastName(e.target.value)}
-            required
-            autoComplete="family-name"
-          />
-        </div>
-      </div>
-      <div className="grid gap-2">
-        <div className="flex items-center justify-between">
-          <Label htmlFor="password">Contraseña</Label>
-          <button
-            type="button"
-            tabIndex={-1}
-            className="ml-2 text-xs text-muted-foreground hover:text-foreground focus:outline-none"
-            onClick={() => setShowPassword((v) => !v)}
-            aria-label={
-              showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
-            }
-          >
-            {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
-          </button>
-        </div>
-        <Input
-          id="password"
+
+        <FormField
+          control={form.control}
           name="password"
-          type={showPassword ? "text" : "password"}
-          onChange={(e) => setPassword(e.target.value)}
-          className={
-            fail && (!password || password != repeatPassword)
-              ? "border-red-500"
-              : ""
-          }
-          required
-          autoComplete="new-password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Contraseña *</FormLabel>
+              <div className="relative">
+                <FormControl>
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="******"
+                    {...field}
+                    disabled={isSubmitting}
+                    autoComplete="new-password"
+                  />
+                </FormControl>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  tabIndex={-1}
+                  className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  onClick={() => setShowPassword((v) => !v)}
+                  aria-label={
+                    showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+                  }
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <div className="grid gap-2">
-        <div className="flex items-center justify-between">
-          <Label htmlFor="repeat-password">Repetir contraseña</Label>
-          <button
-            type="button"
-            tabIndex={-1}
-            className="ml-2 text-xs text-muted-foreground hover:text-foreground focus:outline-none"
-            onClick={() => setShowRepeatPassword((v) => !v)}
-            aria-label={
-              showRepeatPassword ? "Ocultar contraseña" : "Mostrar contraseña"
-            }
-          >
-            {showRepeatPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
-          </button>
-        </div>
-        <Input
-          id="repeat-password"
-          name="repeat-password"
-          type={showRepeatPassword ? "text" : "password"}
-          className={
-            fail && (!repeatPassword || password != repeatPassword)
-              ? "border-red-500"
-              : ""
-          }
-          onChange={(e) => setRepeatPassword(e.target.value)}
-          required
-          autoComplete="new-password"
+        <FormField
+          control={form.control}
+          name="repeatPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Repetir Contraseña *</FormLabel>
+              <div className="relative">
+                <FormControl>
+                  <Input
+                    type={showRepeatPassword ? "text" : "password"}
+                    placeholder="******"
+                    {...field}
+                    disabled={isSubmitting}
+                    autoComplete="new-password"
+                  />
+                </FormControl>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  tabIndex={-1}
+                  className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  onClick={() => setShowRepeatPassword((v) => !v)}
+                  aria-label={
+                    showRepeatPassword
+                      ? "Ocultar contraseña"
+                      : "Mostrar contraseña"
+                  }
+                >
+                  {showRepeatPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <Button
-        onClick={emailRegister}
-        type="submit"
-        className="w-full"
-        disabled={loading}
-      >
-        {loading ? "Registrando..." : "Registrarse"}
-      </Button>
-    </div>
+
+        <Button type="submit" className="w-full" disabled={isSubmitting}>
+          {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Registrarse
+        </Button>
+      </form>
+    </Form>
   );
 }

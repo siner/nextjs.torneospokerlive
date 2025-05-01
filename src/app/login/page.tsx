@@ -31,9 +31,7 @@ export default async function LoginForm() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4">
-            <Login />
-          </div>
+          <Login />
         </CardContent>
       </Card>
     </div>
