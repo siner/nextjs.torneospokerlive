@@ -14,6 +14,9 @@ import {
 } from "@/components/ui/tooltip";
 import { CalendarDays } from "lucide-react";
 import Link from "next/link";
+import { format, parseISO, eachDayOfInterval, compareAsc } from "date-fns";
+import { es } from "date-fns/locale";
+
 export async function generateMetadata({
   params,
 }: {
@@ -37,7 +40,27 @@ export default async function Page({ params }: { params: { slug: string } }) {
   if (!event) {
     return <div>Not found</div>;
   }
-  const tournaments = await getTournamentsByEvent(event.id);
+  const allTournaments = await getTournamentsByEvent(event.id);
+
+  const tournamentsByDate: { [key: string]: typeof allTournaments } = {};
+  allTournaments.forEach((tournament) => {
+    const dateStr = tournament.date;
+    if (!tournamentsByDate[dateStr]) {
+      tournamentsByDate[dateStr] = [];
+    }
+    tournamentsByDate[dateStr].push(tournament);
+  });
+
+  let eventDates: Date[] = [];
+  try {
+    const startDate = parseISO(event.from);
+    const endDate = parseISO(event.to);
+    if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+      eventDates = eachDayOfInterval({ start: startDate, end: endDate });
+    }
+  } catch (e) {
+    console.error("Error parsing event dates:", e);
+  }
 
   const casinoBgColor = event.casino?.color || "#ffffff";
   const casinoTextColor = getTextColor(casinoBgColor);
@@ -109,25 +132,53 @@ export default async function Page({ params }: { params: { slug: string } }) {
         </CardContent>
       </Card>
 
-      {tournaments.length > 0 && (
+      {eventDates.length > 0 && (
         <div>
-          <h2 className="text-xl font-semibold py-4">Programa de Torneos</h2>
-          <Card>
-            <CardContent className="p-0">
-              <div className="space-y-0">
-                {tournaments.map((tournament: any) => (
-                  <div key={"tournament-" + tournament.id} className="w-full">
-                    <RowTournament
-                      torneo={tournament}
-                      event={false}
-                      casino={false}
-                    />
+          <h2 className="text-xl font-semibold py-4">Programa del Evento</h2>
+          <div className="space-y-4">
+            {eventDates.map((day) => {
+              const dayStr = format(day, "yyyy-MM-dd");
+              const dailyTournaments = tournamentsByDate[dayStr] || [];
+
+              if (dailyTournaments.length > 0) {
+                dailyTournaments.sort((a, b) =>
+                  compareAsc(
+                    parseISO(`1970-01-01T${a.time || "00:00"}:00`),
+                    parseISO(`1970-01-01T${b.time || "00:00"}:00`)
+                  )
+                );
+                return (
+                  <div key={dayStr}>
+                    <h3 className="font-semibold text-lg mb-2 border-b pb-1">
+                      {format(day, "EEEE, d 'de' MMMM", { locale: es })}
+                    </h3>
+                    <Card>
+                      <CardContent className="p-0">
+                        <div className="space-y-0">
+                          {dailyTournaments.map((tournament: any) => (
+                            <RowTournament
+                              key={"tournament-" + tournament.id}
+                              torneo={tournament}
+                              event={false}
+                              casino={false}
+                              hideDate={false}
+                            />
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                );
+              }
+              return null;
+            })}
+          </div>
         </div>
+      )}
+      {allTournaments.length === 0 && (
+        <p className="text-muted-foreground py-4">
+          No hay torneos programados para este evento todavía.
+        </p>
       )}
     </div>
   );

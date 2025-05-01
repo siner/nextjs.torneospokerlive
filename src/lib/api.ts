@@ -1,4 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
+import { unstable_noStore as noStore } from "next/cache";
+import { Database } from "@/types/supabase";
+import { startOfMonth, endOfMonth, formatISO } from "date-fns";
 
 export async function getAllTournaments() {
   const supabase = createClient();
@@ -386,6 +389,28 @@ export async function getStarredCasinos(id: string) {
   return casinos;
 }
 
+/**
+ * Obtiene solo los IDs de los casinos favoritos de un usuario.
+ */
+export async function getStarredCasinoIds(userId: string): Promise<number[]> {
+  noStore(); // Asegurar que no se cachea si los favoritos cambian
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("casino_stars")
+    .select("casino_id")
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("Error fetching starred casino IDs:", error);
+    return [];
+  }
+  // Asegurarse de que casino_id no es null y devolver array de números
+  return (
+    data?.map((c) => c.casino_id).filter((id): id is number => id !== null) ||
+    []
+  );
+}
+
 // Nueva función para obtener próximos eventos por casino
 export async function getNextEventsByCasino(casinoId: number) {
   const supabase = createClient();
@@ -401,5 +426,117 @@ export async function getNextEventsByCasino(casinoId: number) {
     console.error(`Error fetching next events for casino ${casinoId}:`, error);
     return [];
   }
+  return data || [];
+}
+
+/**
+ * Obtiene todos los torneos para un mes y año específicos.
+ * Permite filtrar opcionalmente por casinoId, eventId o un array de starredCasinoIds.
+ */
+export async function getTournamentsForMonth(
+  year: number,
+  month: number, // 1-12
+  filters?: {
+    casinoId?: number;
+    eventId?: number;
+    starredCasinoIds?: number[]; // Nuevo filtro
+  }
+): Promise<Database["public"]["Tables"]["Tournament"]["Row"][]> {
+  noStore();
+  const supabase = createClient();
+
+  if (month < 1 || month > 12) {
+    console.error("Mes inválido:", month);
+    return [];
+  }
+
+  const startDate = formatISO(startOfMonth(new Date(year, month - 1)), {
+    representation: "date",
+  });
+  const endDate = formatISO(endOfMonth(new Date(year, month - 1)), {
+    representation: "date",
+  });
+
+  let query = supabase
+    .from("Tournament")
+    .select("*, Event(*, Tour(*)), Casino(*)") // Asegurar Tour anidado en Event
+    .gte("date", startDate)
+    .lte("date", endDate)
+    .order("date", { ascending: true })
+    .order("time", { ascending: true });
+
+  // Aplicar filtros opcionales
+  if (filters?.starredCasinoIds && filters.starredCasinoIds.length > 0) {
+    // Priorizar filtro de casinos favoritos si existe
+    query = query.in("casinoId", filters.starredCasinoIds);
+  } else if (filters?.casinoId) {
+    query = query.eq("casinoId", filters.casinoId);
+  }
+
+  if (filters?.eventId) {
+    query = query.eq("eventId", filters.eventId);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error("Error fetching tournaments for month:", error);
+    return [];
+  }
+
+  return data || [];
+}
+
+/**
+ * Obtiene todos los eventos cuyo rango de fechas se solapa
+ * con un mes y año específicos.
+ * Permite filtrar opcionalmente por casinoId o un array de starredCasinoIds.
+ */
+export async function getEventsForMonth(
+  year: number,
+  month: number, // 1-12
+  filters?: {
+    casinoId?: number;
+    starredCasinoIds?: number[]; // Nuevo filtro
+    // eventId no aplica aquí directamente, se filtra en el cliente/action
+  }
+): Promise<Database["public"]["Tables"]["Event"]["Row"][]> {
+  noStore();
+  const supabase = createClient();
+
+  if (month < 1 || month > 12) {
+    console.error("Mes inválido:", month);
+    return [];
+  }
+
+  const monthStartDate = formatISO(startOfMonth(new Date(year, month - 1)), {
+    representation: "date",
+  });
+  const monthEndDate = formatISO(endOfMonth(new Date(year, month - 1)), {
+    representation: "date",
+  });
+
+  let query = supabase
+    .from("Event")
+    .select("*, Casino(*), Tour(*)")
+    .lte("from", monthEndDate)
+    .gte("to", monthStartDate)
+    .order("from", { ascending: true });
+
+  // Aplicar filtros opcionales
+  if (filters?.starredCasinoIds && filters.starredCasinoIds.length > 0) {
+    // Priorizar filtro de casinos favoritos si existe
+    query = query.in("casinoId", filters.starredCasinoIds);
+  } else if (filters?.casinoId) {
+    query = query.eq("casinoId", filters.casinoId);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error("Error fetching events for month:", error);
+    return [];
+  }
+
   return data || [];
 }

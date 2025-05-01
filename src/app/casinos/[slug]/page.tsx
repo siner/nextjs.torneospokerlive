@@ -12,6 +12,8 @@ import html from "remark-html";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
 import { getTextColor } from "@/lib/utils";
+import EventTournamentCalendar from "@/components/calendar/EventTournamentCalendar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export async function generateMetadata({
   params,
@@ -40,7 +42,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const processedDescription = await remark()
     .use(html)
-    .process(casino.description);
+    .process(casino.description || "");
   const descriptionHtml = processedDescription.toString();
 
   const processedContent = await remark()
@@ -66,7 +68,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
             </CardHeader>
             {contentHtml && (
               <div
-                className="prose dark:prose-invert max-w-none text-sm"
+                className="max-w-none text-sm"
                 style={{ color: casinoTextColor }}
                 dangerouslySetInnerHTML={{ __html: contentHtml }}
               />
@@ -85,7 +87,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
             />
           </div>
         </div>
-        {descriptionHtml && (
+        {descriptionHtml && casino.description && (
           <CardContent className="pt-0 px-6 pb-6">
             <div
               className="prose dark:prose-invert max-w-none mt-4 border-t pt-4"
@@ -96,50 +98,71 @@ export default async function Page({ params }: { params: { slug: string } }) {
         )}
       </Card>
 
-      {nextEvents.length > 0 && (
-        <div>
-          <h2 className="text-xl font-semibold py-4">
-            Próximos Eventos en {casino.name}
-          </h2>
-          <Card>
-            <CardContent className="p-0">
-              <div className="space-y-0">
-                {nextEvents.map((event) => (
-                  <RowEvent
-                    key={"event-" + event.id}
-                    event={event}
-                    showCasino={false}
-                    showTour={true}
-                  />
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+      <Tabs defaultValue="lista" className="w-full">
+        <TabsList className="grid w-full grid-cols-2 md:w-[400px]">
+          <TabsTrigger value="lista">Lista</TabsTrigger>
+          <TabsTrigger value="calendario">Calendario</TabsTrigger>
+        </TabsList>
 
-      {torneos.length > 0 && (
-        <div>
-          <h2 className="text-xl font-semibold py-4">
-            Próximos Torneos en {casino.name}
-          </h2>
-          <Card>
-            <CardContent className="p-0">
-              <div className="space-y-0">
-                {torneos.map((torneo) => (
-                  <div key={"torneo-" + torneo.id}>
-                    <RowTournament
-                      torneo={torneo}
-                      event={true}
-                      casino={false}
-                    />
-                  </div>
-                ))}
+        <TabsContent value="lista">
+          <div className="mt-4 space-y-6">
+            {nextEvents.length > 0 && (
+              <div>
+                <h2 className="text-xl font-semibold pb-4">
+                  Próximos Eventos en {casino.name}
+                </h2>
+                <Card>
+                  <CardContent className="p-0">
+                    <div className="space-y-0">
+                      {nextEvents.map((event) => (
+                        <RowEvent
+                          key={"event-" + event.id}
+                          event={event}
+                          showCasino={false}
+                          showTour={true}
+                        />
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+            )}
+            {torneos.length > 0 && (
+              <div>
+                <h2 className="text-xl font-semibold pb-4">
+                  Próximos Torneos en {casino.name}
+                </h2>
+                <Card>
+                  <CardContent className="p-0">
+                    <div className="space-y-0">
+                      {torneos.map((torneo) => (
+                        <div key={"torneo-" + torneo.id}>
+                          <RowTournament
+                            torneo={torneo}
+                            event={true}
+                            casino={false}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+            {nextEvents.length === 0 && torneos.length === 0 && (
+              <p className="text-muted-foreground py-4">
+                No hay próximos eventos ni torneos programados en {casino.name}.
+              </p>
+            )}
+          </div>
+        </TabsContent>
+        <TabsContent value="calendario">
+          <h2 className="text-xl font-semibold py-4 mt-4">
+            Calendario de Torneos y Eventos en {casino.name}
+          </h2>
+          <EventTournamentCalendar casinoId={casino.id} />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
