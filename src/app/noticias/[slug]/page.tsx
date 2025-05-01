@@ -57,7 +57,7 @@ export async function generateMetadata(
   const siteBaseUrl = "https://www.torneospokerlive.com"; // URL Base del sitio
   const postUrl = `${siteBaseUrl}/noticias/${slug}`;
   const imageUrl = post.featured_image_url
-    ? `${siteBaseUrl}${post.featured_image_url}`
+    ? `${post.featured_image_url}`
     : `${siteBaseUrl}/opengraph-image.jpg`; // Usar imagen destacada o imagen por defecto
   const description = extractPlainText(post.content);
 
