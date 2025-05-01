@@ -51,13 +51,12 @@ export default function EventTournamentCalendar({
   showCasino = true,
 }: EventTournamentCalendarProps) {
   const [month, setMonth] = useState<Date>(new Date()); // Mes actual visible
-  const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
+  const [selectedDay, setSelectedDay] = useState<Date | undefined>(new Date());
   const [tournaments, setTournaments] = useState<TournamentData>([]);
   const [events, setEvents] = useState<EventData>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [datesWithData, setDatesWithData] = useState<Date[]>([]);
-
   useEffect(() => {
     async function fetchData() {
       setLoading(true);

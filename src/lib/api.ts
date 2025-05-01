@@ -459,7 +459,7 @@ export async function getTournamentsForMonth(
 
   let query = supabase
     .from("Tournament")
-    .select("*, Event(*, Tour(*)), Casino(*)") // Asegurar Tour anidado en Event
+    .select("*, event:Event(*, tour:Tour(*)), casino:Casino(*)") // Asegurar Tour anidado en Event
     .gte("date", startDate)
     .lte("date", endDate)
     .order("date", { ascending: true })
@@ -518,7 +518,7 @@ export async function getEventsForMonth(
 
   let query = supabase
     .from("Event")
-    .select("*, Casino(*), Tour(*)")
+    .select("*, casino:Casino(*), tour:Tour(*)")
     .lte("from", monthEndDate)
     .gte("to", monthStartDate)
     .order("from", { ascending: true });
