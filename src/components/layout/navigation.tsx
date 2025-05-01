@@ -8,6 +8,7 @@ import {
   CalendarDays,
   Trophy,
   Landmark,
+  Newspaper,
   type LucideIcon,
 } from "lucide-react";
 
@@ -17,6 +18,7 @@ const navLinks: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/eventos", label: "Eventos", icon: CalendarDays },
   { href: "/torneos", label: "Torneos", icon: Trophy },
   { href: "/casinos", label: "Casinos", icon: Landmark },
+  { href: "/noticias", label: "Noticias", icon: Newspaper },
 ];
 
 interface NavigationProps {

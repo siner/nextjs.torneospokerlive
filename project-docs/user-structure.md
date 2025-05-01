@@ -60,6 +60,10 @@ La estructura principal sigue las convenciones de Next.js con el App Router:
       - `ajustes/`: Configuración de usuario.
       - `contacto/`: Página de contacto.
       - `api/`: Endpoints de la API backend.
+      - `noticias/`: Sección de noticias.
+        - `[slug]/`: Detalle de un post.
+        - `categoria/[slug]/`: Archivo de categoría. _(Futuro)_
+        - `tag/[slug]/`: Archivo de tag. _(Futuro)_
     - `layout.tsx`: Layout principal de la aplicación.
     - `page.tsx`: Página de inicio.
     - `globals.css`: Estilos globales.
@@ -70,7 +74,18 @@ La estructura principal sigue las convenciones de Next.js con el App Router:
     - `ui/`: Probablemente componentes de Shadcn/ui.
     - `(otros)`: Componentes específicos de la aplicación.
   - **`lib/`**: Utilidades, helpers, configuración de clientes (Supabase, etc.), tipos compartidos.
+    - `supabase/`: Funciones específicas para interactuar con Supabase (queries, etc.).
 - **`public/`**: Archivos estáticos.
 - **Archivos de Configuración Raíz**: `next.config.mjs`, `tailwind.config.ts`, `tsconfig.json`, `sentry.*.config.ts`, `.eslintrc.json`, `middleware.ts`.
 
 _(Nota: Esta estructura es inferida. Puede requerir refinamiento)_.
+
+**Flujo Usuario - Sección Noticias:**
+
+1. El usuario accede a `/noticias` (a través del menú principal u otro enlace).
+2. Ve un listado paginado de posts (mostrando título, extracto, autor, fecha, categorías/tags).
+3. _(Opcional)_ El usuario hace clic en una categoría o tag para ir a la página de archivo correspondiente (ej. `/noticias/categoria/[slug]`).
+4. El usuario hace clic en el título de un post para ir a la página de detalle (`/noticias/[slug]`).
+5. En la página de detalle, lee el contenido completo del post.
+6. Ve la sección de comentarios al final del post.
+7. _(Opcional, Usuario Registrado)_ Escribe y envía un nuevo comentario.

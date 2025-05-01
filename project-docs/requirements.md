@@ -20,9 +20,18 @@
   - Cierre de sesión (Logout).
   - Recuperación de contraseña (Forgot Password).
 - **Funcionalidad para Usuarios Registrados:**
+
   - Marcar/Guardar Casinos como favoritos.
   - Ver lista de casinos favoritos.
   - _(Futuro)_: Expandir funcionalidades (ej: guardar torneos favoritos, notificaciones, etc.).
+
+- **Sección de Noticias:**
+  - Listado y vista detallada de Artículos/Posts.
+  - Capacidad para asociar Categorías y Tags a los posts.
+  - Visualización de comentarios asociados a un post.
+  - _(Futuro)_: Filtrado de posts por categoría y/o tag.
+  - _(Futuro)_: Paginación en el listado de posts.
+  - _(Futuro)_: Posibilidad para usuarios registrados de añadir comentarios.
 
 ## Reglas de Negocio
 

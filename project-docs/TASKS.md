@@ -90,6 +90,16 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - [x] Optimizar padding móvil en `RowTournament.tsx`.
 - [x] Refactorizar `middleware.ts` para evitar llamadas excesivas a `getSession` y definir rutas públicas.
 - [x] Ajustar layout cabecera `casinos/[slug]/page.tsx` para móviles.
+- [x] **Definir APIs:** Crear funciones Supabase para obtener posts (`getPosts`, `getPostBySlug`), categorías (`getCategories`), tags (`getTags`) y comentarios (`getCommentsByPostId`).
+- [x] **Página Listado:** Crear ruta `/noticias` y componente `page.tsx` para mostrar posts.
+- [x] **Página Detalle:** Crear ruta `/noticias/[slug]` y componente `page.tsx` para mostrar post y comentarios.
+- [x] **Componentes UI:** Crear `PostCard`, `CommentSection`, `CategoryBadge`, `Tag`.
+- [x] **Filtrado:** Añadir filtros por categoría/tag al listado `/noticias`.
+- [x] **Implementar funcionalidad de añadir comentarios** (Server Action, formulario, manejo auth/anon).
+- [x] **Añadir paginación al listado de noticias** (`getPosts` y UI en `NoticiasPage`).
+- [x] **Crear páginas de archivo para categorías** (`/noticias/categoria/[slug]`).
+- [x] **Crear páginas de archivo para tags** (`/noticias/tag/[slug]`).
+- [x] **Añadir sección de noticias al menú de navegación principal.**
 
 ## In Progress Tasks
 
@@ -97,6 +107,8 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - [ ] Revisión visual y de props para asegurar consistencia entre los tres componentes
 - [ ] Añadir comentarios aclaratorios en el código
 - [ ] Probar los componentes en diferentes tamaños de pantalla
+- [ ] **Componentes UI:** Crear `CommentSection`, `CategoryBadge`, `Tag`.
+- [ ] Implementar funcionalidad de añadir comentarios (requiere autenticación).
 
 ## Future Tasks
 
@@ -106,6 +118,10 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - [ ] Funcionalidades para usuarios registrados.
 - [ ] Mantener Changelog.
 - [ ] Documentar en overview.md la decisión de usar <img> por simplicidad y consistencia
+- [ ] **Filtrado:** Añadir filtros por categoría/tag al listado.
+- [ ] Añadir paginación al listado de noticias.
+- [ ] Crear páginas de archivo para tags (`/noticias/tag/[slug]`).
+- [ ] Añadir sección de noticias al menú de navegación principal.
 
 ## Implementation Plan
 
@@ -127,7 +143,7 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 ### Relevant Files
 
 - `src/components/layout/header.tsx` ✅
-- `src/components/layout/navigation.tsx` ✅
+- `src/components/layout/navigation.tsx` ✅ (Enlace Noticias añadido)
 - `src/components/layout/footer.tsx` ✅
 - `src/app/layout.tsx` ✅
 - `src/app/torneos/page.tsx` ✅ (Analizado)
@@ -138,4 +154,81 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - `tailwind.config.ts`
 - `src/app/eventos/page.tsx` ✅ (Analizado)
 - `src/components/event/RowEvent.tsx` ✅ (Refactorizado v2 + user tweaks)
-- `
+- `src/app/casinos/page.tsx` ✅ (Analizado)
+- `src/components/casino/CardCasino.tsx` ✅ (Refactorizado v2 + user tweaks, <img>)
+- `src/app/circuitos/page.tsx` ✅ (Analizado, H1 corregido)
+- `src/components/tour/CardTour.tsx` ✅ (Refactorizado v2 + user tweaks, <img>)
+- `next.config.mjs` ✅
+- `src/app/page.tsx` ✅ (Reestructurado)
+- `src/app/torneos/[slug]/page.tsx` ✅ (Refactorizado v2)
+- `src/app/eventos/[slug]/page.tsx` ✅ (Refactorizado v2)
+- `src/app/casinos/[slug]/page.tsx` ✅ (Refactorizado v2, Próximos eventos añadidos)
+- `src/lib/supabase/queries/events.ts` ✅ (Función `getNextEventsByCasino` creada y corregida)
+- `src/middleware.ts` ✅ (Refactorizado)
+- `src/lib/supabase/queries/posts.ts` ✅ (API posts: `getPosts`, `getPostBySlug`)
+- `src/lib/supabase/queries/categories.ts` ✅ (API categories: `getCategories`)
+- `src/lib/supabase/queries/tags.ts` ✅ (API tags: `getTags`)
+- `src/lib/supabase/queries/comments.ts` ✅ (API comments: `getCommentsByPostId`)
+- `src/app/noticias/page.tsx` ✅ (Página listado, usa `PostCard`)
+- `src/app/noticias/[slug]/page.tsx` ✅ (Página detalle)
+- `src/components/news/PostCard.tsx` ✅ (Componente Card para listado, usa `CategoryBadge`)
+- `src/components/news/CommentSection.tsx` ✅ (Componente para mostrar comentarios)
+- `src/components/news/CategoryBadge.tsx` ✅ (Componente Badge para categorías)
+- `src/components/news/Tag.tsx` ✅ (Componente Badge para tags)
+- `src/actions/blog.ts` ✅ (Server Action `addComment`)
+- `src/components/news/NewCommentForm.tsx` ✅ (Formulario cliente para añadir comentarios)
+- `src/components/news/PaginationControls.tsx` ✅ (Controles UI de paginación)
+- `src/app/noticias/categoria/[slug]/page.tsx` ✅ (Página archivo categorías + Metadata)
+- `src/app/noticias/tag/[slug]/page.tsx` ✅ (Página archivo tags + Metadata)
+- `src/components/layout/navigation.tsx` ✅ (Enlace Noticias añadido)
+
+## Feature: Sección de Noticias
+
+Implementar una sección para mostrar artículos, noticias o posts, con capacidad de filtrado y visualización de detalles y comentarios.
+
+## Completed Tasks
+
+- [x] **Definir APIs:** Crear funciones Supabase para obtener posts (`getPosts`, `getPostBySlug`), categorías (`getCategories`), tags (`getTags`) y comentarios (`getCommentsByPostId`).
+- [x] **Página Listado:** Crear ruta `/noticias` y componente `page.tsx` para mostrar posts.
+
+## In Progress Tasks
+
+- [ ] **Componentes UI:** Crear componentes reutilizables (ej. `CardPost`, `CommentSection`, `CategoryBadge`, `Tag`).
+
+## Future Tasks
+
+- [ ] **Filtrado:** Añadir filtros por categoría/tag al listado.
+- [ ] Implementar funcionalidad de añadir comentarios (requiere autenticación).
+- [ ] Añadir paginación al listado de noticias.
+- [ ] Crear páginas de archivo para tags (`/noticias/tag/[slug]`).
+- [ ] Añadir sección de noticias al menú de navegación principal.
+
+## Implementation Plan
+
+1.  **Definir APIs:** Crear funciones en `src/lib/supabase/queries/` para interactuar con las tablas `posts`, `categories`, `tags`, `comments`.
+2.  **Página Listado:** Crear `src/app/noticias/page.tsx`. Mostrará una lista de posts usando un nuevo componente `PostCard`.
+3.  **Página Detalle:** Crear `src/app/noticias/[slug]/page.tsx`. Mostrará el contenido completo del post y una sección de comentarios (`CommentSection`).
+4.  **Componentes UI:** Desarrollar `PostCard`, `CommentSection`, `CategoryBadge`, `Tag` en `src/components/news/`.
+5.  **Integración y Estilos:** Conectar las páginas con las APIs y aplicar estilos consistentes con el resto de la aplicación.
+6.  **(Fase 2) Filtrado y Paginación:** Implementar la lógica de filtrado y paginación en la página de listado.
+7.  **(Fase 2) Comentarios:** Añadir formulario para nuevos comentarios (requiere manejo de sesión de usuario).
+8.  **(Fase 2) Archivos:** Crear páginas dinámicas para categorías y tags.
+9.  **Navegación:** Añadir enlace a `/noticias` en `Navigation`.
+
+### Relevant Files
+
+- `src/lib/supabase/queries/posts.ts` (API posts)
+- `src/lib/supabase/queries/categories.ts` (API categories)
+- `src/lib/supabase/queries/tags.ts` (API tags)
+- `src/lib/supabase/queries/comments.ts` (API comments)
+- `src/app/noticias/page.tsx` (Página listado)
+- `src/app/noticias/[slug]/page.tsx` (Página detalle)
+- `src/components/news/PostCard.tsx`
+- `src/components/news/CommentSection.tsx`
+- `src/components/news/CategoryBadge.tsx`
+- `src/components/news/Tag.tsx`
+- `src/actions/blog.ts` (Server Action `addComment`)
+- `src/components/news/NewCommentForm.tsx` (Formulario cliente para añadir comentarios)
+- `src/components/news/PaginationControls.tsx` (Controles UI de paginación)
+- `src/app/noticias/categoria/[slug]/page.tsx` ✅ (Página archivo categorías + Metadata)
+- `src/app/noticias/tag/[slug]/page.tsx` ✅ (Página archivo tags + Metadata)

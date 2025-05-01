@@ -3,6 +3,7 @@
 ## Hitos del Proyecto
 
 - _(Actualmente no hay hitos definidos formalmente al ser un proyecto de desarrollo individual. Los hitos se pueden definir a medida que se planifican bloques grandes de funcionalidad)._
+- **Hito 1 (Q3/Q4 2024 - Estimado):** Implementación de la Sección de Noticias (Fase 1: Listado y Detalle).
 
 ## Seguimiento del Progreso
 

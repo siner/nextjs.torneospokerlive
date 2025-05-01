@@ -40,5 +40,21 @@
   - `Tournament`: Información sobre los torneos (nombre, slug, fecha, hora, buyin, fee, `casinoId`, `eventId`, etc.).
   - `user`: Tabla de perfiles de usuario (nombre, username, rol, avatar, etc.). Vinculada a `auth.users`.
   - `casino_stars`: Tabla de relación para los casinos favoritos de los usuarios (vincula `user.id` y `Casino.id`).
+  - **Tablas para Noticias:**
+    - `posts`: Contenido de los artículos (título, slug, contenido, fecha, `author_id`, etc.).
+    - `categories`: Categorías para los posts (nombre, slug).
+    - `tags`: Etiquetas para los posts (nombre, slug).
+    - `post_categories`: Tabla de relación N:M entre `posts` y `categories`.
+    - `post_tags`: Tabla de relación N:M entre `posts` y `tags`.
+    - `comments`: Comentarios de los posts (contenido, fecha, `post_id`, `user_id`).
 
 _(Nota: Esto se basa en los nombres de las tablas. Se pueden añadir detalles de columnas y relaciones si es necesario)._
+
+## APIs/Funciones Backend Requeridas (Supabase Queries)
+
+- `getPosts(page, limit, category?, tag?)`: Obtiene lista paginada de posts, opcionalmente filtrada.
+- `getPostBySlug(slug)`: Obtiene un post específico por su slug, incluyendo autor, categorías, tags.
+- `getCategories()`: Obtiene la lista de todas las categorías.
+- `getTags()`: Obtiene la lista de todas las tags.
+- `getCommentsByPostId(postId)`: Obtiene los comentarios para un post específico.
+- _(Futuro)_ `createComment(postId, content, userId)`: Añade un nuevo comentario.
