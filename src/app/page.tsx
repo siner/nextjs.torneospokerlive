@@ -4,6 +4,8 @@ import {
   getTodayTournaments,
   getTomorrowTournaments,
 } from "@/lib/api";
+import { getLatestPosts } from "@/lib/supabase/queries/posts";
+import { PostCard } from "@/components/news/PostCard";
 import RowTournament from "@/components/tournament/RowTournament";
 import CardEvent from "@/components/event/CardEvent";
 import { Button } from "@/components/ui/button";
@@ -28,6 +30,7 @@ export default async function Home({
   const tomorrowTournaments = await getTomorrowTournaments();
   const currentEvents = await getCurrentEvents();
   const nextEvents = await getNextEvents();
+  const latestPosts = await getLatestPosts(3);
 
   const today = new Date();
   const tomorrow = new Date();
@@ -129,6 +132,23 @@ export default async function Home({
               </div>
             </>
           )}
+        </>
+      )}
+
+      {/* Sección de Últimas Noticias (se muestra incluso si no hay eventos/torneos) */}
+      {latestPosts.length > 0 && (
+        <>
+          <h2 className="text-2xl font-bold py-4 mt-6">Últimas Noticias</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+            {latestPosts.map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+          </div>
+          <div className="text-right mt-4">
+            <Link href="/noticias">
+              <Button>Ver Todas las Noticias</Button>
+            </Link>
+          </div>
         </>
       )}
 

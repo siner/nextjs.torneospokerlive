@@ -208,5 +208,29 @@ export async function getPostBySlug(
   } as PostWithAuthorCategoryAndTags;
 }
 
+/**
+ * Obtiene los 'limit' posts publicados más recientes.
+ * Incluye información de la categoría.
+ */
+export async function getLatestPosts(
+  limit: number = 3 // Por defecto, 3 posts
+): Promise<PostWithAuthorAndCategory[]> {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .select("*, blog_categories:category_id ( name, slug )") // Seleccionar lo necesario para PostCard
+    .eq("status", "published")
+    .order("published_at", { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error("Error fetching latest posts:", error);
+    return []; // Devolver array vacío en caso de error
+  }
+
+  return data as PostWithAuthorAndCategory[];
+}
+
 // TODO: Añadir funciones getCategories, getTags, getCommentsByPostId
 // TODO: Considerar crear funciones separadas para crear/actualizar posts si es necesario desde el servidor.
