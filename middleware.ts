@@ -10,23 +10,24 @@ const publicRoutes = [
   "/registro",
   "/forgot-password",
   "/contacto",
-  "/torneos",
-  "/eventos",
-  "/casinos",
-  "/circuitos",
+  "/torneos/", // Now a base path for dynamic routes
+  "/eventos/", // Now a base path for dynamic routes
+  "/casinos/", // Now a base path for dynamic routes
+  "/circuitos/", // Now a base path for dynamic routes
   // Añade rutas dinámicas si es necesario (requiere lógica más compleja, ej: startsWith)
   // Ejemplo simple para páginas de detalle (puede necesitar ajuste):
   // Si quieres que /torneos/slug sea público, etc.
 ];
 
-// Helper para chequear rutas públicas (podría mejorarse para patrones)
+// Helper para chequear rutas públicas
 function isPublicRoute(pathname: string, routes: string[]): boolean {
   return routes.some((route) => {
-    if (route.includes("[")) {
-      // Muy básico para rutas dinámicas
-      const baseRoute = route.split("[")[0];
-      return pathname.startsWith(baseRoute);
+    if (route.endsWith("/")) {
+      // If the route ends with a slash, it's a base path.
+      // Any pathname starting with this base path is public.
+      return pathname.startsWith(route);
     }
+    // Otherwise, it's an exact match.
     return pathname === route;
   });
 }
