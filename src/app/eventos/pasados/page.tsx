@@ -18,7 +18,7 @@ export default async function Home() {
       <div className="space-y-0.5">
         {pastEvents.map((event: any) => (
           <div key={"evento-" + event.id}>
-            <RowEvent event={event} showCasino showtour />
+            <RowEvent event={event} showCasino showTour />
           </div>
         ))}
       </div>

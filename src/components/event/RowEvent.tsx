@@ -10,7 +10,7 @@ import {
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 export default function RowEvent(props: any) {
-  var { event } = props;
+  var { event, showCasino = true, showTour = true } = props;
 
   const backgroundColor = event.casino?.color || "#ffffff";
   const textColor = getTextColor(backgroundColor);
@@ -30,7 +30,7 @@ export default function RowEvent(props: any) {
           <div>{datestringto}</div>
         </div>
         <div className="hidden sm:flex flex-row items-center justify-center flex-shrink-0 w-auto gap-2">
-          {event.casino && (
+          {showCasino && event.casino && (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -49,7 +49,7 @@ export default function RowEvent(props: any) {
               </Tooltip>
             </TooltipProvider>
           )}
-          {event.tour?.logo && (
+          {showTour && event.tour?.logo && (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -76,7 +76,7 @@ export default function RowEvent(props: any) {
             {event.name}
           </Link>
           <div className="flex items-center flex-wrap gap-x-3 gap-y-1 text-xs text-muted-foreground">
-            {event.casino && (
+            {showCasino && event.casino && (
               <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
                 <img
                   src={event.casino.logo}
@@ -89,7 +89,7 @@ export default function RowEvent(props: any) {
                 {event.casino.name}
               </span>
             )}
-            {event.tour && (
+            {showTour && event.tour && (
               <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
                 <img
                   src={event.tour.logo}

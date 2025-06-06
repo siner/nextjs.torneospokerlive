@@ -210,8 +210,8 @@ export default function EventTournamentCalendar({
                           <RowEvent
                             key={event.id}
                             event={event}
-                            casino={showCasino}
-                            tour={true}
+                            showCasino={showCasino}
+                            showTour={true}
                           />
                         ))}
                       </div>
