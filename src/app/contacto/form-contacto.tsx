@@ -81,7 +81,7 @@ export default function Contacto() {
         </div>
         {error && (
           <div className="text-red-500 text-sm">
-            Todos los campos son obligarorios
+            Todos los campos son obligatorios
           </div>
         )}
         {fail && (
