@@ -73,10 +73,11 @@ export default async function RootLayout({
         </main>
         <Footer />
         <Script
-          src="https://cloud.umami.is/script.js"
-          data-website-id="de03ef4a-a7c8-4e91-a732-ba7f5a95ecea"
+          defer
+          src="https://umami.franmoreno.com/script.js"
+          data-website-id="33975837-1bff-4eda-9565-51fc0c9ebc2d"
           strategy="beforeInteractive"
-        />
+        ></Script>
       </body>
     </html>
   );
