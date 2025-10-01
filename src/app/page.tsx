@@ -121,7 +121,7 @@ export default async function Home({
                   <RowEvent
                     key={"event-" + event.id}
                     event={event}
-                    showtour={true}
+                    showTour={true}
                   />
                 ))}
               </div>

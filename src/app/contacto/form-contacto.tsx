@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { set } from "date-fns";
 import { useState } from "react";
 
 export default function Contacto() {
@@ -82,7 +81,7 @@ export default function Contacto() {
         </div>
         {error && (
           <div className="text-red-500 text-sm">
-            Todos los campos son obligarorios
+            Todos los campos son obligatorios
           </div>
         )}
         {fail && (

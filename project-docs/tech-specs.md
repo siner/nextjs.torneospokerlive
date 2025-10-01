@@ -41,12 +41,12 @@
   - `user`: Tabla de perfiles de usuario (nombre, username, rol, avatar, etc.). Vinculada a `auth.users`.
   - `casino_stars`: Tabla de relación para los casinos favoritos de los usuarios (vincula `user.id` y `Casino.id`).
   - **Tablas para Noticias:**
-    - `posts`: Contenido de los artículos (título, slug, contenido, fecha, `author_id`, etc.).
-    - `categories`: Categorías para los posts (nombre, slug).
-    - `tags`: Etiquetas para los posts (nombre, slug).
-    - `post_categories`: Tabla de relación N:M entre `posts` y `categories`.
-    - `post_tags`: Tabla de relación N:M entre `posts` y `tags`.
-    - `comments`: Comentarios de los posts (contenido, fecha, `post_id`, `user_id`).
+    - `blog_posts`: Contenido de los artículos (título, slug, contenido, fecha, `author_id`, etc.).
+    - `blog_categories`: Categorías para los posts (nombre, slug).
+    - `blog_tags`: Etiquetas para los posts (nombre, slug).
+    - `blog_post_categories`: Tabla de relación N:M entre `blog_posts` y `blog_categories`.
+    - `blog_post_tags`: Tabla de relación N:M entre `blog_posts` y `blog_tags`.
+    - `blog_comments`: Comentarios de los posts (contenido, fecha, `post_id`, `user_id`).
 
 _(Nota: Esto se basa en los nombres de las tablas. Se pueden añadir detalles de columnas y relaciones si es necesario)._
 
