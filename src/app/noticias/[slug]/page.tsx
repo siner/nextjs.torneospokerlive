@@ -108,8 +108,39 @@ export default async function PostPage({ params }: PostPageProps) {
   // Ya no procesamos el contenido, usamos el HTML directamente
   const contentHtml = post.content || ""; // Usar directamente el contenido
 
+  // Structured Data para artículos
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: post.title,
+    image: post.featured_image_url
+      ? [post.featured_image_url]
+      : ["https://www.torneospokerlive.com/opengraph-image.jpg"],
+    datePublished: post.published_at ?? post.created_at,
+    dateModified: post.updated_at,
+    author: {
+      "@type": "Person",
+      name: "Torneos Poker Live",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Torneos Poker Live",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.torneospokerlive.com/logo-torneospokerlive.png",
+      },
+    },
+    description: extractPlainText(post.content),
+    articleSection: post.blog_categories?.name,
+    keywords: post.tags?.map((t) => t.name).join(", "),
+  };
+
   return (
     <article className="prose prose-lg dark:prose-invert mx-auto py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Encabezado del Post */}
       <h1 className="mb-4 text-3xl md:text-4xl font-bold">{post.title}</h1>
       <div className="text-muted-foreground mb-6 text-base">

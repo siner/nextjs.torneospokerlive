@@ -25,8 +25,43 @@ export async function generateMetadata({
       title: "Not found",
     };
   }
+
+  const description = `Torneo ${tournament.name} en ${
+    tournament.casino?.name || ""
+  }${
+    tournament.buyin > 0 ? ` - Buy-in: ${tournament.buyin}€` : ""
+  }. Fecha: ${new Date(tournament.date).toLocaleDateString("es-ES")}.`;
+
   return {
     title: `${tournament.name} - Torneos Poker Live`,
+    description,
+    openGraph: {
+      title: `${tournament.name}`,
+      description,
+      url: `https://www.torneospokerlive.com/torneos/${params.slug}`,
+      siteName: "Torneos Poker Live",
+      images: tournament.casino?.logo
+        ? [
+            {
+              url: tournament.casino.logo,
+              width: 800,
+              height: 600,
+              alt: `Logo ${tournament.casino.name}`,
+            },
+          ]
+        : [],
+      locale: "es_ES",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${tournament.name}`,
+      description,
+      images: tournament.casino?.logo ? [tournament.casino.logo] : [],
+    },
+    alternates: {
+      canonical: `https://www.torneospokerlive.com/torneos/${params.slug}`,
+    },
   };
 }
 

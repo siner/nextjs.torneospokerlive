@@ -28,8 +28,58 @@ export async function generateMetadata({
       title: "Not found",
     };
   }
+
+  const dateFrom = format(parseISO(event.from), "d 'de' MMMM", { locale: es });
+  const dateTo = format(parseISO(event.to), "d 'de' MMMM", { locale: es });
+  const description = `${event.name} en ${
+    event.casino?.name || ""
+  }. Del ${dateFrom} al ${dateTo}.${
+    event.tour ? ` Circuito ${event.tour.name}.` : ""
+  }`;
+
   return {
     title: `${event.name} - Torneos Poker Live`,
+    description,
+    openGraph: {
+      title: `${event.name}`,
+      description,
+      url: `https://www.torneospokerlive.com/eventos/${params.slug}`,
+      siteName: "Torneos Poker Live",
+      images: event.casino?.logo
+        ? [
+            {
+              url: event.casino.logo,
+              width: 800,
+              height: 600,
+              alt: `Logo ${event.casino.name}`,
+            },
+          ]
+        : event.tour?.logo
+        ? [
+            {
+              url: event.tour.logo,
+              width: 800,
+              height: 600,
+              alt: `Logo ${event.tour.name}`,
+            },
+          ]
+        : [],
+      locale: "es_ES",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${event.name}`,
+      description,
+      images: event.casino?.logo
+        ? [event.casino.logo]
+        : event.tour?.logo
+        ? [event.tour.logo]
+        : [],
+    },
+    alternates: {
+      canonical: `https://www.torneospokerlive.com/eventos/${params.slug}`,
+    },
   };
 }
 
@@ -67,8 +117,50 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const dateFrom = getSimpleDate(event.from);
   const dateTo = getSimpleDate(event.to);
 
+  // Structured Data para eventos
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: event.name,
+    startDate: event.from,
+    endDate: event.to,
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    eventStatus: "https://schema.org/EventScheduled",
+    location: event.casino
+      ? {
+          "@type": "Place",
+          name: event.casino.name,
+          address: event.casino.address
+            ? {
+                "@type": "PostalAddress",
+                streetAddress: event.casino.address,
+              }
+            : undefined,
+        }
+      : undefined,
+    image: event.casino?.logo || event.tour?.logo,
+    description: `Evento de poker ${event.name}${
+      event.casino ? ` en ${event.casino.name}` : ""
+    }${event.tour ? ` del circuito ${event.tour.name}` : ""}`,
+    organizer: event.tour
+      ? {
+          "@type": "Organization",
+          name: event.tour.name,
+        }
+      : event.casino
+      ? {
+          "@type": "Organization",
+          name: event.casino.name,
+        }
+      : undefined,
+  };
+
   return (
     <div className="space-y-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl md:text-3xl font-bold">

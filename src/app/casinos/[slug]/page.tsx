@@ -19,15 +19,46 @@ export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
-}) {
+}): Promise<Metadata> {
   const casino = await getCasino(params.slug);
   if (!casino) {
     return {
       title: "Not found",
     };
   }
+
+  const description = casino.description
+    ? casino.description.substring(0, 160)
+    : `Consulta todos los torneos y eventos de poker en ${casino.name}. Información actualizada sobre próximos torneos, buy-ins, garantizados y más.`;
+
   return {
     title: `${casino.name} - Torneos Poker Live`,
+    description,
+    openGraph: {
+      title: `${casino.name} - Torneos de Poker`,
+      description,
+      url: `https://www.torneospokerlive.com/casinos/${params.slug}`,
+      siteName: "Torneos Poker Live",
+      images: [
+        {
+          url: casino.logo,
+          width: 800,
+          height: 600,
+          alt: `Logo ${casino.name}`,
+        },
+      ],
+      locale: "es_ES",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${casino.name} - Torneos de Poker`,
+      description,
+      images: [casino.logo],
+    },
+    alternates: {
+      canonical: `https://www.torneospokerlive.com/casinos/${params.slug}`,
+    },
   };
 }
 export const revalidate = 3600;
@@ -53,8 +84,28 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const casinoBgColor = casino.color || "#ffffff";
   const casinoTextColor = getTextColor(casinoBgColor);
 
+  // Structured Data para SEO y ChatGPT
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Casino",
+    name: casino.name,
+    image: casino.logo,
+    url: `https://www.torneospokerlive.com/casinos/${params.slug}`,
+    description: casino.description || `Casino ${casino.name}`,
+    address: casino.address
+      ? {
+          "@type": "PostalAddress",
+          streetAddress: casino.address,
+        }
+      : undefined,
+  };
+
   return (
     <div className="space-y-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Card style={{ backgroundColor: casinoBgColor }}>
         <div className="flex flex-col md:flex-row justify-between items-start p-6 gap-4">
           <div className="flex-grow w-full md:w-auto md:mr-4 order-2 md:order-1">

@@ -100,6 +100,12 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - [x] **Crear páginas de archivo para categorías** (`/noticias/categoria/[slug]`).
 - [x] **Crear páginas de archivo para tags** (`/noticias/tag/[slug]`).
 - [x] **Añadir sección de noticias al menú de navegación principal.**
+- [x] **Optimizar SEO y Metadatos**: Mejorar metadatos Open Graph, Twitter Cards, Canonical URLs y Structured Data (JSON-LD) en todas las páginas interiores:
+  - [x] Casinos: Open Graph completo, Structured Data Casino
+  - [x] Noticias: Structured Data NewsArticle
+  - [x] Torneos: Open Graph completo
+  - [x] Eventos: Open Graph completo, Structured Data Event
+  - [x] Circuitos: Open Graph completo, Structured Data Organization
 
 ## In Progress Tasks
 
@@ -170,7 +176,7 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - `src/lib/supabase/queries/tags.ts` ✅ (API tags: `getTags`)
 - `src/lib/supabase/queries/comments.ts` ✅ (API comments: `getCommentsByPostId`)
 - `src/app/noticias/page.tsx` ✅ (Página listado, usa `PostCard`)
-- `src/app/noticias/[slug]/page.tsx` ✅ (Página detalle)
+- `src/app/noticias/[slug]/page.tsx` ✅ (Página detalle + JSON-LD NewsArticle)
 - `src/components/news/PostCard.tsx` ✅ (Componente Card para listado, usa `CategoryBadge`)
 - `src/components/news/CommentSection.tsx` ✅ (Componente para mostrar comentarios)
 - `src/components/news/CategoryBadge.tsx` ✅ (Componente Badge para categorías)
@@ -181,6 +187,10 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - `src/app/noticias/categoria/[slug]/page.tsx` ✅ (Página archivo categorías + Metadata)
 - `src/app/noticias/tag/[slug]/page.tsx` ✅ (Página archivo tags + Metadata)
 - `src/components/layout/navigation.tsx` ✅ (Enlace Noticias añadido)
+- `src/app/casinos/[slug]/page.tsx` ✅ (Open Graph + JSON-LD Casino)
+- `src/app/torneos/[slug]/page.tsx` ✅ (Open Graph completo)
+- `src/app/eventos/[slug]/page.tsx` ✅ (Open Graph + JSON-LD Event)
+- `src/app/circuitos/[slug]/page.tsx` ✅ (Open Graph + JSON-LD Organization)
 
 ## Feature: Sección de Noticias
 
