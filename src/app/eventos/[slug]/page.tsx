@@ -45,25 +45,6 @@ export async function generateMetadata({
       description,
       url: `https://www.torneospokerlive.com/eventos/${params.slug}`,
       siteName: "Torneos Poker Live",
-      images: event.casino?.logo
-        ? [
-            {
-              url: event.casino.logo,
-              width: 800,
-              height: 600,
-              alt: `Logo ${event.casino.name}`,
-            },
-          ]
-        : event.tour?.logo
-        ? [
-            {
-              url: event.tour.logo,
-              width: 800,
-              height: 600,
-              alt: `Logo ${event.tour.name}`,
-            },
-          ]
-        : [],
       locale: "es_ES",
       type: "website",
     },
@@ -71,11 +52,6 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: `${event.name}`,
       description,
-      images: event.casino?.logo
-        ? [event.casino.logo]
-        : event.tour?.logo
-        ? [event.tour.logo]
-        : [],
     },
     alternates: {
       canonical: `https://www.torneospokerlive.com/eventos/${params.slug}`,

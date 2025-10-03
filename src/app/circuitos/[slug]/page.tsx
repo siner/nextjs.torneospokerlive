@@ -27,16 +27,6 @@ export async function generateMetadata({
       description,
       url: `https://www.torneospokerlive.com/circuitos/${params.slug}`,
       siteName: "Torneos Poker Live",
-      images: tour.logo
-        ? [
-            {
-              url: tour.logo,
-              width: 800,
-              height: 600,
-              alt: `Logo ${tour.name}`,
-            },
-          ]
-        : [],
       locale: "es_ES",
       type: "website",
     },
@@ -44,7 +34,6 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: `${tour.name} - Circuito de Poker`,
       description,
-      images: tour.logo ? [tour.logo] : [],
     },
     alternates: {
       canonical: `https://www.torneospokerlive.com/circuitos/${params.slug}`,
