@@ -478,6 +478,106 @@ export async function getStarredTournamentIds(
 }
 
 /**
+ * Obtiene los eventos favoritos de un usuario con toda la información relacionada.
+ */
+export async function getStarredEvents(userId: string) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("event_stars")
+    .select(
+      `
+      event:Event(
+        *,
+        casino:Casino(*),
+        tour:Tour(*)
+      )
+    `
+    )
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("Error fetching starred events:", error);
+    return [];
+  }
+
+  const events = data?.map((d: any) => d.event) || [];
+
+  // Filtrar duplicados por event_id
+  const uniqueEvents = Array.from(
+    new Map(events.map((e: any) => [e.id, e])).values()
+  );
+
+  return uniqueEvents;
+}
+
+/**
+ * Obtiene solo los IDs de los eventos favoritos de un usuario.
+ */
+export async function getStarredEventIds(userId: string): Promise<number[]> {
+  noStore();
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("event_stars")
+    .select("event_id")
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("Error fetching starred event IDs:", error);
+    return [];
+  }
+
+  return (
+    data?.map((e) => e.event_id).filter((id): id is number => id !== null) || []
+  );
+}
+
+/**
+ * Obtiene los circuitos (tours) favoritos de un usuario.
+ */
+export async function getStarredTours(userId: string) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("tour_stars")
+    .select("tour:Tour(*)")
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("Error fetching starred tours:", error);
+    return [];
+  }
+
+  const tours = data?.map((d: any) => d.tour) || [];
+
+  // Filtrar duplicados por tour_id
+  const uniqueTours = Array.from(
+    new Map(tours.map((t: any) => [t.id, t])).values()
+  );
+
+  return uniqueTours;
+}
+
+/**
+ * Obtiene solo los IDs de los circuitos favoritos de un usuario.
+ */
+export async function getStarredTourIds(userId: string): Promise<number[]> {
+  noStore();
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("tour_stars")
+    .select("tour_id")
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("Error fetching starred tour IDs:", error);
+    return [];
+  }
+
+  return (
+    data?.map((t) => t.tour_id).filter((id): id is number => id !== null) || []
+  );
+}
+
+/**
  * Obtiene los próximos torneos favoritos de un usuario.
  */
 export async function getMyStarredNextTournaments(userId: string) {

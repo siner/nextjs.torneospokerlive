@@ -6,8 +6,20 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { createClient } from "@/lib/supabase/server";
-import { getStarredCasinos, getStarredTournaments } from "@/lib/api";
-import { Star, Trophy, Calendar, TrendingUp } from "lucide-react";
+import {
+  getStarredCasinos,
+  getStarredTournaments,
+  getStarredEvents,
+  getStarredTours,
+} from "@/lib/api";
+import {
+  Star,
+  Trophy,
+  Calendar,
+  TrendingUp,
+  CalendarDays,
+  CircleDot,
+} from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -20,9 +32,11 @@ export default async function DashboardPage() {
   }
 
   // Obtener estadísticas
-  const [casinos, tournaments] = await Promise.all([
+  const [casinos, tournaments, events, tours] = await Promise.all([
     getStarredCasinos(data.user.id),
     getStarredTournaments(data.user.id),
+    getStarredEvents(data.user.id),
+    getStarredTours(data.user.id),
   ]);
 
   const stats = [
@@ -50,6 +64,22 @@ export default async function DashboardPage() {
       description: "Torneos pendientes",
       href: "/torneos?mytournaments=true",
       color: "text-green-500",
+    },
+    {
+      title: "Eventos Favoritos",
+      value: events.length,
+      icon: CalendarDays,
+      description: "Eventos que sigues",
+      href: "/ajustes/mis-eventos",
+      color: "text-purple-500",
+    },
+    {
+      title: "Circuitos Favoritos",
+      value: tours.length,
+      icon: CircleDot,
+      description: "Circuitos guardados",
+      href: "/ajustes/mis-circuitos",
+      color: "text-orange-500",
     },
   ];
 

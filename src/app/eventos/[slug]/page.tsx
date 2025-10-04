@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { getEvent, getTournamentsByEvent } from "@/lib/api";
+import { getEvent, getTournamentsByEvent, getStarredEventIds } from "@/lib/api";
 import CardTour from "@/components/tour/CardTour";
 import RowTournament from "@/components/tournament/RowTournament";
 import CardCasino from "@/components/casino/CardCasino";
@@ -17,6 +17,8 @@ import Link from "next/link";
 import { format, parseISO, eachDayOfInterval, compareAsc } from "date-fns";
 import { es } from "date-fns/locale";
 import { generateOgImageUrl } from "@/lib/og-image";
+import { createClient } from "@/lib/supabase/server";
+import { EventStar } from "@/components/event/EventStar";
 
 export async function generateMetadata({
   params,
@@ -89,6 +91,18 @@ export default async function Page({ params }: { params: { slug: string } }) {
   if (!event) {
     return <div>Not found</div>;
   }
+
+  // Verificar si el usuario está autenticado y si tiene este evento en favoritos
+  const supabase = createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  const user = userData?.user;
+  let isStarred = false;
+
+  if (user) {
+    const starredEventIds = await getStarredEventIds(user.id);
+    isStarred = starredEventIds.includes(event.id);
+  }
+
   const allTournaments = await getTournamentsByEvent(event.id);
 
   const tournamentsByDate: { [key: string]: typeof allTournaments } = {};
@@ -162,8 +176,15 @@ export default async function Page({ params }: { params: { slug: string } }) {
       />
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl md:text-3xl font-bold">
-            {event.name}
+          <CardTitle className="text-2xl md:text-3xl font-bold flex items-center justify-between gap-4">
+            <span>{event.name}</span>
+            {user && (
+              <EventStar
+                eventId={event.id.toString()}
+                userId={user.id}
+                isStarred={isStarred}
+              />
+            )}
           </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

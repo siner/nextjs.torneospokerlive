@@ -10,7 +10,14 @@ export const metadata: Metadata = {
 
 import * as React from "react";
 import Link from "next/link";
-import { User, Star, Trophy, LayoutDashboard } from "lucide-react";
+import {
+  User,
+  Star,
+  Trophy,
+  LayoutDashboard,
+  CalendarDays,
+  CircleDot,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 async function getCurrentPath() {
@@ -49,6 +56,16 @@ export default async function Layout({
       href: "/ajustes/mis-torneos",
       label: "Mis torneos",
       icon: Trophy,
+    },
+    {
+      href: "/ajustes/mis-eventos",
+      label: "Mis eventos",
+      icon: CalendarDays,
+    },
+    {
+      href: "/ajustes/mis-circuitos",
+      label: "Mis circuitos",
+      icon: CircleDot,
     },
   ];
 

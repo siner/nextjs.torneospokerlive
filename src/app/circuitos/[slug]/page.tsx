@@ -1,8 +1,10 @@
-import { getTour, getEventsByTour } from "@/lib/api";
+import { getTour, getEventsByTour, getStarredTourIds } from "@/lib/api";
 import type { Metadata } from "next";
 import CardTour from "@/components/tour/CardTour";
 import RowEvent from "@/components/event/RowEvent";
 import { generateOgImageUrl } from "@/lib/og-image";
+import { createClient } from "@/lib/supabase/server";
+import { TourStar } from "@/components/tour/TourStar";
 
 export async function generateMetadata({
   params,
@@ -64,6 +66,18 @@ export default async function Page({ params }: { params: { slug: string } }) {
   if (!tour) {
     return <div>Not found</div>;
   }
+
+  // Verificar si el usuario está autenticado y si tiene este circuito en favoritos
+  const supabase = createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  const user = userData?.user;
+  let isStarred = false;
+
+  if (user) {
+    const starredTourIds = await getStarredTourIds(user.id);
+    isStarred = starredTourIds.includes(tour.id);
+  }
+
   const events = await getEventsByTour(tour.id);
 
   // Structured Data para el circuito
@@ -89,8 +103,15 @@ export default async function Page({ params }: { params: { slug: string } }) {
         <div className="md:w-8/12">
           {events.length > 0 && (
             <div>
-              <h2 className="text-4xl font-bold py-4">
-                Eventos de {tour.name}
+              <h2 className="text-4xl font-bold py-4 flex items-center justify-between gap-4">
+                <span>Eventos de {tour.name}</span>
+                {user && (
+                  <TourStar
+                    tourId={tour.id.toString()}
+                    userId={user.id}
+                    isStarred={isStarred}
+                  />
+                )}
               </h2>
 
               <div className="space-y-0.5">
