@@ -151,7 +151,7 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 
 ## In Progress Tasks
 
-Ninguna tarea en progreso. Esperando decisión sobre la siguiente funcionalidad.
+Ninguna tarea en progreso.
 
 ## Próximas Funcionalidades Propuestas
 
@@ -162,7 +162,7 @@ Ver documento completo en: `project-docs/MEJORAS-PROPUESTAS.md`
 - [x] **Favoritos de Torneos** - Marcar torneos específicos como favoritos ✅ COMPLETADO
   - Componente TournamentStar creado
   - Integrado en página de detalle de torneo
-  - Página `/ajustes/mis-torneos` con DataTable
+  - Página `/ajustes/mis-torneos` con RowTournament y tabs Próximos/Pasados
   - Filtro "Mis Torneos" en página `/torneos`
   - Soporte en calendario
   - Enlace en header dropdown
@@ -173,7 +173,16 @@ Ver documento completo en: `project-docs/MEJORAS-PROPUESTAS.md`
   - Estados vacíos mejorados con CTAs
   - Contadores de items en listados
   - Estructura reorganizada: /ajustes (dashboard), /ajustes/perfil, /ajustes/mis-casinos, /ajustes/mis-torneos
-- [ ] **Favoritos de Eventos y Circuitos** - Extender sistema de favoritos
+- [x] **Mejoras en Visualización de Favoritos** ✅ COMPLETADO
+  - Reemplazadas DataTables por componentes visuales
+  - Búsqueda en tiempo real
+  - Migración para eliminar duplicados
+- [x] **Favoritos de Eventos y Circuitos** - Extender sistema de favoritos ✅ COMPLETADO
+  - Tablas event_stars y tour_stars en Supabase
+  - Componentes EventStar y TourStar
+  - Páginas /ajustes/mis-eventos y /ajustes/mis-circuitos
+  - Integración completa en navegación y dashboard
+  - 5 tarjetas de estadísticas en dashboard
 - [ ] **Sistema de Notificaciones** - In-app y por email
 - [ ] **Filtrado y Búsqueda Avanzada** - Filtros por buy-in, fecha, tipo, etc.
 - [ ] **Comentarios en Noticias** - Usuarios registrados pueden comentar
