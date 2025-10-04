@@ -110,3 +110,107 @@ export async function addComment(
     errors: {},
   };
 }
+
+/**
+ * Action para actualizar un comentario existente
+ */
+export async function updateComment(
+  commentId: string,
+  content: string
+): Promise<{ success: boolean; message: string }> {
+  const supabase = createClient();
+
+  // 1. Verificar autenticación
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      success: false,
+      message: "Debes estar autenticado para editar comentarios.",
+    };
+  }
+
+  // 2. Validar contenido
+  if (!content || content.trim().length < 3) {
+    return {
+      success: false,
+      message: "El comentario debe tener al menos 3 caracteres.",
+    };
+  }
+
+  if (content.length > 1000) {
+    return {
+      success: false,
+      message: "El comentario no puede exceder los 1000 caracteres.",
+    };
+  }
+
+  // 3. Actualizar comentario (RLS verifica que sea el propietario)
+  const { error } = await supabase
+    .from("blog_comments")
+    .update({ content: content.trim() })
+    .eq("id", commentId)
+    .eq("user_id", user.id);
+
+  if (error) {
+    console.error("Error updating comment:", error);
+    return {
+      success: false,
+      message: `Error al actualizar el comentario: ${error.message}`,
+    };
+  }
+
+  // 4. Revalidar
+  revalidatePath("/noticias", "layout");
+
+  return {
+    success: true,
+    message: "Comentario actualizado con éxito.",
+  };
+}
+
+/**
+ * Action para eliminar un comentario
+ */
+export async function deleteComment(
+  commentId: string
+): Promise<{ success: boolean; message: string }> {
+  const supabase = createClient();
+
+  // 1. Verificar autenticación
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      success: false,
+      message: "Debes estar autenticado para eliminar comentarios.",
+    };
+  }
+
+  // 2. Eliminar comentario (RLS verifica que sea el propietario)
+  const { error } = await supabase
+    .from("blog_comments")
+    .delete()
+    .eq("id", commentId)
+    .eq("user_id", user.id);
+
+  if (error) {
+    console.error("Error deleting comment:", error);
+    return {
+      success: false,
+      message: `Error al eliminar el comentario: ${error.message}`,
+    };
+  }
+
+  // 3. Revalidar
+  revalidatePath("/noticias", "layout");
+
+  return {
+    success: true,
+    message: "Comentario eliminado con éxito.",
+  };
+}

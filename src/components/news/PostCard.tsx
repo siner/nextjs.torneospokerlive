@@ -12,6 +12,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { CategoryBadge } from "@/components/news/CategoryBadge";
+import { MessageSquare, Calendar } from "lucide-react";
 
 interface PostCardProps {
   post: PostWithAuthorAndCategory;
@@ -53,15 +54,28 @@ export function PostCard({ post }: PostCardProps) {
       {/* <CardContent>
             </CardContent> */}
 
-      <CardFooter className="mt-auto text-sm text-muted-foreground">
-        <time dateTime={post.published_at ?? post.created_at}>
-          {format(
-            new Date(post.published_at ?? post.created_at),
-            "dd MMMM yyyy",
-            { locale: es }
-          )}
-        </time>
-        {/* Podríamos añadir el nombre del autor si lo recuperáramos */}
+      <CardFooter className="mt-auto text-sm text-muted-foreground flex items-center justify-between gap-4">
+        <div className="flex items-center gap-1.5">
+          <Calendar className="h-4 w-4" />
+          <time dateTime={post.published_at ?? post.created_at}>
+            {format(
+              new Date(post.published_at ?? post.created_at),
+              "dd MMM yyyy",
+              { locale: es }
+            )}
+          </time>
+        </div>
+        {post.comments_count !== undefined && (
+          <Link
+            href={`/noticias/${post.slug}#comentarios`}
+            className="flex items-center gap-1.5 hover:text-primary transition-colors"
+          >
+            <MessageSquare className="h-4 w-4" />
+            <span>
+              {post.comments_count} {post.comments_count === 1 ? "comentario" : "comentarios"}
+            </span>
+          </Link>
+        )}
       </CardFooter>
     </Card>
   );

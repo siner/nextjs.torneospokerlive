@@ -1,14 +1,13 @@
 import { createClient } from "@/lib/supabase/server";
 import type { Tables } from "@/types/supabase";
 
-// TODO: Considerar añadir datos del usuario (avatar, nombre desde 'user') si se añade user_id a blog_comments
 export type CommentWithAuthor = Tables<"blog_comments"> & {
-  // user: Pick<Tables<'user'>, 'username' | 'avatar'> | null;
+  user: Pick<Tables<'user'>, 'username' | 'avatar'> | null;
 };
 
 /**
- * Obtiene todos los comentarios para un post específico, ordenados por fecha de creación.
- * Actualmente solo obtiene los datos de la tabla blog_comments.
+ * Obtiene todos los comentarios para un post específico con datos del usuario,
+ * ordenados por fecha de creación.
  */
 export async function getCommentsByPostId(
   postId: string
@@ -17,7 +16,13 @@ export async function getCommentsByPostId(
 
   const { data, error } = await supabase
     .from("blog_comments")
-    .select("*") // Selecciona todos los campos de blog_comments
+    .select(`
+      *,
+      user:user_id (
+        username,
+        avatar
+      )
+    `)
     .eq("post_id", postId)
     .order("created_at", { ascending: true });
 
@@ -26,6 +31,5 @@ export async function getCommentsByPostId(
     return [];
   }
 
-  // Casteamos al tipo extendido aunque no tenga datos extra por ahora
   return data as CommentWithAuthor[];
 }

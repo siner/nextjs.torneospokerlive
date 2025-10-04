@@ -10,7 +10,7 @@ import type {
 // Combina el tipo base 'blog_posts' con los campos seleccionados de 'blog_categories'
 export type PostWithAuthorAndCategory = Tables<"blog_posts"> & {
   blog_categories: Pick<Tables<"blog_categories">, "name" | "slug"> | null; // La categoría es nullable
-  // TODO: Añadir 'tags' una vez implementada la query
+  comments_count?: number; // Conteo de comentarios
 };
 
 // Tipo similar para el post individual que incluirá tags en el futuro
@@ -132,7 +132,11 @@ export async function getPosts({
   // 5. Ejecutar consulta para obtener los datos de la página actual (usando match)
   const dataQueryBuilder = supabase
     .from("blog_posts")
-    .select("*, blog_categories:category_id ( name, slug )")
+    .select(`
+      *,
+      blog_categories:category_id ( name, slug ),
+      blog_comments ( count )
+    `)
     .match(filters)
     .order("published_at", { ascending: false })
     .range(from, to);
@@ -219,7 +223,11 @@ export async function getLatestPosts(
 
   const { data, error } = await supabase
     .from("blog_posts")
-    .select("*, blog_categories:category_id ( name, slug )") // Seleccionar lo necesario para PostCard
+    .select(`
+      *,
+      blog_categories:category_id ( name, slug ),
+      blog_comments ( count )
+    `) // Seleccionar lo necesario para PostCard incluyendo conteo de comentarios
     .eq("status", "published")
     .order("published_at", { ascending: false })
     .limit(limit);
