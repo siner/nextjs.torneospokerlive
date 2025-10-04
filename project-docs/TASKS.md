@@ -194,6 +194,11 @@ Ver documento completo en: `project-docs/MEJORAS-PROPUESTAS.md`
   - Integrado en página `/torneos` con TorneosClient
   - Query params en URL para compartir búsquedas filtradas
   - Sincronización bidireccional entre URL y estado de filtros
+  - **Filtros contextuales:**
+    - CasinoTorneosClient: filtros en vista de casino (oculta filtro de casino)
+    - EventoTorneosClient: filtros en vista de evento (oculta filtro de evento)
+    - Props hideCasinoFilter/hideEventFilter en TournamentFilters
+    - Contador de resultados filtrados en título
 - [x] **Compartir en RRSS** - Botones de compartir torneos/eventos/noticias ✅ COMPLETADO
   - Componente ShareButtons reutilizable
   - Soporte para Twitter, WhatsApp, Telegram y copiar enlace
@@ -201,6 +206,7 @@ Ver documento completo en: `project-docs/MEJORAS-PROPUESTAS.md`
   - Descripciones concisas con separador •
   - Integrado en todas las páginas de detalle (torneos, eventos, casinos, circuitos, noticias)
   - Dropdown menu con tooltips
+  - **Fix visibilidad:** filtro invert en fondos oscuros (text-color #ffffff)
 - [x] **Comentarios en Noticias** - Sistema completo de comentarios ✅ COMPLETADO
   - Migración SQL con user_id, updated_at y RLS policies
   - Componente Comment con avatares y edición inline
