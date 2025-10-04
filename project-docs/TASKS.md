@@ -106,6 +106,11 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
   - [x] Torneos: Open Graph completo
   - [x] Eventos: Open Graph completo, Structured Data Event
   - [x] Circuitos: Open Graph completo, Structured Data Organization
+- [x] **Imágenes OG dinámicas**: Crear Cloudflare Worker para generar imágenes Open Graph con fondos de color personalizados
+  - [x] Crear Worker con satori para generación de SVG
+  - [x] Helper en Next.js para generar URLs del worker
+  - [x] Integrar en metadatos de casinos, torneos, eventos y circuitos
+  - [x] Desplegar worker en Cloudflare (✅ https://torneospokerlive-og.edgefranmoreno.workers.dev)
 
 ## In Progress Tasks
 
@@ -188,9 +193,11 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - `src/app/noticias/tag/[slug]/page.tsx` ✅ (Página archivo tags + Metadata)
 - `src/components/layout/navigation.tsx` ✅ (Enlace Noticias añadido)
 - `src/app/casinos/[slug]/page.tsx` ✅ (Open Graph + JSON-LD Casino)
-- `src/app/torneos/[slug]/page.tsx` ✅ (Open Graph completo)
-- `src/app/eventos/[slug]/page.tsx` ✅ (Open Graph + JSON-LD Event)
-- `src/app/circuitos/[slug]/page.tsx` ✅ (Open Graph + JSON-LD Organization)
+- `src/app/torneos/[slug]/page.tsx` ✅ (Open Graph completo + OG Image dinámica)
+- `src/app/eventos/[slug]/page.tsx` ✅ (Open Graph + JSON-LD Event + OG Image dinámica)
+- `src/app/circuitos/[slug]/page.tsx` ✅ (Open Graph + JSON-LD Organization + OG Image dinámica)
+- `src/lib/og-image.ts` ✅ (Helper para generar URLs de imágenes OG)
+- `cloudflare-worker-og/` ✅ (Worker para generación dinámica de imágenes OG)
 
 ## Feature: Sección de Noticias
 

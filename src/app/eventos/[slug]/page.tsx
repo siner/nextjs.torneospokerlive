@@ -16,6 +16,7 @@ import { CalendarDays } from "lucide-react";
 import Link from "next/link";
 import { format, parseISO, eachDayOfInterval, compareAsc } from "date-fns";
 import { es } from "date-fns/locale";
+import { generateOgImageUrl } from "@/lib/og-image";
 
 export async function generateMetadata({
   params,
@@ -37,6 +38,19 @@ export async function generateMetadata({
     event.tour ? ` Circuito ${event.tour.name}.` : ""
   }`;
 
+  // Para eventos, pasamos ambos logos separados por coma
+  const eventLogos = [event.casino?.logo, event.tour?.logo]
+    .filter(Boolean)
+    .join(",");
+
+  const ogImage = generateOgImageUrl({
+    name: event.name,
+    logo: eventLogos,
+    color: event.casino?.color,
+    subtitle: `${dateFrom} - ${dateTo}`,
+    type: "evento",
+  });
+
   return {
     title: `${event.name} - Torneos Poker Live`,
     description,
@@ -45,6 +59,14 @@ export async function generateMetadata({
       description,
       url: `https://www.torneospokerlive.com/eventos/${params.slug}`,
       siteName: "Torneos Poker Live",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: `${event.name}`,
+        },
+      ],
       locale: "es_ES",
       type: "website",
     },
@@ -52,6 +74,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: `${event.name}`,
       description,
+      images: [ogImage],
     },
     alternates: {
       canonical: `https://www.torneospokerlive.com/eventos/${params.slug}`,

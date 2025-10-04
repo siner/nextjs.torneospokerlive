@@ -13,6 +13,7 @@ import {
   CalendarDays,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { generateOgImageUrl } from "@/lib/og-image";
 
 export async function generateMetadata({
   params,
@@ -32,6 +33,14 @@ export async function generateMetadata({
     tournament.buyin > 0 ? ` - Buy-in: ${tournament.buyin}€` : ""
   }. Fecha: ${new Date(tournament.date).toLocaleDateString("es-ES")}.`;
 
+  const ogImage = generateOgImageUrl({
+    name: tournament.name,
+    logo: tournament.casino?.logo,
+    color: tournament.casino?.color,
+    subtitle: tournament.buyin > 0 ? `${tournament.buyin}€` : undefined,
+    type: "torneo",
+  });
+
   return {
     title: `${tournament.name} - Torneos Poker Live`,
     description,
@@ -40,6 +49,14 @@ export async function generateMetadata({
       description,
       url: `https://www.torneospokerlive.com/torneos/${params.slug}`,
       siteName: "Torneos Poker Live",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: `${tournament.name}`,
+        },
+      ],
       locale: "es_ES",
       type: "website",
     },
@@ -47,6 +64,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: `${tournament.name}`,
       description,
+      images: [ogImage],
     },
     alternates: {
       canonical: `https://www.torneospokerlive.com/torneos/${params.slug}`,

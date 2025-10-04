@@ -14,6 +14,7 @@ import { Avatar } from "@/components/ui/avatar";
 import { getTextColor } from "@/lib/utils";
 import EventTournamentCalendar from "@/components/calendar/EventTournamentCalendar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { generateOgImageUrl } from "@/lib/og-image";
 
 export async function generateMetadata({
   params,
@@ -31,6 +32,14 @@ export async function generateMetadata({
     ? casino.description.substring(0, 160)
     : `Consulta todos los torneos y eventos de poker en ${casino.name}. Información actualizada sobre próximos torneos, buy-ins, garantizados y más.`;
 
+  const ogImage = generateOgImageUrl({
+    name: casino.name,
+    logo: casino.logo,
+    color: casino.color,
+    subtitle: "Torneos Poker Live",
+    type: "casino",
+  });
+
   return {
     title: `${casino.name} - Torneos Poker Live`,
     description,
@@ -39,6 +48,14 @@ export async function generateMetadata({
       description,
       url: `https://www.torneospokerlive.com/casinos/${params.slug}`,
       siteName: "Torneos Poker Live",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: `${casino.name} - Torneos Poker Live`,
+        },
+      ],
       locale: "es_ES",
       type: "website",
     },
@@ -46,6 +63,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: `${casino.name} - Torneos de Poker`,
       description,
+      images: [ogImage],
     },
     alternates: {
       canonical: `https://www.torneospokerlive.com/casinos/${params.slug}`,

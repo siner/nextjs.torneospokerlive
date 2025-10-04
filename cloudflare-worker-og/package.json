@@ -1,0 +1,17 @@
+{
+  "name": "torneospokerlive-og-worker",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@cloudflare/workers-types": "^4.20241127.0",
+    "satori": "^0.10.14"
+  },
+  "devDependencies": {
+    "wrangler": "^3.84.1",
+    "typescript": "^5.3.3"
+  }
+}

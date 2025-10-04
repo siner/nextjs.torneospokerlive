@@ -2,6 +2,7 @@ import { getTour, getEventsByTour } from "@/lib/api";
 import type { Metadata } from "next";
 import CardTour from "@/components/tour/CardTour";
 import RowEvent from "@/components/event/RowEvent";
+import { generateOgImageUrl } from "@/lib/og-image";
 
 export async function generateMetadata({
   params,
@@ -19,6 +20,14 @@ export async function generateMetadata({
     ? tour.description.substring(0, 160)
     : `Circuito de poker ${tour.name}. Consulta todos los eventos, torneos, fechas y ubicaciones del circuito ${tour.name}.`;
 
+  const ogImage = generateOgImageUrl({
+    name: tour.name,
+    logo: tour.logo,
+    color: tour.color,
+    subtitle: "Circuito de Poker",
+    type: "circuito",
+  });
+
   return {
     title: `${tour.name} - Torneos Poker Live`,
     description,
@@ -27,6 +36,14 @@ export async function generateMetadata({
       description,
       url: `https://www.torneospokerlive.com/circuitos/${params.slug}`,
       siteName: "Torneos Poker Live",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: `${tour.name} - Circuito de Poker`,
+        },
+      ],
       locale: "es_ES",
       type: "website",
     },
@@ -34,6 +51,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: `${tour.name} - Circuito de Poker`,
       description,
+      images: [ogImage],
     },
     alternates: {
       canonical: `https://www.torneospokerlive.com/circuitos/${params.slug}`,
