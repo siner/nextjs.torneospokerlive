@@ -3,6 +3,37 @@ import satori from "satori";
 // Caché para las fuentes
 let fontCache: ArrayBuffer | null = null;
 
+// Funciones para calcular contraste y color de texto
+function getRGB(c: string): number {
+  return parseInt(c, 16);
+}
+
+function getsRGB(c: string): number {
+  return getRGB(c) / 255 <= 0.03928
+    ? getRGB(c) / 255 / 12.92
+    : Math.pow((getRGB(c) / 255 + 0.055) / 1.055, 2.4);
+}
+
+function getLuminance(hexColor: string): number {
+  return (
+    0.2126 * getsRGB(hexColor.substr(1, 2)) +
+    0.7152 * getsRGB(hexColor.substr(3, 2)) +
+    0.0722 * getsRGB(hexColor.substr(-2))
+  );
+}
+
+function getContrast(f: string, b: string): number {
+  const L1 = getLuminance(f);
+  const L2 = getLuminance(b);
+  return (Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05);
+}
+
+function getTextColor(bgColor: string): string {
+  const whiteContrast = getContrast(bgColor, "#ffffff");
+  const blackContrast = getContrast(bgColor, "#000000");
+  return whiteContrast > blackContrast ? "#ffffff" : "#000000";
+}
+
 async function loadFont(): Promise<ArrayBuffer> {
   if (fontCache) {
     return fontCache;
@@ -84,6 +115,10 @@ const worker = {
         "https://torneospokerlive.com/logo-torneospokerlive.png"
       );
 
+      // Calcular color de texto según fondo
+      const textColor = getTextColor(color);
+      const isLightBg = textColor === "#000000";
+
       // Diseño según tipo
       let content;
 
@@ -137,11 +172,8 @@ const worker = {
                     fontSize: "48px",
                     fontWeight: 700,
                     fontFamily: "Inter",
-                    color: "#333",
+                    color: textColor,
                     textAlign: "center",
-                    backgroundColor: "rgba(255, 255, 255, 0.95)",
-                    padding: "24px 48px",
-                    borderRadius: "12px",
                     marginBottom: "20px",
                     maxWidth: "900px",
                   },
@@ -157,11 +189,8 @@ const worker = {
                         fontSize: "64px",
                         fontWeight: 700,
                         fontFamily: "Inter",
-                        color: "#16a34a",
+                        color: textColor,
                         textAlign: "center",
-                        backgroundColor: "rgba(255, 255, 255, 0.9)",
-                        padding: "16px 48px",
-                        borderRadius: "8px",
                       },
                       children: subtitle,
                     },
@@ -181,6 +210,7 @@ const worker = {
                         bottom: "20px",
                         right: "20px",
                         opacity: 0.7,
+                        filter: isLightBg ? "none" : "brightness(0) invert(1)",
                       },
                     },
                   }
@@ -238,11 +268,8 @@ const worker = {
                     fontSize: "56px",
                     fontWeight: 700,
                     fontFamily: "Inter",
-                    color: "#333",
+                    color: textColor,
                     textAlign: "center",
-                    backgroundColor: "rgba(255, 255, 255, 0.95)",
-                    padding: "24px 48px",
-                    borderRadius: "12px",
                     marginBottom: "20px",
                     maxWidth: "900px",
                   },
@@ -257,11 +284,8 @@ const worker = {
                     fontSize: "32px",
                     fontWeight: 500,
                     fontFamily: "Inter",
-                    color: "#666",
+                    color: textColor,
                     textAlign: "center",
-                    backgroundColor: "rgba(255, 255, 255, 0.9)",
-                    padding: "12px 32px",
-                    borderRadius: "8px",
                   },
                   children: subtitle,
                 },
@@ -280,6 +304,7 @@ const worker = {
                         bottom: "20px",
                         right: "20px",
                         opacity: 0.7,
+                        filter: isLightBg ? "none" : "brightness(0) invert(1)",
                       },
                     },
                   }
@@ -343,6 +368,7 @@ const worker = {
                         bottom: "20px",
                         right: "20px",
                         opacity: 0.7,
+                        filter: isLightBg ? "none" : "brightness(0) invert(1)",
                       },
                     },
                   }

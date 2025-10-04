@@ -111,6 +111,11 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
   - [x] Helper en Next.js para generar URLs del worker
   - [x] Integrar en metadatos de casinos, torneos, eventos y circuitos
   - [x] Desplegar worker en Cloudflare (✅ https://torneospokerlive-og.edgefranmoreno.workers.dev)
+  - [x] Cargar logos como base64 para que funcione con satori
+  - [x] Soporte para múltiples logos (eventos con casino + circuito)
+  - [x] Marca de agua con logo de Torneos Poker Live
+  - [x] Calcular contraste de texto según color de fondo
+  - [x] Invertir logo de marca de agua en fondos oscuros
 
 ## In Progress Tasks
 

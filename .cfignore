@@ -1,0 +1,11 @@
+# Cloudflare Worker - se despliega por separado
+cloudflare-worker-og/
+
+# Documentación del proyecto
+project-docs/
+
+# Archivos de desarrollo
+*.log
+.env.local
+.vercel
+
