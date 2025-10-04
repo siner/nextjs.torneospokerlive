@@ -139,10 +139,19 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - [x] Añadir comentarios aclaratorios en el código (No necesario)
 - [x] Probar los componentes en diferentes tamaños de pantalla (Probado por el usuario)
 - [x] Sistema de migraciones SQL organizado por fecha (supabase/migrations/)
+- [x] Rediseño completo de páginas de ajustes/perfil
+  - Dashboard con estadísticas en `/ajustes`
+  - Perfil movido a `/ajustes/perfil`
+  - Navegación mejorada con iconos
+  - Estados vacíos atractivos con SVG
+  - Contadores y badges para destacar información
+- [x] Botón de favoritos añadido a página de detalle de casino
+- [x] Nuevo diseño de estrellas de favoritos (amarillo dorado)
+- [x] Mejoras de accesibilidad en componentes Star (button, aria-labels, tooltips)
 
 ## In Progress Tasks
 
-_Pendiente de decisión del usuario sobre prioridades_
+Ninguna tarea en progreso. Esperando decisión sobre la siguiente funcionalidad.
 
 ## Próximas Funcionalidades Propuestas
 

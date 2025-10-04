@@ -8,22 +8,26 @@ import {
 import { getStarredTournaments } from "@/lib/api";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { DataTable } from "./data-table";
-import { Tournament, columns } from "./columns";
+import MisTorneosClient from "./client";
+import { Badge } from "@/components/ui/badge";
 
 export const revalidate = 1;
 
 export default async function MisTorneos() {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
-  if (error || !data.user) {
+  if (error) {
     redirect("/login");
   }
-
   const tournaments = await getStarredTournaments(data.user.id);
-  const upcomingCount = tournaments.filter(
-    (t: any) => new Date(t.date) >= new Date()
-  ).length;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const upcomingTournaments = tournaments.filter((t: any) => {
+    const tournamentDate = new Date(t.date);
+    tournamentDate.setHours(0, 0, 0, 0);
+    return tournamentDate >= today;
+  });
 
   return (
     <div className="grid gap-6">
@@ -31,21 +35,24 @@ export default async function MisTorneos() {
         <CardHeader>
           <CardTitle className="flex items-center justify-between flex-wrap gap-2">
             <span>Mis Torneos Favoritos</span>
-            <div className="flex gap-2 text-sm font-normal text-muted-foreground">
-              <span>{tournaments.length} total</span>
-              {upcomingCount > 0 && (
-                <>
-                  <span>·</span>
-                  <span className="text-green-600 font-medium">
-                    {upcomingCount} próximos
-                  </span>
-                </>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-normal text-muted-foreground">
+                {tournaments.length}{" "}
+                {tournaments.length === 1 ? "torneo" : "torneos"}
+              </span>
+              {upcomingTournaments.length > 0 && (
+                <Badge
+                  variant="secondary"
+                  className="bg-green-100 text-green-800 hover:bg-green-100"
+                >
+                  {upcomingTournaments.length} próximo
+                  {upcomingTournaments.length !== 1 ? "s" : ""}
+                </Badge>
               )}
             </div>
           </CardTitle>
           <CardDescription>
-            Gestiona tus torneos favoritos y mantente al día con los próximos
-            eventos
+            Gestiona tus torneos favoritos y mantente informado de sus fechas
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -76,8 +83,8 @@ export default async function MisTorneos() {
                 No tienes torneos favoritos
               </h3>
               <p className="text-sm text-muted-foreground mb-4 max-w-sm">
-                Explora nuestra lista de torneos y marca tus favoritos para
-                recibir recordatorios
+                Marca torneos como favoritos para recibir recordatorios y acceso
+                rápido
               </p>
               <a href="/torneos">
                 <button className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
@@ -86,7 +93,7 @@ export default async function MisTorneos() {
               </a>
             </div>
           ) : (
-            <DataTable columns={columns} data={tournaments} />
+            <MisTorneosClient tournaments={tournaments} />
           )}
         </CardContent>
       </Card>

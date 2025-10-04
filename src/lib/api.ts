@@ -385,8 +385,14 @@ export async function getStarredCasinos(id: string) {
     .select("casino:Casino(*)")
     .eq("user_id", id);
   if (error) throw error;
+
+  // Filtrar duplicados por casino_id
   const casinos = data.map((d: any) => d.casino);
-  return casinos;
+  const uniqueCasinos = Array.from(
+    new Map(casinos.map((casino: any) => [casino.id, casino])).values()
+  );
+
+  return uniqueCasinos;
 }
 
 /**
@@ -436,7 +442,15 @@ export async function getStarredTournaments(userId: string) {
     console.error("Error fetching starred tournaments:", error);
     return [];
   }
-  return data?.map((d: any) => d.tournament) || [];
+
+  const tournaments = data?.map((d: any) => d.tournament) || [];
+
+  // Filtrar duplicados por tournament_id
+  const uniqueTournaments = Array.from(
+    new Map(tournaments.map((t: any) => [t.id, t])).values()
+  );
+
+  return uniqueTournaments;
 }
 
 /**

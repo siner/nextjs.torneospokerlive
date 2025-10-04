@@ -8,8 +8,7 @@ import {
 import { getStarredCasinos } from "@/lib/api";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { DataTable } from "./data-table";
-import { Casino, columns } from "./columns";
+import MisCasinosClient from "./client";
 
 export const revalidate = 1;
 
@@ -68,7 +67,7 @@ export default async function MisCasinos() {
               </a>
             </div>
           ) : (
-            <DataTable columns={columns} data={casinos} />
+            <MisCasinosClient casinos={casinos} />
           )}
         </CardContent>
       </Card>
