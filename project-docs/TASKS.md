@@ -211,6 +211,15 @@ Ver documento completo en: `project-docs/MEJORAS-PROPUESTAS.md`
   - Indicador "editado" en comentarios modificados
   - Query optimizada con JOIN a tabla user
   - Scroll automático a sección de comentarios
+- [x] **Sistema Universal de Comentarios** - Torneos, Casinos, Eventos, Circuitos ✅ COMPLETADO
+  - Tabla 'comments' polimórfica con entity_type y entity_id
+  - Enum entity_type: tournament, casino, event, tour
+  - Componentes reutilizables: UniversalComment, UniversalCommentSection, UniversalNewCommentForm
+  - Actions genéricas: addUniversalComment, updateUniversalComment, deleteUniversalComment
+  - Query genérica: getCommentsByEntity(entityType, entityId)
+  - Integrado en todas las páginas de detalle
+  - Mantiene blog_comments por retrocompatibilidad
+  - Validación 3-2000 caracteres
 - [ ] **Sistema de Notificaciones** - In-app y por email
 
 ### Media Prioridad:
