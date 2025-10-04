@@ -168,8 +168,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
               <div className="flex items-center gap-2 flex-shrink-0">
                 <div
                   style={{
-                    filter: textColor === "#ffffff" ? "invert(1)" : "none",
+                    color: textColor,
+                    borderColor: textColor,
                   }}
+                  className="[&_button]:text-current [&_button]:border-current [&_svg]:text-current"
                 >
                   <ShareButtons
                     url={`https://www.torneospokerlive.com/torneos/${params.slug}`}

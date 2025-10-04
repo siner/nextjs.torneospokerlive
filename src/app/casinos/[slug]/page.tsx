@@ -163,9 +163,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 <div className="flex items-center gap-2">
                   <div
                     style={{
-                      filter:
-                        casinoTextColor === "#ffffff" ? "invert(1)" : "none",
+                      color: casinoTextColor,
+                      borderColor: casinoTextColor,
                     }}
+                    className="[&_button]:text-current [&_button]:border-current [&_svg]:text-current"
                   >
                     <ShareButtons
                       url={`https://www.torneospokerlive.com/casinos/${params.slug}`}
