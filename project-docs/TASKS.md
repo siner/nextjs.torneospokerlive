@@ -192,13 +192,21 @@ Ver documento completo en: `project-docs/MEJORAS-PROPUESTAS.md`
   - Optimización: solo casinos con torneos disponibles en dropdown
   - Botón "Limpiar todo" para resetear filtros
   - Integrado en página `/torneos` con TorneosClient
+  - Query params en URL para compartir búsquedas filtradas
+  - Sincronización bidireccional entre URL y estado de filtros
+- [x] **Compartir en RRSS** - Botones de compartir torneos/eventos/noticias ✅ COMPLETADO
+  - Componente ShareButtons reutilizable
+  - Soporte para Twitter, WhatsApp, Telegram y copiar enlace
+  - Formato optimizado por red social (emojis, saltos de línea, negrita)
+  - Descripciones concisas con separador •
+  - Integrado en todas las páginas de detalle (torneos, eventos, casinos, circuitos, noticias)
+  - Dropdown menu con tooltips
 - [ ] **Sistema de Notificaciones** - In-app y por email
 - [ ] **Comentarios en Noticias** - Usuarios registrados pueden comentar
 
 ### Media Prioridad:
 
 - [ ] **Dashboard de Usuario** - Vista personalizada centralizada
-- [ ] **Compartir en RRSS** - Botones de compartir torneos/eventos/noticias
 - [ ] **Calendario Descargable** - Export a Google Calendar/iCal
 
 ### Baja Prioridad (Quick Wins):
