@@ -1,5 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import { getEvent, getTournamentsByEvent, getStarredEventIds } from "@/lib/api";
+import {
+  getEvent,
+  getTournamentsByEvent,
+  getStarredEventIds,
+  getAllCasinos,
+} from "@/lib/api";
 import CardTour from "@/components/tour/CardTour";
 import RowTournament from "@/components/tournament/RowTournament";
 import CardCasino from "@/components/casino/CardCasino";
@@ -22,6 +27,7 @@ import { EventStar } from "@/components/event/EventStar";
 import { ShareButtons } from "@/components/ui/share-buttons";
 import { getCommentsByEntity } from "@/lib/supabase/queries/universal-comments";
 import { UniversalCommentSection } from "@/components/universal/UniversalCommentSection";
+import EventoTorneosClient from "./client";
 
 export async function generateMetadata({
   params,
@@ -119,6 +125,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   }
 
   const allTournaments = await getTournamentsByEvent(event.id);
+  const allCasinos = await getAllCasinos();
 
   // Obtener comentarios del evento
   const comments = await getCommentsByEntity("event", event.id);
@@ -142,6 +149,27 @@ export default async function Page({ params }: { params: { slug: string } }) {
   } catch (e) {
     console.error("Error parsing event dates:", e);
   }
+
+  // Preparar datos para el componente cliente
+  const tournamentsByDateArray = eventDates
+    .map((day) => {
+      const dayStr = format(day, "yyyy-MM-dd");
+      const dailyTournaments = tournamentsByDate[dayStr] || [];
+
+      // Ordenar por hora
+      dailyTournaments.sort((a, b) =>
+        compareAsc(
+          parseISO(`1970-01-01T${a.time || "00:00"}:00`),
+          parseISO(`1970-01-01T${b.time || "00:00"}:00`)
+        )
+      );
+
+      return {
+        date: format(day, "EEEE, d 'de' MMMM", { locale: es }),
+        tournaments: dailyTournaments,
+      };
+    })
+    .filter((day) => day.tournaments.length > 0);
 
   const casinoBgColor = event.casino?.color || "#ffffff";
   const casinoTextColor = getTextColor(casinoBgColor);
@@ -266,51 +294,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
         </CardContent>
       </Card>
 
-      {eventDates.length > 0 && (
-        <div>
-          <h2 className="text-xl font-semibold py-4">Programa del Evento</h2>
-          <div className="space-y-4">
-            {eventDates.map((day) => {
-              const dayStr = format(day, "yyyy-MM-dd");
-              const dailyTournaments = tournamentsByDate[dayStr] || [];
-
-              if (dailyTournaments.length > 0) {
-                dailyTournaments.sort((a, b) =>
-                  compareAsc(
-                    parseISO(`1970-01-01T${a.time || "00:00"}:00`),
-                    parseISO(`1970-01-01T${b.time || "00:00"}:00`)
-                  )
-                );
-                return (
-                  <div key={dayStr}>
-                    <h3 className="font-semibold text-lg mb-2 border-b pb-1">
-                      {format(day, "EEEE, d 'de' MMMM", { locale: es })}
-                    </h3>
-                    <Card>
-                      <CardContent className="p-0">
-                        <div className="space-y-0">
-                          {dailyTournaments.map((tournament: any) => (
-                            <RowTournament
-                              key={"tournament-" + tournament.id}
-                              torneo={tournament}
-                              event={false}
-                              casino={false}
-                              hideDate={false}
-                            />
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                );
-              }
-              return null;
-            })}
-          </div>
-        </div>
-      )}
-      {allTournaments.length === 0 && (
-        <p className="text-muted-foreground py-4">
+      {allTournaments.length > 0 ? (
+        <EventoTorneosClient
+          tournamentsByDate={tournamentsByDateArray}
+          casinos={allCasinos}
+          eventName={event.name}
+        />
+      ) : (
+        <p className="text-muted-foreground py-4 text-center">
           No hay torneos programados para este evento todavía.
         </p>
       )}

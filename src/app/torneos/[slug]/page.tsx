@@ -166,15 +166,21 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 {tournament.name}
               </h1>
               <div className="flex items-center gap-2 flex-shrink-0">
-                <ShareButtons
-                  url={`https://www.torneospokerlive.com/torneos/${params.slug}`}
-                  title={tournament.name}
-                  description={`${tournament.casino?.name || ""}${
-                    tournament.buyin > 0
-                      ? ` • Buy-in: ${tournament.buyin}€`
-                      : ""
-                  } • ${datestring}`}
-                />
+                <div
+                  style={{
+                    filter: textColor === "#ffffff" ? "invert(1)" : "none",
+                  }}
+                >
+                  <ShareButtons
+                    url={`https://www.torneospokerlive.com/torneos/${params.slug}`}
+                    title={tournament.name}
+                    description={`${tournament.casino?.name || ""}${
+                      tournament.buyin > 0
+                        ? ` • Buy-in: ${tournament.buyin}€`
+                        : ""
+                    } • ${datestring}`}
+                  />
+                </div>
                 {user && (
                   <TournamentStar
                     tournamentId={tournament.id.toString()}

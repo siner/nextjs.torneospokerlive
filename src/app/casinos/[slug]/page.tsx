@@ -4,6 +4,7 @@ import {
   getNextTorneosByCasino,
   getNextEventsByCasino,
   getStarredCasinoIds,
+  getAllEvents,
 } from "@/lib/api";
 import type { Metadata } from "next";
 import RowTournament from "@/components/tournament/RowTournament";
@@ -21,6 +22,7 @@ import { CasinoStar } from "@/components/casino/CasinoStar";
 import { ShareButtons } from "@/components/ui/share-buttons";
 import { getCommentsByEntity } from "@/lib/supabase/queries/universal-comments";
 import { UniversalCommentSection } from "@/components/universal/UniversalCommentSection";
+import CasinoTorneosClient from "./client";
 
 export async function generateMetadata({
   params,
@@ -109,6 +111,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const torneos = await getNextTorneosByCasino(casino.id);
   const nextEvents = await getNextEventsByCasino(casino.id);
+  const allEvents = await getAllEvents();
 
   const processedDescription = await remark()
     .use(html)
@@ -158,13 +161,20 @@ export default async function Page({ params }: { params: { slug: string } }) {
               >
                 <span>{casino.name}</span>
                 <div className="flex items-center gap-2">
-                  <ShareButtons
-                    url={`https://www.torneospokerlive.com/casinos/${params.slug}`}
-                    title={casino.name}
-                    description={`Torneos y eventos de poker • ${
-                      casino.address || "Madrid, España"
-                    }`}
-                  />
+                  <div
+                    style={{
+                      filter:
+                        casinoTextColor === "#ffffff" ? "invert(1)" : "none",
+                    }}
+                  >
+                    <ShareButtons
+                      url={`https://www.torneospokerlive.com/casinos/${params.slug}`}
+                      title={casino.name}
+                      description={`Torneos y eventos de poker • ${
+                        casino.address || "Madrid, España"
+                      }`}
+                    />
+                  </div>
                   {user && (
                     <CasinoStar
                       casinoId={casino.id.toString()}
@@ -237,26 +247,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
               </div>
             )}
             {torneos.length > 0 && (
-              <div>
-                <h2 className="text-xl font-semibold pb-4">
-                  Próximos Torneos en {casino.name}
-                </h2>
-                <Card>
-                  <CardContent className="p-0">
-                    <div className="space-y-0">
-                      {torneos.map((torneo) => (
-                        <div key={"torneo-" + torneo.id}>
-                          <RowTournament
-                            torneo={torneo}
-                            event={true}
-                            casino={false}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
+              <CasinoTorneosClient
+                tournaments={torneos}
+                events={allEvents}
+                casinoName={casino.name}
+              />
             )}
             {nextEvents.length === 0 && torneos.length === 0 && (
               <p className="text-muted-foreground py-4">

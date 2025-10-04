@@ -34,26 +34,40 @@ export interface TournamentFiltersType {
 }
 
 interface TournamentFiltersProps {
-  onFiltersChange: (filters: TournamentFiltersType) => void;
+  onFiltersChange?: (filters: TournamentFiltersType) => void;
+  filters?: TournamentFiltersType;
+  onFilterChange?: (filters: TournamentFiltersType) => void;
   initialFilters?: TournamentFiltersType;
   casinos?: any[];
   events?: any[];
+  hideCasinoFilter?: boolean;
+  hideEventFilter?: boolean;
 }
 
 export default function TournamentFilters({
   onFiltersChange,
+  filters: externalFilters,
+  onFilterChange,
   initialFilters,
   casinos = [],
   events = [],
+  hideCasinoFilter = false,
+  hideEventFilter = false,
 }: TournamentFiltersProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [filters, setFilters] = useState<TournamentFiltersType>(
+  const [internalFilters, setInternalFilters] = useState<TournamentFiltersType>(
     initialFilters || {}
   );
   const [showFilters, setShowFilters] = useState(false);
+
+  // Usar filtros externos si se proporcionan, sino usar internos
+  const filters =
+    externalFilters !== undefined ? externalFilters : internalFilters;
+  const setFilters = onFilterChange || setInternalFilters;
+  const notifyChange = onFiltersChange || onFilterChange || (() => {});
 
   // Calcular cantidad de filtros activos
   const activeFiltersCount = Object.values(filters).filter(
@@ -81,7 +95,7 @@ export default function TournamentFilters({
     if (Object.keys(urlFilters).length > 0) {
       // Si hay query params, usarlos
       setFilters(urlFilters);
-      onFiltersChange(urlFilters);
+      notifyChange(urlFilters);
     } else {
       // Si no, cargar de localStorage
       const savedFilters = localStorage.getItem("tournamentFilters");
@@ -91,7 +105,7 @@ export default function TournamentFilters({
           if (parsed.dateFrom) parsed.dateFrom = new Date(parsed.dateFrom);
           if (parsed.dateTo) parsed.dateTo = new Date(parsed.dateTo);
           setFilters(parsed);
-          onFiltersChange(parsed);
+          notifyChange(parsed);
         } catch (e) {
           console.error("Error loading filters from localStorage:", e);
         }
@@ -103,7 +117,7 @@ export default function TournamentFilters({
   const handleFilterChange = (key: keyof TournamentFiltersType, value: any) => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
-    onFiltersChange(newFilters);
+    notifyChange(newFilters);
 
     // Guardar en localStorage
     localStorage.setItem("tournamentFilters", JSON.stringify(newFilters));
@@ -128,7 +142,7 @@ export default function TournamentFilters({
 
   const clearFilters = () => {
     setFilters({});
-    onFiltersChange({});
+    notifyChange({});
     localStorage.removeItem("tournamentFilters");
     router.push(pathname, { scroll: false });
   };
@@ -137,7 +151,7 @@ export default function TournamentFilters({
     const newFilters = { ...filters };
     delete newFilters[key];
     setFilters(newFilters);
-    onFiltersChange(newFilters);
+    notifyChange(newFilters);
     localStorage.setItem("tournamentFilters", JSON.stringify(newFilters));
 
     // Actualizar URL
@@ -199,7 +213,7 @@ export default function TournamentFilters({
             />
           </Badge>
         )}
-        {filters.casinoId && (
+        {!hideCasinoFilter && filters.casinoId && (
           <Badge variant="secondary" className="gap-1">
             Casino:{" "}
             {casinos.find((c) => c.id === filters.casinoId)?.name ||
@@ -210,7 +224,7 @@ export default function TournamentFilters({
             />
           </Badge>
         )}
-        {filters.eventId && (
+        {!hideEventFilter && filters.eventId && (
           <Badge variant="secondary" className="gap-1">
             Evento:{" "}
             {events.find((e) => e.id === filters.eventId)?.name ||
@@ -290,56 +304,60 @@ export default function TournamentFilters({
           </div>
 
           {/* Casino */}
-          <div className="space-y-2">
-            <Label htmlFor="casino">Casino</Label>
-            <Select
-              value={filters.casinoId?.toString() || "all"}
-              onValueChange={(value) =>
-                handleFilterChange(
-                  "casinoId",
-                  value === "all" ? undefined : parseInt(value)
-                )
-              }
-            >
-              <SelectTrigger id="casino">
-                <SelectValue placeholder="Todos los casinos" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Todos</SelectItem>
-                {casinos.map((casino) => (
-                  <SelectItem key={casino.id} value={casino.id.toString()}>
-                    {casino.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          {!hideCasinoFilter && (
+            <div className="space-y-2">
+              <Label htmlFor="casino">Casino</Label>
+              <Select
+                value={filters.casinoId?.toString() || "all"}
+                onValueChange={(value) =>
+                  handleFilterChange(
+                    "casinoId",
+                    value === "all" ? undefined : parseInt(value)
+                  )
+                }
+              >
+                <SelectTrigger id="casino">
+                  <SelectValue placeholder="Todos los casinos" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todos</SelectItem>
+                  {casinos.map((casino) => (
+                    <SelectItem key={casino.id} value={casino.id.toString()}>
+                      {casino.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
 
           {/* Evento */}
-          <div className="space-y-2">
-            <Label htmlFor="event">Evento</Label>
-            <Select
-              value={filters.eventId?.toString() || "all"}
-              onValueChange={(value) =>
-                handleFilterChange(
-                  "eventId",
-                  value === "all" ? undefined : parseInt(value)
-                )
-              }
-            >
-              <SelectTrigger id="event">
-                <SelectValue placeholder="Todos los eventos" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Todos</SelectItem>
-                {events.map((event) => (
-                  <SelectItem key={event.id} value={event.id.toString()}>
-                    {event.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          {!hideEventFilter && (
+            <div className="space-y-2">
+              <Label htmlFor="event">Evento</Label>
+              <Select
+                value={filters.eventId?.toString() || "all"}
+                onValueChange={(value) =>
+                  handleFilterChange(
+                    "eventId",
+                    value === "all" ? undefined : parseInt(value)
+                  )
+                }
+              >
+                <SelectTrigger id="event">
+                  <SelectValue placeholder="Todos los eventos" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todos</SelectItem>
+                  {events.map((event) => (
+                    <SelectItem key={event.id} value={event.id.toString()}>
+                      {event.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
 
           {/* Fecha desde */}
           <div className="space-y-2">

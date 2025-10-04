@@ -36,12 +36,10 @@ export function ShareButtons({ url, title, description }: ShareButtonsProps) {
   const twitterText = description ? `${title}\n\n${description}` : title;
 
   const whatsappText = description
-    ? `🃏 *${title}*\n\n${description}\n\n👉`
-    : `🃏 *${title}*\n\n👉`;
+    ? `*${title}*\n\n${description}\n\n`
+    : `*${title}*\n\n`;
 
-  const telegramText = description
-    ? `🃏 ${title}\n\n${description}`
-    : `🃏 ${title}`;
+  const telegramText = description ? `${title}\n\n${description}` : `${title}`;
 
   const encodedUrl = encodeURIComponent(url);
 
