@@ -242,6 +242,7 @@ export async function getEventsByTour(tourId: number) {
     .from("Event")
     .select("*, casino:Casino(*), tour:Tour(*)")
     .not("draft", "is", true)
+    .order("from", { ascending: false })
     .eq("tourId", tourId);
   if (error) throw error;
   return data;

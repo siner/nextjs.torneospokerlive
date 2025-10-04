@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 import SwitchMyCasinos from "@/components/casino/SwitchMyCasinos";
 import SwitchMyTournaments from "@/components/tournament/SwitchMyTournaments";
 import { createClient } from "@/lib/supabase/server";
+import TorneosClient from "./client";
 
 // Importar componentes de Tabs y el Calendario
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -69,22 +70,17 @@ export default async function Torneos({
           <TabsTrigger value="calendario">Calendario</TabsTrigger>
         </TabsList>
 
-        {/* Contenido Pestaña Lista */}
+        {/* Contenido Pestaña Lista con Filtros */}
         <TabsContent value="lista">
-          <div className="space-y-0.5 mt-4">
+          <div className="mt-4">
             {listTournaments?.length > 0 ? (
-              listTournaments.map((torneo: any) => (
-                <RowTournament
-                  key={"torneo-lista-" + torneo.id}
-                  torneo={torneo}
-                  casino="true"
-                  event="true"
-                />
-              ))
+              <TorneosClient tournaments={listTournaments} />
             ) : (
-              <p className="text-muted-foreground py-4">
+              <p className="text-muted-foreground py-4 text-center">
                 {showMyCasinos
                   ? "No hay próximos torneos en tus casinos favoritos."
+                  : showMyTournaments
+                  ? "No hay próximos torneos en tus favoritos."
                   : "No hay próximos torneos disponibles."}
               </p>
             )}
