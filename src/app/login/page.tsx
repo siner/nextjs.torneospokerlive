@@ -22,12 +22,12 @@ export default async function LoginForm() {
   }
 
   return (
-    <div className="flex items-center justify-center mt-20">
-      <Card className="mx-auto max-w-sm">
+    <div className="flex items-center justify-center min-h-[calc(100vh-200px)] py-8 px-4">
+      <Card className="mx-auto max-w-sm w-full">
         <CardHeader>
-          <CardTitle className="text-2xl">Entrar</CardTitle>
+          <CardTitle className="text-2xl">Iniciar sesión</CardTitle>
           <CardDescription>
-            Entrar con tu cuenta de correo electrónico
+            Accede con tu cuenta de correo electrónico
           </CardDescription>
         </CardHeader>
         <CardContent>

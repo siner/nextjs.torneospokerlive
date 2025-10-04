@@ -186,7 +186,7 @@ export default function Login() {
             disabled={isSubmitting || isTwitterLoading}
           >
             {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Login
+            Iniciar sesión
           </Button>
         </form>
       </Form>
@@ -213,7 +213,7 @@ export default function Login() {
         ) : (
           <TwitterLogoIcon className="h-5 w-5" />
         )}
-        Login con Twitter
+        Iniciar sesión con Twitter
       </Button>
 
       <div className="text-center text-sm text-muted-foreground">

@@ -128,11 +128,14 @@ export default function RegisterForm() {
 
       // Éxito
       setSuccess(
-        "¡Registro completado! Revisa tu email para confirmar tu cuenta."
+        "¡Registro completado! Revisa tu email para confirmar tu cuenta. Redirigiendo..."
       );
-      // Opcional: redirigir directamente a login o mostrar mensaje
-      // router.push('/login?success=true'); // Redirigir o esperar
       form.reset(); // Limpiar formulario
+
+      // Redirigir a login tras 2 segundos
+      setTimeout(() => {
+        router.push("/login?success=true");
+      }, 2000);
     } catch (err: any) {
       console.error("Registration process error:", err);
       setError(

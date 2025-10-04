@@ -116,15 +116,30 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
   - [x] Marca de agua con logo de Torneos Poker Live
   - [x] Calcular contraste de texto según color de fondo
   - [x] Invertir logo de marca de agua en fondos oscuros
+  - [x] Excluir directorio del worker en tsconfig y .cfignore
+
+### Formularios de Login/Registro (Completado)
+
+- [x] Mejorar textos a castellano consistente (Login → Iniciar sesión)
+- [x] Añadir redirección automática tras registro exitoso (2 segundos)
+- [x] Corregir nombre de función en registro/page.tsx
+- [x] Mejorar responsive en móviles (padding, altura mínima)
+- [x] Mejorar descripción y enlaces entre formularios
+
+### Revisión y Consistencia de Componentes (Completado)
+
+- [x] Limpiar comentarios innecesarios en CardTour
+- [x] Eliminar atributo sizes innecesario en CardTour
+- [x] Refactorizar RowTour para consistencia con otros Rows
+- [x] RowTour ahora usa mismo patrón que RowTournament y RowEvent (border-b, hover:bg-accent, tooltips, logos con backgroundColor)
+- [x] Verificar componentes sin errores de linting
+
+## Completed Tasks
+
+- [x] Añadir comentarios aclaratorios en el código (No necesario)
+- [x] Probar los componentes en diferentes tamaños de pantalla (Probado por el usuario)
 
 ## In Progress Tasks
-
-- [ ] Revisar/Mejorar formularios (Login/Registro).
-- [ ] Revisión visual y de props para asegurar consistencia entre los tres componentes
-- [ ] Añadir comentarios aclaratorios en el código
-- [ ] Probar los componentes en diferentes tamaños de pantalla
-- [ ] **Componentes UI:** Crear `CommentSection`, `CategoryBadge`, `Tag`.
-- [ ] Implementar funcionalidad de añadir comentarios (requiere autenticación).
 
 ## Future Tasks
 
@@ -153,8 +168,9 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - Se ha añadido la prop `hideDate` a `RowTournament` y se ha usado en la home.
 - Se ha refactorizado la página de detalle del casino para parecerse a la del evento, mejorando la cabecera (color, markdown, layout) y añadiendo la sección de próximos eventos.
 - Se ha optimizado el padding móvil en `RowTournament`.
-- **Nota:** Queda pendiente un warning de `next/image` en `CardTour`.
-- **Próximo paso:** Decidido por el usuario.
+- Se ha limpiado `CardTour` eliminando comentarios y atributos innecesarios.
+- Se ha refactorizado `RowTour` para que sea consistente con `RowTournament` y `RowEvent`.
+- **Componentes ahora consistentes:** Todos los componentes Row* y Card* siguen el mismo patrón de diseño.
 
 ### Relevant Files
 
@@ -164,16 +180,19 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 - `src/app/layout.tsx` ✅
 - `src/app/torneos/page.tsx` ✅ (Analizado)
 - `src/components/tournament/RowTournament.tsx` ✅ (Prop `hideDate` implementada, Padding móvil optimizado)
+- `src/components/tour/CardTour.tsx` ✅ (Limpiado y optimizado)
+- `src/components/tour/RowTour.tsx` ✅ (Refactorizado para consistencia)
+- `src/components/event/RowEvent.tsx` ✅
+- `src/components/casino/CardCasino.tsx` ✅
+- `src/app/login/page.tsx` ✅ (Mejorado responsive y textos)
+- `src/app/login/form-login.tsx` ✅ (Textos en castellano)
+- `src/app/registro/page.tsx` ✅ (Mejorado responsive y textos)
+- `src/app/registro/form-register.tsx` ✅ (Redirección automática)
 - `src/app/globals.css`
-- `src/components/`
-- `src/app/**/page.tsx`
 - `tailwind.config.ts`
 - `src/app/eventos/page.tsx` ✅ (Analizado)
-- `src/components/event/RowEvent.tsx` ✅ (Refactorizado v2 + user tweaks)
 - `src/app/casinos/page.tsx` ✅ (Analizado)
-- `src/components/casino/CardCasino.tsx` ✅ (Refactorizado v2 + user tweaks, <img>)
 - `src/app/circuitos/page.tsx` ✅ (Analizado, H1 corregido)
-- `src/components/tour/CardTour.tsx` ✅ (Refactorizado v2 + user tweaks, <img>)
 - `next.config.mjs` ✅
 - `src/app/page.tsx` ✅ (Reestructurado)
 - `src/app/torneos/[slug]/page.tsx` ✅ (Refactorizado v2)

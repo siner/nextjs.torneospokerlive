@@ -5,8 +5,7 @@
  */
 
 const OG_WORKER_URL =
-  process.env.OG_WORKER_URL ||
-  "https://torneospokerlive-og.edgefranmoreno.workers.dev";
+  process.env.OG_WORKER_URL || "https://og.torneospokerlive.com";
 
 interface OgImageParams {
   name: string;
