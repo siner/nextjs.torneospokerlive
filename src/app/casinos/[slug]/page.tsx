@@ -36,6 +36,11 @@ export async function generateMetadata({
     ? casino.description.substring(0, 160)
     : `Consulta todos los torneos y eventos de poker en ${casino.name}. Información actualizada sobre próximos torneos, buy-ins, garantizados y más.`;
 
+  // Descripción corta para Twitter (máximo 200 caracteres)
+  const twitterDescription = casino.address
+    ? `${casino.address} • Torneos de Poker`
+    : "Torneos de Poker";
+
   const ogImage = generateOgImageUrl({
     name: casino.name,
     logo: casino.logo,
@@ -65,9 +70,16 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${casino.name} - Torneos de Poker`,
-      description,
-      images: [ogImage],
+      site: "@livetorneos",
+      creator: "@livetorneos",
+      title: `${casino.name}`,
+      description: twitterDescription,
+      images: [
+        {
+          url: ogImage,
+          alt: `${casino.name}`,
+        },
+      ],
     },
     alternates: {
       canonical: `https://www.torneospokerlive.com/casinos/${params.slug}`,

@@ -23,6 +23,9 @@ export async function generateMetadata({
     ? tour.description.substring(0, 160)
     : `Circuito de poker ${tour.name}. Consulta todos los eventos, torneos, fechas y ubicaciones del circuito ${tour.name}.`;
 
+  // Descripción corta para Twitter
+  const twitterDescription = "Circuito de Poker en España";
+
   const ogImage = generateOgImageUrl({
     name: tour.name,
     logo: tour.logo,
@@ -52,9 +55,16 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${tour.name} - Circuito de Poker`,
-      description,
-      images: [ogImage],
+      site: "@livetorneos",
+      creator: "@livetorneos",
+      title: `${tour.name}`,
+      description: twitterDescription,
+      images: [
+        {
+          url: ogImage,
+          alt: `${tour.name}`,
+        },
+      ],
     },
     alternates: {
       canonical: `https://www.torneospokerlive.com/circuitos/${params.slug}`,

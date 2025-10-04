@@ -36,6 +36,11 @@ export async function generateMetadata({
     tournament.buyin > 0 ? ` - Buy-in: ${tournament.buyin}€` : ""
   }. Fecha: ${new Date(tournament.date).toLocaleDateString("es-ES")}.`;
 
+  // Descripción corta para Twitter (máximo 200 caracteres)
+  const twitterDescription = `${tournament.casino?.name || ""}${
+    tournament.buyin > 0 ? ` • ${tournament.buyin}€` : ""
+  } • ${new Date(tournament.date).toLocaleDateString("es-ES")}`;
+
   const ogImage = generateOgImageUrl({
     name: tournament.name,
     logo: tournament.casino?.logo,
@@ -65,9 +70,16 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
+      site: "@livetorneos",
+      creator: "@livetorneos",
       title: `${tournament.name}`,
-      description,
-      images: [ogImage],
+      description: twitterDescription,
+      images: [
+        {
+          url: ogImage,
+          alt: `${tournament.name}`,
+        },
+      ],
     },
     alternates: {
       canonical: `https://www.torneospokerlive.com/torneos/${params.slug}`,

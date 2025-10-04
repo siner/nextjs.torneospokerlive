@@ -1,7 +1,10 @@
 import satori from "satori";
+import { Resvg } from "@resvg/resvg-wasm";
+import initWasm from "@resvg/resvg-wasm/index_bg.wasm";
 
-// Caché para las fuentes
+// Caché para las fuentes y WASM
 let fontCache: ArrayBuffer | null = null;
+let wasmInitialized = false;
 
 // Funciones para calcular contraste y color de texto
 function getRGB(c: string): number {
@@ -395,12 +398,27 @@ const worker = {
         ],
       });
 
-      // Convertir SVG a PNG (simplificado - en producción usa resvg-wasm)
-      // Por ahora devolvemos el SVG directamente
-      return new Response(svg, {
+      // Inicializar WASM si es necesario
+      if (!wasmInitialized) {
+        await initWasm(initWasm as any);
+        wasmInitialized = true;
+      }
+
+      // Convertir SVG a PNG usando resvg-wasm
+      const resvg = new Resvg(svg, {
+        fitTo: {
+          mode: "width",
+          value: 1200,
+        },
+      });
+
+      const pngData = resvg.render();
+      const pngBuffer = pngData.asPng();
+
+      return new Response(pngBuffer, {
         headers: {
           ...corsHeaders,
-          "Content-Type": "image/svg+xml",
+          "Content-Type": "image/png",
           "Cache-Control": "public, max-age=31536000, immutable",
         },
       });

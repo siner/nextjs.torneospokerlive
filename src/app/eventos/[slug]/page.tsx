@@ -41,6 +41,11 @@ export async function generateMetadata({
     event.tour ? ` Circuito ${event.tour.name}.` : ""
   }`;
 
+  // Descripción corta para Twitter (máximo 200 caracteres)
+  const twitterDescription = `${event.casino?.name || ""}${
+    event.tour ? ` • ${event.tour.name}` : ""
+  } • ${dateFrom} al ${dateTo}`;
+
   // Para eventos, pasamos ambos logos separados por coma
   const eventLogos = [event.casino?.logo, event.tour?.logo]
     .filter(Boolean)
@@ -75,9 +80,16 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
+      site: "@livetorneos",
+      creator: "@livetorneos",
       title: `${event.name}`,
-      description,
-      images: [ogImage],
+      description: twitterDescription,
+      images: [
+        {
+          url: ogImage,
+          alt: `${event.name}`,
+        },
+      ],
     },
     alternates: {
       canonical: `https://www.torneospokerlive.com/eventos/${params.slug}`,
