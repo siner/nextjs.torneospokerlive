@@ -220,18 +220,27 @@ export default async function Page({ params }: { params: { slug: string } }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Card>
+      <Card style={{ backgroundColor: casinoBgColor }}>
         <CardHeader>
-          <CardTitle className="text-2xl md:text-3xl font-bold flex items-center justify-between gap-4">
+          <CardTitle
+            className="text-2xl md:text-3xl font-bold flex items-center justify-between gap-4"
+            style={{ color: casinoTextColor }}
+          >
             <span>{event.name}</span>
             <div className="flex items-center gap-2">
-              <ShareButtons
-                url={`https://www.torneospokerlive.com/eventos/${params.slug}`}
-                title={event.name}
-                description={`${event.casino?.name || ""}${
-                  event.tour ? ` • ${event.tour.name}` : ""
-                } • Del ${dateFrom} al ${dateTo}`}
-              />
+              <div
+                style={{
+                  filter: casinoTextColor === "#ffffff" ? "invert(1)" : "none",
+                }}
+              >
+                <ShareButtons
+                  url={`https://www.torneospokerlive.com/eventos/${params.slug}`}
+                  title={event.name}
+                  description={`${event.casino?.name || ""}${
+                    event.tour ? ` • ${event.tour.name}` : ""
+                  } • Del ${dateFrom} al ${dateTo}`}
+                />
+              </div>
               {user && (
                 <EventStar
                   eventId={event.id.toString()}
@@ -243,7 +252,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
           </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="flex items-center gap-2 text-muted-foreground text-xl">
+          <div
+            className="flex items-center gap-2 text-xl"
+            style={{ color: casinoTextColor }}
+          >
             <CalendarDays className="h-5 w-5 flex-shrink-0" />
             <span className="font-medium">
               {dateFrom} - {dateTo}
