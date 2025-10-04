@@ -19,15 +19,21 @@ CREATE INDEX IF NOT EXISTS idx_blog_comments_created_at ON public.blog_comments(
 -- 4. Habilitar Row Level Security (RLS)
 ALTER TABLE public.blog_comments ENABLE ROW LEVEL SECURITY;
 
--- 5. Política: Todos pueden ver comentarios (lecturas públicas)
-CREATE POLICY IF NOT EXISTS "blog_comments_select_public"
+-- 5. Eliminar políticas existentes si existen
+DROP POLICY IF EXISTS "blog_comments_select_public" ON public.blog_comments;
+DROP POLICY IF EXISTS "blog_comments_insert_authenticated" ON public.blog_comments;
+DROP POLICY IF EXISTS "blog_comments_update_own" ON public.blog_comments;
+DROP POLICY IF EXISTS "blog_comments_delete_own" ON public.blog_comments;
+
+-- 6. Política: Todos pueden ver comentarios (lecturas públicas)
+CREATE POLICY "blog_comments_select_public"
     ON public.blog_comments
     FOR SELECT
     TO public
     USING (true);
 
--- 6. Política: Usuarios autenticados pueden insertar comentarios
-CREATE POLICY IF NOT EXISTS "blog_comments_insert_authenticated"
+-- 7. Política: Usuarios autenticados pueden insertar comentarios
+CREATE POLICY "blog_comments_insert_authenticated"
     ON public.blog_comments
     FOR INSERT
     TO authenticated
@@ -36,26 +42,26 @@ CREATE POLICY IF NOT EXISTS "blog_comments_insert_authenticated"
         (user_id IS NULL AND author_name IS NOT NULL)
     );
 
--- 7. Política: Solo el propietario puede actualizar su comentario
-CREATE POLICY IF NOT EXISTS "blog_comments_update_own"
+-- 8. Política: Solo el propietario puede actualizar su comentario
+CREATE POLICY "blog_comments_update_own"
     ON public.blog_comments
     FOR UPDATE
     TO authenticated
     USING (auth.uid() = user_id)
     WITH CHECK (auth.uid() = user_id);
 
--- 8. Política: Solo el propietario puede eliminar su comentario
-CREATE POLICY IF NOT EXISTS "blog_comments_delete_own"
+-- 9. Política: Solo el propietario puede eliminar su comentario
+CREATE POLICY "blog_comments_delete_own"
     ON public.blog_comments
     FOR DELETE
     TO authenticated
     USING (auth.uid() = user_id);
 
--- 9. Otorgar permisos explícitos
+-- 10. Otorgar permisos explícitos
 GRANT SELECT ON public.blog_comments TO anon, authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.blog_comments TO authenticated;
 
--- 10. Crear función para actualizar automáticamente updated_at
+-- 11. Crear función para actualizar automáticamente updated_at
 CREATE OR REPLACE FUNCTION public.update_blog_comments_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -64,7 +70,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- 11. Crear trigger para updated_at
+-- 12. Crear trigger para updated_at
 DROP TRIGGER IF EXISTS trigger_blog_comments_updated_at ON public.blog_comments;
 CREATE TRIGGER trigger_blog_comments_updated_at
     BEFORE UPDATE ON public.blog_comments
