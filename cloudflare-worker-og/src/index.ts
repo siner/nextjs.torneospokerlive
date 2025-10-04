@@ -1,6 +1,6 @@
 import satori from "satori";
-import { Resvg } from "@resvg/resvg-wasm";
-import initWasm from "@resvg/resvg-wasm/index_bg.wasm";
+import { Resvg, initWasm } from "@resvg/resvg-wasm";
+import resvgWasm from "@resvg/resvg-wasm/index_bg.wasm";
 
 // Caché para las fuentes y WASM
 let fontCache: ArrayBuffer | null = null;
@@ -400,7 +400,7 @@ const worker = {
 
       // Inicializar WASM si es necesario
       if (!wasmInitialized) {
-        await initWasm(initWasm as any);
+        await initWasm(resvgWasm);
         wasmInitialized = true;
       }
 
