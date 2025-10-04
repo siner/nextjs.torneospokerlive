@@ -20,6 +20,8 @@ import { generateOgImageUrl } from "@/lib/og-image";
 import { createClient } from "@/lib/supabase/server";
 import { EventStar } from "@/components/event/EventStar";
 import { ShareButtons } from "@/components/ui/share-buttons";
+import { getCommentsByEntity } from "@/lib/supabase/queries/universal-comments";
+import { UniversalCommentSection } from "@/components/universal/UniversalCommentSection";
 
 export async function generateMetadata({
   params,
@@ -117,6 +119,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
   }
 
   const allTournaments = await getTournamentsByEvent(event.id);
+
+  // Obtener comentarios del evento
+  const comments = await getCommentsByEntity("event", event.id);
 
   const tournamentsByDate: { [key: string]: typeof allTournaments } = {};
   allTournaments.forEach((tournament) => {
@@ -309,6 +314,15 @@ export default async function Page({ params }: { params: { slug: string } }) {
           No hay torneos programados para este evento todavía.
         </p>
       )}
+
+      {/* Sección de comentarios */}
+      <div className="container mx-auto px-4 max-w-4xl">
+        <UniversalCommentSection
+          comments={comments}
+          entityType="event"
+          entityId={event.id}
+        />
+      </div>
     </div>
   );
 }

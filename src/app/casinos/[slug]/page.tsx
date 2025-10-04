@@ -19,6 +19,8 @@ import { generateOgImageUrl } from "@/lib/og-image";
 import { createClient } from "@/lib/supabase/server";
 import { CasinoStar } from "@/components/casino/CasinoStar";
 import { ShareButtons } from "@/components/ui/share-buttons";
+import { getCommentsByEntity } from "@/lib/supabase/queries/universal-comments";
+import { UniversalCommentSection } from "@/components/universal/UniversalCommentSection";
 
 export async function generateMetadata({
   params,
@@ -117,6 +119,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
     .use(html)
     .process(casino.content || "");
   const contentHtml = processedContent.toString();
+
+  // Obtener comentarios del casino
+  const comments = await getCommentsByEntity("casino", casino.id);
 
   const casinoBgColor = casino.color || "#ffffff";
   const casinoTextColor = getTextColor(casinoBgColor);
@@ -267,6 +272,15 @@ export default async function Page({ params }: { params: { slug: string } }) {
           <EventTournamentCalendar casinoId={casino.id} />
         </TabsContent>
       </Tabs>
+
+      {/* Sección de comentarios */}
+      <div className="container mx-auto px-4 max-w-4xl">
+        <UniversalCommentSection
+          comments={comments}
+          entityType="casino"
+          entityId={casino.id}
+        />
+      </div>
     </div>
   );
 }

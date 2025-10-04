@@ -17,6 +17,8 @@ import { generateOgImageUrl } from "@/lib/og-image";
 import { createClient } from "@/lib/supabase/server";
 import { TournamentStar } from "@/components/tournament/TournamentStar";
 import { ShareButtons } from "@/components/ui/share-buttons";
+import { getCommentsByEntity } from "@/lib/supabase/queries/universal-comments";
+import { UniversalCommentSection } from "@/components/universal/UniversalCommentSection";
 
 export async function generateMetadata({
   params,
@@ -117,6 +119,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const processedContent = await remark().use(html).process(tournament.content);
   const contentHtml = processedContent.toString();
+
+  // Obtener comentarios del torneo
+  const comments = await getCommentsByEntity("tournament", tournament.id);
 
   /** @type {import('schema-dts').Event} */
   const schema = {
@@ -314,6 +319,15 @@ export default async function Page({ params }: { params: { slug: string } }) {
           {event && <CardEvent event={event} showCasino={false} />}
           {casino && <CardCasino casino={casino} />}
         </div>
+      </div>
+
+      {/* Sección de comentarios */}
+      <div className="container mx-auto px-4 max-w-4xl">
+        <UniversalCommentSection
+          comments={comments}
+          entityType="tournament"
+          entityId={tournament.id}
+        />
       </div>
     </div>
   );

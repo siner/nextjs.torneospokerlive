@@ -176,6 +176,47 @@ export type Database = {
         }
         Relationships: []
       }
+      comments: {
+        Row: {
+          id: string
+          entity_type: Database["public"]["Enums"]["entity_type"]
+          entity_id: number
+          user_id: string | null
+          author_name: string | null
+          content: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          entity_type: Database["public"]["Enums"]["entity_type"]
+          entity_id: number
+          user_id?: string | null
+          author_name?: string | null
+          content: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          entity_type?: Database["public"]["Enums"]["entity_type"]
+          entity_id?: number
+          user_id?: string | null
+          author_name?: string | null
+          content?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       Casino: {
         Row: {
           color: string
@@ -421,6 +462,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      entity_type: "tournament" | "casino" | "event" | "tour"
       user_role: "editor" | "admin" | "user"
     }
     CompositeTypes: {

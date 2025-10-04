@@ -6,6 +6,8 @@ import { generateOgImageUrl } from "@/lib/og-image";
 import { createClient } from "@/lib/supabase/server";
 import { TourStar } from "@/components/tour/TourStar";
 import { ShareButtons } from "@/components/ui/share-buttons";
+import { getCommentsByEntity } from "@/lib/supabase/queries/universal-comments";
+import { UniversalCommentSection } from "@/components/universal/UniversalCommentSection";
 
 export async function generateMetadata({
   params,
@@ -91,6 +93,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const events = await getEventsByTour(tour.id);
 
+  // Obtener comentarios del circuito
+  const comments = await getCommentsByEntity("tour", tour.id);
+
   // Structured Data para el circuito
   const jsonLd = {
     "@context": "https://schema.org",
@@ -142,6 +147,15 @@ export default async function Page({ params }: { params: { slug: string } }) {
             </div>
           )}
         </div>
+      </div>
+
+      {/* Sección de comentarios */}
+      <div className="container mx-auto px-4 max-w-4xl">
+        <UniversalCommentSection
+          comments={comments}
+          entityType="tour"
+          entityId={tour.id}
+        />
       </div>
     </div>
   );
