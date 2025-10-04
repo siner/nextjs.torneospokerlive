@@ -201,8 +201,17 @@ Ver documento completo en: `project-docs/MEJORAS-PROPUESTAS.md`
   - Descripciones concisas con separador •
   - Integrado en todas las páginas de detalle (torneos, eventos, casinos, circuitos, noticias)
   - Dropdown menu con tooltips
+- [x] **Comentarios en Noticias** - Sistema completo de comentarios ✅ COMPLETADO
+  - Migración SQL con user_id, updated_at y RLS policies
+  - Componente Comment con avatares y edición inline
+  - Funciones updateComment y deleteComment en actions
+  - AlertDialog para confirmar eliminación
+  - Contador de comentarios en PostCard
+  - Solo propietarios pueden editar/eliminar
+  - Indicador "editado" en comentarios modificados
+  - Query optimizada con JOIN a tabla user
+  - Scroll automático a sección de comentarios
 - [ ] **Sistema de Notificaciones** - In-app y por email
-- [ ] **Comentarios en Noticias** - Usuarios registrados pueden comentar
 
 ### Media Prioridad:
 
