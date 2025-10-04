@@ -138,21 +138,56 @@ Mejorar la experiencia de usuario y el diseño visual de la aplicación.
 
 - [x] Añadir comentarios aclaratorios en el código (No necesario)
 - [x] Probar los componentes en diferentes tamaños de pantalla (Probado por el usuario)
+- [x] Sistema de migraciones SQL organizado por fecha (supabase/migrations/)
 
 ## In Progress Tasks
 
-## Future Tasks
+_Pendiente de decisión del usuario sobre prioridades_
 
-- [ ] Refinar `requirements.md`.
-- [ ] Refinar `user-structure.md`.
-- [ ] Añadir documentación de componentes/APIs.
-- [ ] Funcionalidades para usuarios registrados.
-- [ ] Mantener Changelog.
-- [ ] Documentar en overview.md la decisión de usar <img> por simplicidad y consistencia
-- [ ] **Filtrado:** Añadir filtros por categoría/tag al listado.
-- [ ] Añadir paginación al listado de noticias.
-- [ ] Crear páginas de archivo para tags (`/noticias/tag/[slug]`).
-- [ ] Añadir sección de noticias al menú de navegación principal.
+## Próximas Funcionalidades Propuestas
+
+Ver documento completo en: `project-docs/MEJORAS-PROPUESTAS.md`
+
+### Alta Prioridad:
+
+- [x] **Favoritos de Torneos** - Marcar torneos específicos como favoritos ✅ COMPLETADO
+  - Componente TournamentStar creado
+  - Integrado en página de detalle de torneo
+  - Página `/ajustes/mis-torneos` con DataTable
+  - Filtro "Mis Torneos" en página `/torneos`
+  - Soporte en calendario
+  - Enlace en header dropdown
+- [x] **Rediseño de Páginas de Ajustes/Perfil** - Mejoras UI/UX ✅ COMPLETADO
+  - Dashboard con estadísticas (favoritos, próximos torneos)
+  - Menú lateral mejorado con iconos (User, Star, Trophy, LayoutDashboard)
+  - Acciones rápidas para navegar por la web
+  - Estados vacíos mejorados con CTAs
+  - Contadores de items en listados
+  - Estructura reorganizada: /ajustes (dashboard), /ajustes/perfil, /ajustes/mis-casinos, /ajustes/mis-torneos
+- [ ] **Favoritos de Eventos y Circuitos** - Extender sistema de favoritos
+- [ ] **Sistema de Notificaciones** - In-app y por email
+- [ ] **Filtrado y Búsqueda Avanzada** - Filtros por buy-in, fecha, tipo, etc.
+- [ ] **Comentarios en Noticias** - Usuarios registrados pueden comentar
+
+### Media Prioridad:
+
+- [ ] **Dashboard de Usuario** - Vista personalizada centralizada
+- [ ] **Compartir en RRSS** - Botones de compartir torneos/eventos/noticias
+- [ ] **Calendario Descargable** - Export a Google Calendar/iCal
+
+### Baja Prioridad (Quick Wins):
+
+- [ ] **Estadísticas Públicas** - Torneos más populares, tendencias
+- [ ] **Histórico de Torneos** - Ver torneos pasados
+- [ ] **Modo Oscuro** - Toggle de tema
+- [ ] **PWA** - App instalable y notificaciones push
+
+## Future Tasks (Documentación)
+
+- [ ] Refinar `requirements.md` tras implementar nuevas features
+- [ ] Refinar `user-structure.md`
+- [ ] Añadir documentación de componentes/APIs
+- [ ] Mantener Changelog
 
 ## Implementation Plan
 

@@ -22,11 +22,12 @@ interface TournamentWithRelations extends BaseTournament {
 type TournamentActionResponse = TournamentWithRelations[];
 type EventActionResponse = EventWithRelations[];
 
-// Actualizar interfaz de filtros para aceptar starredCasinoIds
+// Actualizar interfaz de filtros para aceptar starredCasinoIds y starredTournamentIds
 interface FetchFilters {
   casinoId?: number;
   eventId?: number;
-  starredCasinoIds?: number[]; // Nuevo
+  starredCasinoIds?: number[];
+  starredTournamentIds?: number[];
 }
 
 /**

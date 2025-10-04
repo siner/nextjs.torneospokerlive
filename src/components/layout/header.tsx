@@ -93,6 +93,15 @@ export default function Header({ user }: { user: any }) {
                       <span>Mis casinos</span>
                     </Link>
                   </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link
+                      href="/ajustes/mis-torneos"
+                      className="flex items-center gap-2"
+                    >
+                      <Star className="h-4 w-4" />
+                      <span>Mis torneos</span>
+                    </Link>
+                  </DropdownMenuItem>
                 </>
               )}
               {!logged && (

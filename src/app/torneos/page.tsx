@@ -2,6 +2,8 @@ import {
   getNextTournaments,
   getMyCasinosNextTournaments,
   getStarredCasinoIds,
+  getMyStarredNextTournaments,
+  getStarredTournamentIds,
 } from "@/lib/api";
 import type { Metadata } from "next";
 import RowTournament from "@/components/tournament/RowTournament";
@@ -10,6 +12,7 @@ export const metadata: Metadata = {
   description: "",
 };
 import SwitchMyCasinos from "@/components/casino/SwitchMyCasinos";
+import SwitchMyTournaments from "@/components/tournament/SwitchMyTournaments";
 import { createClient } from "@/lib/supabase/server";
 
 // Importar componentes de Tabs y el Calendario
@@ -26,25 +29,37 @@ export default async function Torneos({
   const supabase = createClient();
   const { data: userData } = await supabase.auth.getUser();
   const user = userData?.user;
-  const showMyCasinos = user && searchParams?.mycasinos === "true"; // Determinar si se muestran mis casinos
+  const showMyCasinos = user && searchParams?.mycasinos === "true";
+  const showMyTournaments = user && searchParams?.mytournaments === "true";
 
   let listTournaments = [];
-  let starredCasinoIds: number[] | undefined = undefined; // Variable para IDs
+  let starredCasinoIds: number[] | undefined = undefined;
+  let starredTournamentIds: number[] | undefined = undefined;
 
-  if (showMyCasinos && user) {
-    // Si filtramos por mis casinos, obtenemos los torneos Y los IDs para el calendario
+  if (showMyTournaments && user) {
+    // Filtrar por torneos favoritos
+    listTournaments = await getMyStarredNextTournaments(user.id);
+    starredTournamentIds = await getStarredTournamentIds(user.id);
+  } else if (showMyCasinos && user) {
+    // Filtrar por casinos favoritos
     listTournaments = await getMyCasinosNextTournaments(user.id);
     starredCasinoIds = await getStarredCasinoIds(user.id);
   } else {
+    // Mostrar todos los torneos
     listTournaments = await getNextTournaments();
   }
 
   return (
     <div>
-      {/* Título y Switch se mantienen fuera de las pestañas */}
-      <div className="flex justify-between items-center mb-4">
+      {/* Título y Switches se mantienen fuera de las pestañas */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
         <h2 className="text-2xl font-bold py-4">Próximos Torneos</h2>
-        {user && <SwitchMyCasinos />}
+        {user && (
+          <div className="flex flex-col sm:flex-row gap-4">
+            <SwitchMyCasinos />
+            <SwitchMyTournaments />
+          </div>
+        )}
       </div>
 
       {/* Sistema de Pestañas */}
@@ -79,9 +94,10 @@ export default async function Torneos({
         {/* Contenido Pestaña Calendario */}
         <TabsContent value="calendario">
           <div className="mt-4">
-            {/* Pasar starredCasinoIds al calendario si el filtro está activo */}
+            {/* Pasar filtros al calendario si están activos */}
             <EventTournamentCalendar
               starredCasinoIds={starredCasinoIds}
+              starredTournamentIds={starredTournamentIds}
               showCasino={true}
             />
           </div>

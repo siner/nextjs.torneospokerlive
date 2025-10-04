@@ -41,6 +41,7 @@ interface EventTournamentCalendarProps {
   casinoId?: number;
   eventId?: number;
   starredCasinoIds?: number[];
+  starredTournamentIds?: number[];
   showCasino?: boolean;
 }
 
@@ -48,6 +49,7 @@ export default function EventTournamentCalendar({
   casinoId,
   eventId,
   starredCasinoIds,
+  starredTournamentIds,
   showCasino = true,
 }: EventTournamentCalendarProps) {
   const [month, setMonth] = useState<Date>(new Date()); // Mes actual visible
@@ -65,7 +67,12 @@ export default function EventTournamentCalendar({
         const currentYear = getYear(month);
         const currentMonth = getMonth(month) + 1; // date-fns month is 0-indexed
 
-        const filters = { casinoId, eventId, starredCasinoIds };
+        const filters = {
+          casinoId,
+          eventId,
+          starredCasinoIds,
+          starredTournamentIds,
+        };
 
         const [tournamentsData, eventsData] = await Promise.all([
           fetchTournamentsForMonthAction(currentYear, currentMonth, filters),
@@ -112,7 +119,7 @@ export default function EventTournamentCalendar({
     }
 
     fetchData();
-  }, [month, casinoId, eventId, starredCasinoIds]);
+  }, [month, casinoId, eventId, starredCasinoIds, starredTournamentIds]);
 
   const selectedDayTournaments = tournaments.filter((t) =>
     isSameDay(parseISO(t.date as any), selectedDay || new Date(0))

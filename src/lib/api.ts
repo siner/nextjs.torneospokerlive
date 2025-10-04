@@ -411,6 +411,88 @@ export async function getStarredCasinoIds(userId: string): Promise<number[]> {
   );
 }
 
+/**
+ * Obtiene los torneos favoritos de un usuario con toda la información relacionada.
+ */
+export async function getStarredTournaments(userId: string) {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("tournament_stars")
+    .select(
+      `
+      tournament:Tournament(
+        *,
+        casino:Casino(*),
+        event:Event(
+          *,
+          tour:Tour(*)
+        )
+      )
+    `
+    )
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("Error fetching starred tournaments:", error);
+    return [];
+  }
+  return data?.map((d: any) => d.tournament) || [];
+}
+
+/**
+ * Obtiene solo los IDs de los torneos favoritos de un usuario.
+ */
+export async function getStarredTournamentIds(
+  userId: string
+): Promise<number[]> {
+  noStore(); // Asegurar que no se cachea si los favoritos cambian
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("tournament_stars")
+    .select("tournament_id")
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("Error fetching starred tournament IDs:", error);
+    return [];
+  }
+  return (
+    data
+      ?.map((t) => t.tournament_id)
+      .filter((id): id is number => id !== null) || []
+  );
+}
+
+/**
+ * Obtiene los próximos torneos favoritos de un usuario.
+ */
+export async function getMyStarredNextTournaments(userId: string) {
+  const supabase = createClient();
+
+  // Primero obtener los IDs de torneos favoritos
+  const tournamentIds = await getStarredTournamentIds(userId);
+
+  if (tournamentIds.length === 0) {
+    return [];
+  }
+
+  // Obtener los torneos con toda la información
+  const { data, error } = await supabase
+    .from("Tournament")
+    .select("*, casino:Casino(*), event:Event(*, tour:Tour(*))")
+    .in("id", tournamentIds)
+    .gte("date", new Date().toISOString().split("T")[0])
+    .not("draft", "is", true)
+    .order("date", { ascending: true })
+    .order("time", { ascending: true });
+
+  if (error) {
+    console.error("Error fetching my starred tournaments:", error);
+    return [];
+  }
+  return data || [];
+}
+
 // Nueva función para obtener próximos eventos por casino
 export async function getNextEventsByCasino(casinoId: number) {
   const supabase = createClient();
@@ -439,7 +521,8 @@ export async function getTournamentsForMonth(
   filters?: {
     casinoId?: number;
     eventId?: number;
-    starredCasinoIds?: number[]; // Nuevo filtro
+    starredCasinoIds?: number[];
+    starredTournamentIds?: number[];
   }
 ): Promise<Database["public"]["Tables"]["Tournament"]["Row"][]> {
   noStore();
@@ -465,11 +548,18 @@ export async function getTournamentsForMonth(
     .order("date", { ascending: true })
     .order("time", { ascending: true });
 
-  // Aplicar filtros opcionales
-  if (filters?.starredCasinoIds && filters.starredCasinoIds.length > 0) {
-    // Priorizar filtro de casinos favoritos si existe
+  // Aplicar filtros opcionales (starredTournamentIds tiene máxima prioridad)
+  if (
+    filters?.starredTournamentIds &&
+    filters.starredTournamentIds.length > 0
+  ) {
+    // Filtrar por torneos favoritos específicos
+    query = query.in("id", filters.starredTournamentIds);
+  } else if (filters?.starredCasinoIds && filters.starredCasinoIds.length > 0) {
+    // Filtrar por casinos favoritos
     query = query.in("casinoId", filters.starredCasinoIds);
   } else if (filters?.casinoId) {
+    // Filtrar por casino específico
     query = query.eq("casinoId", filters.casinoId);
   }
 

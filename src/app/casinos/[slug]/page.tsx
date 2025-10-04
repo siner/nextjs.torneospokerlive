@@ -3,6 +3,7 @@ import {
   getCasino,
   getNextTorneosByCasino,
   getNextEventsByCasino,
+  getStarredCasinoIds,
 } from "@/lib/api";
 import type { Metadata } from "next";
 import RowTournament from "@/components/tournament/RowTournament";
@@ -15,6 +16,8 @@ import { getTextColor } from "@/lib/utils";
 import EventTournamentCalendar from "@/components/calendar/EventTournamentCalendar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { generateOgImageUrl } from "@/lib/og-image";
+import { createClient } from "@/lib/supabase/server";
+import { CasinoStar } from "@/components/casino/CasinoStar";
 
 export async function generateMetadata({
   params,
@@ -77,6 +80,18 @@ export default async function Page({ params }: { params: { slug: string } }) {
   if (!casino) {
     return <div>Not found</div>;
   }
+
+  // Verificar si el usuario está autenticado y si tiene este casino en favoritos
+  const supabase = createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  const user = userData?.user;
+  let isStarred = false;
+
+  if (user) {
+    const starredCasinoIds = await getStarredCasinoIds(user.id);
+    isStarred = starredCasinoIds.includes(casino.id);
+  }
+
   const torneos = await getNextTorneosByCasino(casino.id);
   const nextEvents = await getNextEventsByCasino(casino.id);
 
@@ -120,10 +135,17 @@ export default async function Page({ params }: { params: { slug: string } }) {
           <div className="flex-grow w-full md:w-auto md:mr-4 order-2 md:order-1">
             <CardHeader className="p-0 mb-2">
               <CardTitle
-                className="text-2xl md:text-3xl font-bold"
+                className="text-2xl md:text-3xl font-bold flex items-center justify-between gap-4"
                 style={{ color: casinoTextColor }}
               >
-                {casino.name}
+                <span>{casino.name}</span>
+                {user && (
+                  <CasinoStar
+                    casinoId={casino.id.toString()}
+                    userId={user.id}
+                    isStarred={isStarred}
+                  />
+                )}
               </CardTitle>
             </CardHeader>
             {contentHtml && (

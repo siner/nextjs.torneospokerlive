@@ -1,4 +1,4 @@
-import { getTournament } from "@/lib/api";
+import { getTournament, getStarredTournamentIds } from "@/lib/api";
 import CardCasino from "@/components/casino/CardCasino";
 import CardEvent from "@/components/event/CardEvent";
 import { formatDate, getTextColor } from "@/lib/utils";
@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { generateOgImageUrl } from "@/lib/og-image";
+import { createClient } from "@/lib/supabase/server";
+import { TournamentStar } from "@/components/tournament/TournamentStar";
 
 export async function generateMetadata({
   params,
@@ -80,6 +82,17 @@ export default async function Page({ params }: { params: { slug: string } }) {
     return <div>Not found</div>;
   }
 
+  // Verificar si el usuario está autenticado y si tiene este torneo en favoritos
+  const supabase = createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  const user = userData?.user;
+  let isStarred = false;
+
+  if (user) {
+    const starredTournamentIds = await getStarredTournamentIds(user.id);
+    isStarred = starredTournamentIds.includes(tournament.id);
+  }
+
   const event = tournament.event;
   const casino = tournament.casino;
   let backgroundColor = "#ffffff";
@@ -134,11 +147,20 @@ export default async function Page({ params }: { params: { slug: string } }) {
               <h1 className="text-2xl font-bold md:text-3xl mr-4">
                 {tournament.name}
               </h1>
-              {tournament.buyin > 0 && (
-                <div className="text-3xl md:text-4xl font-bold text-right flex-shrink-0">
-                  {tournament.buyin}€
-                </div>
-              )}
+              <div className="flex items-center gap-4 flex-shrink-0">
+                {user && (
+                  <TournamentStar
+                    tournamentId={tournament.id.toString()}
+                    userId={user.id}
+                    isStarred={isStarred}
+                  />
+                )}
+                {tournament.buyin > 0 && (
+                  <div className="text-3xl md:text-4xl font-bold text-right">
+                    {tournament.buyin}€
+                  </div>
+                )}
+              </div>
             </CardContent>
           </Card>
 
