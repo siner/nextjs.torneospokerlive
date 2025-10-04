@@ -26,20 +26,24 @@ import { cn } from "@/lib/utils";
 export interface TournamentFiltersType {
   buyinMin?: number;
   buyinMax?: number;
-  type?: string;
+  casinoId?: number;
+  eventId?: number;
   dateFrom?: Date;
   dateTo?: Date;
-  guaranteed?: boolean;
 }
 
 interface TournamentFiltersProps {
   onFiltersChange: (filters: TournamentFiltersType) => void;
   initialFilters?: TournamentFiltersType;
+  casinos?: any[];
+  events?: any[];
 }
 
 export default function TournamentFilters({
   onFiltersChange,
   initialFilters,
+  casinos = [],
+  events = [],
 }: TournamentFiltersProps) {
   const [filters, setFilters] = useState<TournamentFiltersType>(
     initialFilters || {}
@@ -130,12 +134,25 @@ export default function TournamentFilters({
             />
           </Badge>
         )}
-        {filters.type && (
+        {filters.casinoId && (
           <Badge variant="secondary" className="gap-1">
-            Tipo: {filters.type}
+            Casino:{" "}
+            {casinos.find((c) => c.id === filters.casinoId)?.name ||
+              filters.casinoId}
             <X
               className="h-3 w-3 cursor-pointer"
-              onClick={() => removeFilter("type")}
+              onClick={() => removeFilter("casinoId")}
+            />
+          </Badge>
+        )}
+        {filters.eventId && (
+          <Badge variant="secondary" className="gap-1">
+            Evento:{" "}
+            {events.find((e) => e.id === filters.eventId)?.name ||
+              filters.eventId}
+            <X
+              className="h-3 w-3 cursor-pointer"
+              onClick={() => removeFilter("eventId")}
             />
           </Badge>
         )}
@@ -154,15 +171,6 @@ export default function TournamentFilters({
             <X
               className="h-3 w-3 cursor-pointer"
               onClick={() => removeFilter("dateTo")}
-            />
-          </Badge>
-        )}
-        {filters.guaranteed && (
-          <Badge variant="secondary" className="gap-1">
-            Con garantizado
-            <X
-              className="h-3 w-3 cursor-pointer"
-              onClick={() => removeFilter("guaranteed")}
             />
           </Badge>
         )}
@@ -216,45 +224,54 @@ export default function TournamentFilters({
             />
           </div>
 
-          {/* Tipo de torneo */}
+          {/* Casino */}
           <div className="space-y-2">
-            <Label htmlFor="type">Tipo de torneo</Label>
+            <Label htmlFor="casino">Casino</Label>
             <Select
-              value={filters.type || ""}
+              value={filters.casinoId?.toString() || "all"}
               onValueChange={(value) =>
-                handleFilterChange("type", value || undefined)
+                handleFilterChange(
+                  "casinoId",
+                  value === "all" ? undefined : parseInt(value)
+                )
               }
             >
-              <SelectTrigger id="type">
-                <SelectValue placeholder="Todos los tipos" />
+              <SelectTrigger id="casino">
+                <SelectValue placeholder="Todos los casinos" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Todos</SelectItem>
-                <SelectItem value="Freezeout">Freezeout</SelectItem>
-                <SelectItem value="Rebuy">Rebuy</SelectItem>
-                <SelectItem value="Knockout">Knockout</SelectItem>
-                <SelectItem value="Bounty">Bounty</SelectItem>
-                <SelectItem value="Turbo">Turbo</SelectItem>
-                <SelectItem value="Deep Stack">Deep Stack</SelectItem>
+                <SelectItem value="all">Todos</SelectItem>
+                {casinos.map((casino) => (
+                  <SelectItem key={casino.id} value={casino.id.toString()}>
+                    {casino.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
 
-          {/* Con garantizado */}
+          {/* Evento */}
           <div className="space-y-2">
-            <Label htmlFor="guaranteed">Garantizado</Label>
+            <Label htmlFor="event">Evento</Label>
             <Select
-              value={filters.guaranteed ? "yes" : ""}
+              value={filters.eventId?.toString() || "all"}
               onValueChange={(value) =>
-                handleFilterChange("guaranteed", value === "yes" || undefined)
+                handleFilterChange(
+                  "eventId",
+                  value === "all" ? undefined : parseInt(value)
+                )
               }
             >
-              <SelectTrigger id="guaranteed">
-                <SelectValue placeholder="Todos" />
+              <SelectTrigger id="event">
+                <SelectValue placeholder="Todos los eventos" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Todos</SelectItem>
-                <SelectItem value="yes">Solo con garantizado</SelectItem>
+                <SelectItem value="all">Todos</SelectItem>
+                {events.map((event) => (
+                  <SelectItem key={event.id} value={event.id.toString()}>
+                    {event.name}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>

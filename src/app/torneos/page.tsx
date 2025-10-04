@@ -4,6 +4,8 @@ import {
   getStarredCasinoIds,
   getMyStarredNextTournaments,
   getStarredTournamentIds,
+  getAllCasinos,
+  getAllEvents,
 } from "@/lib/api";
 import type { Metadata } from "next";
 import RowTournament from "@/components/tournament/RowTournament";
@@ -50,6 +52,12 @@ export default async function Torneos({
     listTournaments = await getNextTournaments();
   }
 
+  // Cargar todos los casinos y eventos para los filtros
+  const [allCasinos, allEvents] = await Promise.all([
+    getAllCasinos(),
+    getAllEvents(),
+  ]);
+
   return (
     <div>
       {/* Título y Switches se mantienen fuera de las pestañas */}
@@ -74,7 +82,11 @@ export default async function Torneos({
         <TabsContent value="lista">
           <div className="mt-4">
             {listTournaments?.length > 0 ? (
-              <TorneosClient tournaments={listTournaments} />
+              <TorneosClient
+                tournaments={listTournaments}
+                casinos={allCasinos}
+                events={allEvents}
+              />
             ) : (
               <p className="text-muted-foreground py-4 text-center">
                 {showMyCasinos

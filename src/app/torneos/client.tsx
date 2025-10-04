@@ -8,10 +8,31 @@ import TournamentFilters, {
 
 export default function TorneosClient({
   tournaments,
+  casinos,
+  events,
 }: {
   tournaments: any[];
+  casinos: any[];
+  events: any[];
 }) {
   const [filters, setFilters] = useState<TournamentFiltersType>({});
+
+  // Filtrar eventos: solo futuros o presentes
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const availableEvents = events.filter((event) => {
+    const eventEndDate = new Date(event.to);
+    eventEndDate.setHours(0, 0, 0, 0);
+    return eventEndDate >= today;
+  });
+
+  // Filtrar casinos: solo los que tienen torneos en el listado actual
+  const casinoIdsInTournaments = new Set(
+    tournaments.map((t) => t.casino?.id).filter(Boolean)
+  );
+  const availableCasinos = casinos.filter((casino) =>
+    casinoIdsInTournaments.has(casino.id)
+  );
 
   // Aplicar filtros a los torneos
   const filteredTournaments = tournaments.filter((tournament) => {
@@ -25,8 +46,13 @@ export default function TorneosClient({
       return false;
     }
 
-    // Filtro por tipo
-    if (filters.type && tournament.type !== filters.type) {
+    // Filtro por casino
+    if (filters.casinoId && tournament.casino?.id !== filters.casinoId) {
+      return false;
+    }
+
+    // Filtro por evento
+    if (filters.eventId && tournament.event?.id !== filters.eventId) {
       return false;
     }
 
@@ -51,17 +77,16 @@ export default function TorneosClient({
       }
     }
 
-    // Filtro por garantizado
-    if (filters.guaranteed && (!tournament.guaranteed || tournament.guaranteed === 0)) {
-      return false;
-    }
-
     return true;
   });
 
   return (
     <div className="space-y-4">
-      <TournamentFilters onFiltersChange={setFilters} />
+      <TournamentFilters
+        onFiltersChange={setFilters}
+        casinos={availableCasinos}
+        events={availableEvents}
+      />
 
       <div className="space-y-0.5">
         {filteredTournaments.length > 0 ? (
@@ -91,4 +116,3 @@ export default function TorneosClient({
     </div>
   );
 }
-
