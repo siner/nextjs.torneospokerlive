@@ -183,8 +183,16 @@ Ver documento completo en: `project-docs/MEJORAS-PROPUESTAS.md`
   - Páginas /ajustes/mis-eventos y /ajustes/mis-circuitos
   - Integración completa en navegación y dashboard
   - 5 tarjetas de estadísticas en dashboard
+- [x] **Filtrado y Búsqueda Avanzada** - Filtros por buy-in, fecha, casino, evento ✅ COMPLETADO
+  - Componente TournamentFilters con UI de Shadcn
+  - Filtros por buy-in (mín/máx), casino, evento, fechas (desde/hasta)
+  - Persistencia en localStorage
+  - Indicadores visuales con badges de filtros activos
+  - Optimización: solo eventos futuros/presentes en dropdown
+  - Optimización: solo casinos con torneos disponibles en dropdown
+  - Botón "Limpiar todo" para resetear filtros
+  - Integrado en página `/torneos` con TorneosClient
 - [ ] **Sistema de Notificaciones** - In-app y por email
-- [ ] **Filtrado y Búsqueda Avanzada** - Filtros por buy-in, fecha, tipo, etc.
 - [ ] **Comentarios en Noticias** - Usuarios registrados pueden comentar
 
 ### Media Prioridad:
