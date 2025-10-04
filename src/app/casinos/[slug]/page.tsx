@@ -18,6 +18,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { generateOgImageUrl } from "@/lib/og-image";
 import { createClient } from "@/lib/supabase/server";
 import { CasinoStar } from "@/components/casino/CasinoStar";
+import { ShareButtons } from "@/components/ui/share-buttons";
 
 export async function generateMetadata({
   params,
@@ -139,13 +140,22 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 style={{ color: casinoTextColor }}
               >
                 <span>{casino.name}</span>
-                {user && (
-                  <CasinoStar
-                    casinoId={casino.id.toString()}
-                    userId={user.id}
-                    isStarred={isStarred}
+                <div className="flex items-center gap-2">
+                  <ShareButtons
+                    url={`https://www.torneospokerlive.com/casinos/${params.slug}`}
+                    title={casino.name}
+                    description={`Torneos y eventos de poker • ${
+                      casino.address || "Madrid, España"
+                    }`}
                   />
-                )}
+                  {user && (
+                    <CasinoStar
+                      casinoId={casino.id.toString()}
+                      userId={user.id}
+                      isStarred={isStarred}
+                    />
+                  )}
+                </div>
               </CardTitle>
             </CardHeader>
             {contentHtml && (

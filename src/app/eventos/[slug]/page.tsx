@@ -19,6 +19,7 @@ import { es } from "date-fns/locale";
 import { generateOgImageUrl } from "@/lib/og-image";
 import { createClient } from "@/lib/supabase/server";
 import { EventStar } from "@/components/event/EventStar";
+import { ShareButtons } from "@/components/ui/share-buttons";
 
 export async function generateMetadata({
   params,
@@ -178,13 +179,22 @@ export default async function Page({ params }: { params: { slug: string } }) {
         <CardHeader>
           <CardTitle className="text-2xl md:text-3xl font-bold flex items-center justify-between gap-4">
             <span>{event.name}</span>
-            {user && (
-              <EventStar
-                eventId={event.id.toString()}
-                userId={user.id}
-                isStarred={isStarred}
+            <div className="flex items-center gap-2">
+              <ShareButtons
+                url={`https://www.torneospokerlive.com/eventos/${params.slug}`}
+                title={event.name}
+                description={`${event.casino?.name || ""}${
+                  event.tour ? ` • ${event.tour.name}` : ""
+                } • Del ${dateFrom} al ${dateTo}`}
               />
-            )}
+              {user && (
+                <EventStar
+                  eventId={event.id.toString()}
+                  userId={user.id}
+                  isStarred={isStarred}
+                />
+              )}
+            </div>
           </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -205,7 +215,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
                         alt={`Logo ${event.tour.name}`}
                         width={80}
                         height={80}
-                        className="h-20 w-20 rounded-full object-contain"
+                        className="h-12 w-32 rounded-md object-contain p-1"
                       />
                     </Link>
                   </TooltipTrigger>
@@ -219,20 +229,15 @@ export default async function Page({ params }: { params: { slug: string } }) {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Avatar
-                      className="h-20 w-20 border"
-                      style={{ backgroundColor: casinoBgColor }}
-                    >
-                      <Link href={"/casinos/" + event.casino.slug}>
-                        <img
-                          src={event.casino.logo}
-                          width={80}
-                          height={80}
-                          alt={`Logo ${event.casino.name}`}
-                          className="h-20 w-20 rounded-full object-contain"
-                        />
-                      </Link>
-                    </Avatar>
+                    <Link href={"/casinos/" + event.casino.slug}>
+                      <img
+                        src={event.casino.logo}
+                        width={80}
+                        height={80}
+                        alt={`Logo ${event.casino.name}`}
+                        className="h-12 w-32 rounded-md object-contain p-1"
+                      />
+                    </Link>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>{event.casino.name}</p>

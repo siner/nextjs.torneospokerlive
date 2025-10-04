@@ -65,7 +65,7 @@ export default function RowTournament(props: any) {
                     width={40}
                     height={40}
                     alt={"Icono " + torneo.event.name}
-                    className="h-12 w-24 rounded-md object-contain"
+                    className="h-12 w-24 rounded-md object-contain p-1"
                   />
                 </TooltipTrigger>
                 <TooltipContent>

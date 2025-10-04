@@ -5,6 +5,7 @@ import RowEvent from "@/components/event/RowEvent";
 import { generateOgImageUrl } from "@/lib/og-image";
 import { createClient } from "@/lib/supabase/server";
 import { TourStar } from "@/components/tour/TourStar";
+import { ShareButtons } from "@/components/ui/share-buttons";
 
 export async function generateMetadata({
   params,
@@ -105,13 +106,20 @@ export default async function Page({ params }: { params: { slug: string } }) {
             <div>
               <h2 className="text-4xl font-bold py-4 flex items-center justify-between gap-4">
                 <span>Eventos de {tour.name}</span>
-                {user && (
-                  <TourStar
-                    tourId={tour.id.toString()}
-                    userId={user.id}
-                    isStarred={isStarred}
+                <div className="flex items-center gap-2">
+                  <ShareButtons
+                    url={`https://www.torneospokerlive.com/circuitos/${params.slug}`}
+                    title={tour.name}
+                    description="Circuito de poker • Consulta todos los eventos"
                   />
-                )}
+                  {user && (
+                    <TourStar
+                      tourId={tour.id.toString()}
+                      userId={user.id}
+                      isStarred={isStarred}
+                    />
+                  )}
+                </div>
               </h2>
 
               <div className="space-y-0.5">

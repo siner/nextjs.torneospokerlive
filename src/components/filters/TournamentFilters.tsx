@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -45,6 +46,10 @@ export default function TournamentFilters({
   casinos = [],
   events = [],
 }: TournamentFiltersProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [filters, setFilters] = useState<TournamentFiltersType>(
     initialFilters || {}
   );
@@ -56,18 +61,40 @@ export default function TournamentFilters({
   ).length;
 
   useEffect(() => {
-    // Cargar filtros de localStorage al montar
-    const savedFilters = localStorage.getItem("tournamentFilters");
-    if (savedFilters) {
-      try {
-        const parsed = JSON.parse(savedFilters);
-        // Convertir fechas de string a Date
-        if (parsed.dateFrom) parsed.dateFrom = new Date(parsed.dateFrom);
-        if (parsed.dateTo) parsed.dateTo = new Date(parsed.dateTo);
-        setFilters(parsed);
-        onFiltersChange(parsed);
-      } catch (e) {
-        console.error("Error loading filters from localStorage:", e);
+    // Prioridad: query params > localStorage
+    const params = new URLSearchParams(searchParams.toString());
+    const urlFilters: TournamentFiltersType = {};
+
+    if (params.get("buyinMin"))
+      urlFilters.buyinMin = parseInt(params.get("buyinMin")!);
+    if (params.get("buyinMax"))
+      urlFilters.buyinMax = parseInt(params.get("buyinMax")!);
+    if (params.get("casinoId"))
+      urlFilters.casinoId = parseInt(params.get("casinoId")!);
+    if (params.get("eventId"))
+      urlFilters.eventId = parseInt(params.get("eventId")!);
+    if (params.get("dateFrom"))
+      urlFilters.dateFrom = new Date(params.get("dateFrom")!);
+    if (params.get("dateTo"))
+      urlFilters.dateTo = new Date(params.get("dateTo")!);
+
+    if (Object.keys(urlFilters).length > 0) {
+      // Si hay query params, usarlos
+      setFilters(urlFilters);
+      onFiltersChange(urlFilters);
+    } else {
+      // Si no, cargar de localStorage
+      const savedFilters = localStorage.getItem("tournamentFilters");
+      if (savedFilters) {
+        try {
+          const parsed = JSON.parse(savedFilters);
+          if (parsed.dateFrom) parsed.dateFrom = new Date(parsed.dateFrom);
+          if (parsed.dateTo) parsed.dateTo = new Date(parsed.dateTo);
+          setFilters(parsed);
+          onFiltersChange(parsed);
+        } catch (e) {
+          console.error("Error loading filters from localStorage:", e);
+        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -80,12 +107,30 @@ export default function TournamentFilters({
 
     // Guardar en localStorage
     localStorage.setItem("tournamentFilters", JSON.stringify(newFilters));
+
+    // Actualizar URL con query params
+    const params = new URLSearchParams();
+    if (newFilters.buyinMin)
+      params.set("buyinMin", newFilters.buyinMin.toString());
+    if (newFilters.buyinMax)
+      params.set("buyinMax", newFilters.buyinMax.toString());
+    if (newFilters.casinoId)
+      params.set("casinoId", newFilters.casinoId.toString());
+    if (newFilters.eventId)
+      params.set("eventId", newFilters.eventId.toString());
+    if (newFilters.dateFrom)
+      params.set("dateFrom", newFilters.dateFrom.toISOString().split("T")[0]);
+    if (newFilters.dateTo)
+      params.set("dateTo", newFilters.dateTo.toISOString().split("T")[0]);
+
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   const clearFilters = () => {
     setFilters({});
     onFiltersChange({});
     localStorage.removeItem("tournamentFilters");
+    router.push(pathname, { scroll: false });
   };
 
   const removeFilter = (key: keyof TournamentFiltersType) => {
@@ -94,6 +139,26 @@ export default function TournamentFilters({
     setFilters(newFilters);
     onFiltersChange(newFilters);
     localStorage.setItem("tournamentFilters", JSON.stringify(newFilters));
+
+    // Actualizar URL
+    const params = new URLSearchParams();
+    if (newFilters.buyinMin)
+      params.set("buyinMin", newFilters.buyinMin.toString());
+    if (newFilters.buyinMax)
+      params.set("buyinMax", newFilters.buyinMax.toString());
+    if (newFilters.casinoId)
+      params.set("casinoId", newFilters.casinoId.toString());
+    if (newFilters.eventId)
+      params.set("eventId", newFilters.eventId.toString());
+    if (newFilters.dateFrom)
+      params.set("dateFrom", newFilters.dateFrom.toISOString().split("T")[0]);
+    if (newFilters.dateTo)
+      params.set("dateTo", newFilters.dateTo.toISOString().split("T")[0]);
+
+    const queryString = params.toString();
+    router.push(queryString ? `${pathname}?${queryString}` : pathname, {
+      scroll: false,
+    });
   };
 
   return (

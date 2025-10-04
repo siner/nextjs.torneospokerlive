@@ -12,6 +12,7 @@ import { CommentSection } from "@/components/news/CommentSection";
 import { Tag } from "@/components/news/Tag";
 import { CategoryBadge } from "@/components/news/CategoryBadge";
 import type { Metadata, ResolvingMetadata } from "next";
+import { ShareButtons } from "@/components/ui/share-buttons";
 
 // Revalidar la página cada hora
 export const revalidate = 3600;
@@ -142,7 +143,22 @@ export default async function PostPage({ params }: PostPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       {/* Encabezado del Post */}
-      <h1 className="mb-4 text-3xl md:text-4xl font-bold">{post.title}</h1>
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <h1 className="text-3xl md:text-4xl font-bold flex-grow">
+          {post.title}
+        </h1>
+        <div className="flex-shrink-0 pt-1">
+          <ShareButtons
+            url={`https://www.torneospokerlive.com/noticias/${slug}`}
+            title={post.title}
+            description={
+              post.blog_categories
+                ? `${post.blog_categories.name} • Torneos Poker Live`
+                : "Torneos Poker Live"
+            }
+          />
+        </div>
+      </div>
       <div className="text-muted-foreground mb-6 text-base">
         <span>Publicado el </span>
         <time dateTime={post.published_at ?? post.created_at}>

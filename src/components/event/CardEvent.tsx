@@ -23,7 +23,7 @@ export default function CardEvent(props: { event: any; showCasino: boolean }) {
             <img
               src={evento.tour.logo}
               alt={`Logo ${evento.tour.name}`}
-              className="mx-auto p-4 object-contain h-44 w-44 rounded-full shadow"
+              className="mx-auto p-4 object-contain h-44 w-44 rounded-md"
             />
           </Link>
           {/* Logo del casino si corresponde */}
@@ -32,7 +32,7 @@ export default function CardEvent(props: { event: any; showCasino: boolean }) {
               <img
                 src={evento.casino.logo}
                 alt={`Logo ${evento.casino.name}`}
-                className="mx-auto p-4 object-contain h-44 w-44 rounded-full shadow"
+                className="mx-auto p-4 object-contain h-44 w-44 rounded-md"
               />
             </Link>
           )}

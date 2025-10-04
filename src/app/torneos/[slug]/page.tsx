@@ -16,6 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { generateOgImageUrl } from "@/lib/og-image";
 import { createClient } from "@/lib/supabase/server";
 import { TournamentStar } from "@/components/tournament/TournamentStar";
+import { ShareButtons } from "@/components/ui/share-buttons";
 
 export async function generateMetadata({
   params,
@@ -147,7 +148,16 @@ export default async function Page({ params }: { params: { slug: string } }) {
               <h1 className="text-2xl font-bold md:text-3xl mr-4">
                 {tournament.name}
               </h1>
-              <div className="flex items-center gap-4 flex-shrink-0">
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <ShareButtons
+                  url={`https://www.torneospokerlive.com/torneos/${params.slug}`}
+                  title={tournament.name}
+                  description={`${tournament.casino?.name || ""}${
+                    tournament.buyin > 0
+                      ? ` • Buy-in: ${tournament.buyin}€`
+                      : ""
+                  } • ${datestring}`}
+                />
                 {user && (
                   <TournamentStar
                     tournamentId={tournament.id.toString()}
